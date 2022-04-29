@@ -1,0 +1,50 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "json"
+require "net/http"
+
+# We support non-end-of-life Ruby versions: https://www.ruby-lang.org/en/downloads/branches/
+ruby_versions = ["2.7", "3.0", "3.1"]
+
+latest_ruby_version = ruby_versions.last
+
+minimum_cerbos_version = Gem::Version.new("0.16.0")
+available_cerbos_versions = []
+
+Net::HTTP.start "api.github.com", 443, use_ssl: true do |http|
+  page = 1
+  until available_cerbos_versions.include?(minimum_cerbos_version)
+    request = Net::HTTP::Get.new("/repos/cerbos/cerbos/releases?page=#{page}&per_page=100")
+    request["Accept"] = "application/vnd.github.v3+json"
+
+    response = http.request(request)
+    response.value
+
+    releases = JSON.parse(response.body)
+
+    releases.each do |release|
+      version = Gem::Version.new(release.fetch("tag_name").delete_prefix("v"))
+      available_cerbos_versions << version if version >= minimum_cerbos_version
+    end
+  end
+end
+
+*previous_cerbos_versions, latest_cerbos_version =
+  available_cerbos_versions
+    .group_by { |version| version.segments[0..1] }
+    .map { |_, patch_versions| patch_versions.max }
+    .sort
+
+prerelease_cerbos_version = "#{latest_cerbos_version.bump}.0-prerelease"
+
+matrix = {
+  include: [
+    *previous_cerbos_versions.map { |previous_cerbos_version| {ruby: latest_ruby_version, cerbos: previous_cerbos_version} },
+    *ruby_versions.map { |ruby_version| {ruby: ruby_version, cerbos: latest_cerbos_version} },
+    {ruby: latest_ruby_version, cerbos: prerelease_cerbos_version}
+  ]
+}
+
+puts "::set-output name=matrix::#{matrix.to_json}"
+puts JSON.pretty_generate(matrix)

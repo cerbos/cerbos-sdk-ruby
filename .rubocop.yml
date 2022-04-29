@@ -1,0 +1,31 @@
+inherit_mode:
+  merge:
+    - Exclude
+
+require:
+  - rubocop-performance
+  - standard
+  - rubocop-rake
+  - rubocop-rspec
+
+inherit_gem:
+  standard: config/ruby-2.7.yml
+
+AllCops:
+  Exclude:
+    - bin/bundle
+    - bin/rake
+    - bin/rspec
+    - bin/rubocop
+    - bin/yard
+    - lib/cerbos/protobuf/**/*
+  NewCops: enable
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
