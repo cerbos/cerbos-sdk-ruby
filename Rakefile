@@ -1,0 +1,63 @@
+# frozen_string_literal: true
+
+require "bundler/gem_tasks"
+require "rspec/core/rake_task"
+require "rubocop/rake_task"
+require "yard"
+
+require_relative "tasks/generate"
+require_relative "tasks/test/servers"
+
+ENV["CERBOS_VERSION"] ||= "0.16.0"
+ENV["CERBOS_IMAGE_TAG"] ||= ENV["CERBOS_VERSION"].end_with?("-prerelease") ? "dev" : ENV["CERBOS_VERSION"]
+
+desc "Generate client code"
+task :generate do
+  Tasks::Generate.call
+end
+
+RuboCop::RakeTask.new :lint do |task|
+  task.formatters = ["clang", "github"] if ENV["CI"]
+end
+
+namespace :test do
+  namespace :servers do
+    desc "Start the test servers"
+    task :start do
+      Tasks::Test::Servers.start
+    end
+
+    desc "Set CERBOS_PORTS to the test server containers' published GRPC ports"
+    task :export_ports do
+      Tasks::Test::Servers.export_ports
+    end
+
+    desc "Stop the test servers"
+    task :stop do
+      Tasks::Test::Servers.stop
+    end
+  end
+end
+
+RSpec::Core::RakeTask.new test: ["test:servers:export_ports"]
+
+desc "Generate documentation"
+YARD::Rake::YardocTask.new :docs do |task|
+  task.options = ["--fail-on-warning", "--no-stats"]
+
+  task.after = lambda do
+    stats = YARD::CLI::Stats.new(false)
+    stats.run "--compact", "--list-undoc"
+    undocumented = stats.instance_variable_get(:@undocumented)
+    abort "\nFound #{undocumented} undocumented objects" unless undocumented.zero?
+  end
+end
+
+namespace :docs do
+  desc "Run documentation server"
+  task :server do
+    exec "bin/yard", "server", "--reload"
+  end
+end
+
+task default: [:docs, :lint, :test]
