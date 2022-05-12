@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+  schedule:
+    - cron: 0 1 * * 1-5
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Lint code
+        run: bin/rake lint
+
+      - name: Generate docs
+        run: bin/rake docs
+
+  test-matrix:
+    name: Generate test matrix
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.test-matrix.outputs.matrix }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - id: test-matrix
+        name: Generate test matrix
+        run: bin/test-matrix
+
+  test:
+    name: Test (Cerbos ${{ matrix.cerbos }} | Ruby ${{ matrix.ruby }})
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ endsWith(matrix.cerbos, '-prerelease') }}
+    env:
+      CERBOS_VERSION: ${{ matrix.cerbos }}
+    needs:
+      - test-matrix
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.test-matrix.outputs.matrix) }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: ${{ matrix.ruby }}
+
+      - name: Start test servers
+        run: bin/rake test:servers:start
+
+      - name: Run tests
+        run: bin/rake test
+
+  test-results:
+    name: Check test results
+    runs-on: ubuntu-latest
+    if: always()
+    needs:
+      - test
+    steps:
+      - name: Check test results
+        run: test "${{ needs.test.result }}" = "success"

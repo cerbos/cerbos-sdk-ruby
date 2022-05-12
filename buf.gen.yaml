@@ -1,0 +1,7 @@
+version: v1
+plugins:
+  - remote: buf.build/grpc/plugins/ruby:v1.46.1-1
+    out: .
+
+  - remote: buf.build/protocolbuffers/plugins/ruby:v3.20.1-1
+    out: .

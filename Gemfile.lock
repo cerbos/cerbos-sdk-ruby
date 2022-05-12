@@ -1,0 +1,94 @@
+PATH
+  remote: .
+  specs:
+    cerbos (0.1.0.pre.dev)
+      grpc (~> 1.45)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    ast (2.4.2)
+    coderay (1.1.3)
+    commonmarker (0.23.4)
+    diff-lcs (1.5.0)
+    google-protobuf (3.20.1)
+    google-protobuf (3.20.1-x86_64-darwin)
+    google-protobuf (3.20.1-x86_64-linux)
+    googleapis-common-protos-types (1.3.1)
+      google-protobuf (~> 3.14)
+    grpc (1.45.0)
+      google-protobuf (~> 3.19)
+      googleapis-common-protos-types (~> 1.0)
+    jwt (2.3.0)
+    method_source (1.0.0)
+    openssl (3.0.0)
+    parallel (1.22.1)
+    parser (3.1.2.0)
+      ast (~> 2.4.1)
+    pry (0.14.1)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+    rainbow (3.1.1)
+    rake (13.0.6)
+    regexp_parser (2.4.0)
+    rexml (3.2.5)
+    rspec (3.11.0)
+      rspec-core (~> 3.11.0)
+      rspec-expectations (~> 3.11.0)
+      rspec-mocks (~> 3.11.0)
+    rspec-core (3.11.0)
+      rspec-support (~> 3.11.0)
+    rspec-expectations (3.11.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.11.0)
+    rspec-mocks (3.11.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.11.0)
+    rspec-support (3.11.0)
+    rubocop (1.29.0)
+      parallel (~> 1.10)
+      parser (>= 3.1.0.0)
+      rainbow (>= 2.2.2, < 4.0)
+      regexp_parser (>= 1.8, < 3.0)
+      rexml (>= 3.2.5, < 4.0)
+      rubocop-ast (>= 1.17.0, < 2.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 1.4.0, < 3.0)
+    rubocop-ast (1.17.0)
+      parser (>= 3.1.1.0)
+    rubocop-performance (1.13.3)
+      rubocop (>= 1.7.0, < 2.0)
+      rubocop-ast (>= 0.4.0)
+    rubocop-rake (0.6.0)
+      rubocop (~> 1.0)
+    rubocop-rspec (2.10.0)
+      rubocop (~> 1.19)
+    ruby-progressbar (1.11.0)
+    standard (1.12.0)
+      rubocop (= 1.29.0)
+      rubocop-performance (= 1.13.3)
+    unicode-display_width (2.1.0)
+    webrick (1.7.0)
+    yard (0.9.27)
+      webrick (~> 1.7.0)
+
+PLATFORMS
+  arm64-darwin
+  x86_64-darwin
+  x86_64-linux
+
+DEPENDENCIES
+  cerbos!
+  commonmarker
+  jwt
+  openssl
+  pry
+  rake
+  rspec
+  rubocop-rake
+  rubocop-rspec
+  standard
+  yard
+
+BUNDLED WITH
+   2.3.13
