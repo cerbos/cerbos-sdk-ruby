@@ -28,18 +28,6 @@ If you're not using Bundler to manage dependencies, install the gem by running
 $ gem install cerbos
 ```
 
-### Note for M1 Mac users
-
-Unfortunately, the `grpc` gem currently ships a `universal-darwin` native gem which doesn't actually work on `arm64-darwin` platforms ([grpc/grpc#29100](https://github.com/grpc/grpc/issues/29100)).
-If you install the precompiled gem on an M1 Mac, you'll get a `LoadError` including the message "incompatible architecture (have 'x86_64', need 'arm64e')" when you attempt to load the `cerbos` gem.
-
-Until that issue is resolved, you can work around it by compiling native extensions from source.
-Configure Bundler to do so by running
-
-```console
-$ bundle config set --local force_ruby_platform true
-```
-
 ## Example usage
 
 ```ruby

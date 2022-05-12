@@ -1,5 +1,6 @@
 ## [Unreleased]
-No notable changes.
+### Changed
+- Increased `grpc` version requirement to 1.46+ to avoid [installing a native gem compiled for `x86_64-darwin` on `arm64-darwin`](https://github.com/grpc/grpc/issues/29100) ([#8](https://github.com/cerbos/cerbos-sdk-ruby/pull/8))
 
 ## [0.1.0] - 2022-05-12
 ### Added
