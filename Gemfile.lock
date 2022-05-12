@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cerbos (0.2.0)
+    cerbos (0.3.0.pre.dev)
       grpc (~> 1.46)
 
 GEM
