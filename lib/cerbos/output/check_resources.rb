@@ -23,7 +23,7 @@ module Cerbos
         )
       end
 
-      # Check the policy decision was that an action should be allowed for a resource.
+      # Check if the policy decision was that an action should be allowed for a resource.
       #
       # @param resource [Input::Resource, Hash] the resource search criteria (see {#find_result}).
       # @param action [String] the action to check.
@@ -32,6 +32,16 @@ module Cerbos
       # @return [nil] if the resource or action is not present in the results.
       def allow?(resource:, action:)
         find_result(resource)&.allow?(action)
+      end
+
+      # Check if the policy decision was that all input actions should be allowed for a resource.
+      #
+      # @param resource [Input::Resource, Hash] the resource search criteria (see {#find_result}).
+      #
+      # @return [Boolean]
+      # @return [nil] if the resource is not present in the results.
+      def allow_all?(resource)
+        find_result(resource)&.allow_all?
       end
 
       # Find an item from {#results} by resource.
@@ -93,6 +103,13 @@ module Cerbos
       # @return [nil] if the action is not present in the results.
       def allow?(action)
         actions[action]&.eql?(:EFFECT_ALLOW)
+      end
+
+      # Check if the policy decision was that all input actions should be allowed for the resource.
+      #
+      # @return [Boolean]
+      def allow_all?
+        actions.each_value.all? { |effect| effect == :EFFECT_ALLOW }
       end
 
       # List the actions that should be allowed for the resource.

@@ -55,6 +55,59 @@ RSpec.describe Cerbos::Output::CheckResources do
     end
   end
 
+  describe "#allow_all?" do
+    subject(:allow_all) { check_resources.allow_all?(kind: "document", id: resource_id) }
+
+    let(:results) do
+      [
+        Cerbos::Output::CheckResources::Result.new(
+          resource: Cerbos::Output::CheckResources::Result::Resource.new(
+            kind: "document",
+            id: "found",
+            policy_version: "default",
+            scope: ""
+          ),
+          actions: actions,
+          validation_errors: [],
+          metadata: nil
+        )
+      ]
+    end
+
+    context "when the resource is found" do
+      let(:resource_id) { "found" }
+
+      context "when all actions are allowed" do
+        let(:actions) do
+          {
+            "allowed" => :EFFECT_ALLOW,
+            "also_allowed" => :EFFECT_ALLOW
+          }
+        end
+
+        it { is_expected.to be(true) }
+      end
+
+      context "when some actions are denied" do
+        let(:actions) do
+          {
+            "allowed" => :EFFECT_ALLOW,
+            "denied" => :EFFECT_DENY
+          }
+        end
+
+        it { is_expected.to be(false) }
+      end
+    end
+
+    context "when the resource is not found" do
+      let(:resource_id) { "not_found" }
+      let(:actions) { {} }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
   describe "#find_result" do
     subject(:find_result) { check_resources.find_result(resource) }
 
