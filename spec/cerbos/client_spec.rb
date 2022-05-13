@@ -7,6 +7,42 @@ RSpec.describe Cerbos::Client do
   let(:host) { "localhost" }
 
   shared_examples "client" do
+    describe "#allow?" do
+      subject(:response) do
+        client.allow?(
+          principal: {
+            id: "me@example.com",
+            policy_version: "1",
+            scope: "test",
+            roles: ["USER"],
+            attributes: {
+              country: "NZ"
+            }
+          },
+          resource: {
+            kind: "document",
+            id: "mine",
+            policy_version: "1",
+            scope: "test",
+            attributes: {
+              owner: "me@example.com"
+            }
+          },
+          action: "edit",
+          aux_data: {
+            jwt: {
+              token: JWT.encode({delete: true}, nil, "none")
+            }
+          },
+          request_id: "42"
+        )
+      end
+
+      it "checks if a principal is allowed to perform an action on a resource" do
+        expect(response).to be(true)
+      end
+    end
+
     describe "#check_resource" do
       subject(:response) do
         client.check_resource(

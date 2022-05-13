@@ -4,16 +4,20 @@ RSpec.describe Cerbos::Output::CheckResources::Result do
   subject(:result) do
     described_class.new(
       resource: instance_double(Cerbos::Output::CheckResources::Result::Resource),
-      actions: {
-        "yes" => :EFFECT_ALLOW,
-        "no" => :EFFECT_DENY,
-        "yup" => :EFFECT_ALLOW,
-        "nah" => :EFFECT_DENY,
-        "yeah" => :EFFECT_ALLOW
-      },
+      actions: actions,
       validation_errors: [],
       metadata: nil
     )
+  end
+
+  let(:actions) do
+    {
+      "yes" => :EFFECT_ALLOW,
+      "no" => :EFFECT_DENY,
+      "yup" => :EFFECT_ALLOW,
+      "nah" => :EFFECT_DENY,
+      "yeah" => :EFFECT_ALLOW
+    }
   end
 
   describe "#allow?" do
@@ -35,6 +39,26 @@ RSpec.describe Cerbos::Output::CheckResources::Result do
       let(:action) { "unknown" }
 
       it { is_expected.to be_nil }
+    end
+  end
+
+  describe "#allow_all?" do
+    subject(:allow_all) { result.allow_all? }
+
+    context "when all actions are allowed" do
+      let(:actions) do
+        {
+          "yes" => :EFFECT_ALLOW,
+          "yup" => :EFFECT_ALLOW,
+          "yeah" => :EFFECT_ALLOW
+        }
+      end
+
+      it { is_expected.to be(true) }
+    end
+
+    context "when some actions are denied" do
+      it { is_expected.to be(false) }
     end
   end
 

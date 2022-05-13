@@ -1,5 +1,8 @@
 ## [Unreleased]
-No notable changes.
+### Added
+- More helper methods ([#11](https://github.com/cerbos/cerbos-sdk-ruby/pull/11))
+  - `Cerbos::Client#allow?` for checking a single action on a resource
+  - `Cerbos::Output::CheckResources#allow_all?` and `Cerbos::Output::CheckResources::Result#allow_all?` for checking if all input actions were allowed
 
 ## [0.2.0] - 2022-05-12
 ### Changed
