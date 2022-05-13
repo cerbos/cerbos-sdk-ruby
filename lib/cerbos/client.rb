@@ -44,11 +44,30 @@ module Cerbos
       end
     end
 
+    # Check if a principal is allowed to perform an action on a resource.
+    #
+    # @param principal [Input::Principal, Hash] the principal to check.
+    # @param resource [Input::Resource, Hash] the resource to check.
+    # @param action [String] the action to check.
+    # @param aux_data [Input::AuxData, Hash, nil] auxiliary data.
+    # @param request_id [String] identifier for tracing the request.
+    #
+    # @return [Boolean]
+    def allow?(principal:, resource:, action:, aux_data: nil, request_id: SecureRandom.uuid)
+      check_resource(
+        principal: principal,
+        resource: resource,
+        actions: [action],
+        aux_data: aux_data,
+        request_id: request_id
+      ).allow?(action)
+    end
+
     # Check a principal's permissions on a resource.
     #
     # @param principal [Input::Principal, Hash] the principal to check.
     # @param resource [Input::Resource, Hash] the resource to check.
-    # @param actions [Input::Resource, Hash] the actions to check.
+    # @param actions [Array<String>] the actions to check.
     # @param aux_data [Input::AuxData, Hash, nil] auxiliary data.
     # @param include_metadata [Boolean] `true` to include additional metadata ({Output::CheckResources::Result::Metadata}) in the results.
     # @param request_id [String] identifier for tracing the request.
