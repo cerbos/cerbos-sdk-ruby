@@ -5,10 +5,10 @@ require 'google/protobuf'
 
 require 'cerbos/protobuf/cerbos/audit/v1/audit_pb'
 require 'cerbos/protobuf/cerbos/effect/v1/effect_pb'
+require 'cerbos/protobuf/cerbos/engine/v1/engine_pb'
 require 'cerbos/protobuf/cerbos/policy/v1/policy_pb'
 require 'cerbos/protobuf/cerbos/schema/v1/schema_pb'
 require 'google/protobuf/empty_pb'
-require 'google/protobuf/struct_pb'
 require 'cerbos/protobuf/protoc-gen-openapiv2/options/annotations_pb'
 
 Google::Protobuf::DescriptorPool.generated_pool.build do
@@ -18,29 +18,8 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :action, :string, 2, json_name: "action"
       optional :resource_kind, :string, 3, json_name: "resourceKind"
       optional :policy_version, :string, 4, json_name: "policyVersion"
-      optional :filter, :message, 5, "cerbos.response.v1.PlanResourcesResponse.Filter", json_name: "filter"
+      optional :filter, :message, 5, "cerbos.engine.v1.PlanResourcesFilter", json_name: "filter"
       optional :meta, :message, 6, "cerbos.response.v1.PlanResourcesResponse.Meta", json_name: "meta"
-    end
-    add_message "cerbos.response.v1.PlanResourcesResponse.Expression" do
-      optional :operator, :string, 1, json_name: "operator"
-      repeated :operands, :message, 2, "cerbos.response.v1.PlanResourcesResponse.Expression.Operand", json_name: "operands"
-    end
-    add_message "cerbos.response.v1.PlanResourcesResponse.Expression.Operand" do
-      oneof :node do
-        optional :value, :message, 1, "google.protobuf.Value", json_name: "value"
-        optional :expression, :message, 2, "cerbos.response.v1.PlanResourcesResponse.Expression", json_name: "expression"
-        optional :variable, :string, 3, json_name: "variable"
-      end
-    end
-    add_message "cerbos.response.v1.PlanResourcesResponse.Filter" do
-      optional :kind, :enum, 1, "cerbos.response.v1.PlanResourcesResponse.Filter.Kind", json_name: "kind"
-      optional :condition, :message, 2, "cerbos.response.v1.PlanResourcesResponse.Expression.Operand", json_name: "condition"
-    end
-    add_enum "cerbos.response.v1.PlanResourcesResponse.Filter.Kind" do
-      value :KIND_UNSPECIFIED, 0
-      value :KIND_ALWAYS_ALLOWED, 1
-      value :KIND_ALWAYS_DENIED, 2
-      value :KIND_CONDITIONAL, 3
     end
     add_message "cerbos.response.v1.PlanResourcesResponse.Meta" do
       optional :filter_debug, :string, 1, json_name: "filterDebug"
@@ -189,10 +168,6 @@ module Cerbos::Protobuf::Cerbos
   module Response
     module V1
       PlanResourcesResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.PlanResourcesResponse").msgclass
-      PlanResourcesResponse::Expression = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.PlanResourcesResponse.Expression").msgclass
-      PlanResourcesResponse::Expression::Operand = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.PlanResourcesResponse.Expression.Operand").msgclass
-      PlanResourcesResponse::Filter = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.PlanResourcesResponse.Filter").msgclass
-      PlanResourcesResponse::Filter::Kind = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.PlanResourcesResponse.Filter.Kind").enummodule
       PlanResourcesResponse::Meta = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.PlanResourcesResponse.Meta").msgclass
       CheckResourceSetResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.CheckResourceSetResponse").msgclass
       CheckResourceSetResponse::ActionEffectMap = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.CheckResourceSetResponse.ActionEffectMap").msgclass

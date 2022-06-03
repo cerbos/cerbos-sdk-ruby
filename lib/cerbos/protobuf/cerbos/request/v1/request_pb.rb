@@ -19,7 +19,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :request_id, :string, 1, json_name: "requestId"
       optional :action, :string, 2, json_name: "action"
       optional :principal, :message, 3, "cerbos.engine.v1.Principal", json_name: "principal"
-      optional :resource, :message, 4, "cerbos.engine.v1.PlanResourcesRequest.Resource", json_name: "resource"
+      optional :resource, :message, 4, "cerbos.engine.v1.PlanResourcesInput.Resource", json_name: "resource"
       optional :aux_data, :message, 5, "cerbos.request.v1.AuxData", json_name: "auxData"
       optional :include_meta, :bool, 6, json_name: "includeMeta"
     end

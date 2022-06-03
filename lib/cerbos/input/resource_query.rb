@@ -43,7 +43,7 @@ module Cerbos
 
       # @private
       def to_protobuf
-        Protobuf::Cerbos::Engine::V1::PlanResourcesRequest::Resource.new(
+        Protobuf::Cerbos::Engine::V1::PlanResourcesInput::Resource.new(
           kind: kind,
           attr: attributes.to_protobuf,
           policy_version: policy_version,
