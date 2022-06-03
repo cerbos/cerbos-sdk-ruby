@@ -23,6 +23,20 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       repeated :inputs, :message, 4, "cerbos.engine.v1.CheckInput", json_name: "inputs"
       repeated :outputs, :message, 5, "cerbos.engine.v1.CheckOutput", json_name: "outputs"
       optional :error, :string, 6, json_name: "error"
+      oneof :method do
+        optional :check_resources, :message, 7, "cerbos.audit.v1.DecisionLogEntry.CheckResources", json_name: "checkResources"
+        optional :plan_resources, :message, 8, "cerbos.audit.v1.DecisionLogEntry.PlanResources", json_name: "planResources"
+      end
+    end
+    add_message "cerbos.audit.v1.DecisionLogEntry.CheckResources" do
+      repeated :inputs, :message, 1, "cerbos.engine.v1.CheckInput", json_name: "inputs"
+      repeated :outputs, :message, 2, "cerbos.engine.v1.CheckOutput", json_name: "outputs"
+      optional :error, :string, 3, json_name: "error"
+    end
+    add_message "cerbos.audit.v1.DecisionLogEntry.PlanResources" do
+      optional :input, :message, 1, "cerbos.engine.v1.PlanResourcesInput", json_name: "input"
+      optional :output, :message, 2, "cerbos.engine.v1.PlanResourcesOutput", json_name: "output"
+      optional :error, :string, 3, json_name: "error"
     end
     add_message "cerbos.audit.v1.MetaValues" do
       repeated :values, :string, 1, json_name: "values"
@@ -41,6 +55,8 @@ module Cerbos::Protobuf::Cerbos
     module V1
       AccessLogEntry = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.audit.v1.AccessLogEntry").msgclass
       DecisionLogEntry = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.audit.v1.DecisionLogEntry").msgclass
+      DecisionLogEntry::CheckResources = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.audit.v1.DecisionLogEntry.CheckResources").msgclass
+      DecisionLogEntry::PlanResources = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.audit.v1.DecisionLogEntry.PlanResources").msgclass
       MetaValues = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.audit.v1.MetaValues").msgclass
       Peer = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.audit.v1.Peer").msgclass
     end

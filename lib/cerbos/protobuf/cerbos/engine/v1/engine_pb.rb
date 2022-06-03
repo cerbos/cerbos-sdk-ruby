@@ -13,19 +13,68 @@ require 'cerbos/protobuf/validate/validate_pb'
 
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("cerbos/engine/v1/engine.proto", :syntax => :proto3) do
-    add_message "cerbos.engine.v1.PlanResourcesRequest" do
+    add_message "cerbos.engine.v1.PlanResourcesInput" do
       optional :request_id, :string, 1, json_name: "requestId"
       optional :action, :string, 2, json_name: "action"
       optional :principal, :message, 3, "cerbos.engine.v1.Principal", json_name: "principal"
-      optional :resource, :message, 4, "cerbos.engine.v1.PlanResourcesRequest.Resource", json_name: "resource"
+      optional :resource, :message, 4, "cerbos.engine.v1.PlanResourcesInput.Resource", json_name: "resource"
       optional :aux_data, :message, 5, "cerbos.engine.v1.AuxData", json_name: "auxData"
       optional :include_meta, :bool, 6, json_name: "includeMeta"
     end
-    add_message "cerbos.engine.v1.PlanResourcesRequest.Resource" do
+    add_message "cerbos.engine.v1.PlanResourcesInput.Resource" do
       optional :kind, :string, 1, json_name: "kind"
       map :attr, :string, :message, 2, "google.protobuf.Value"
       optional :policy_version, :string, 3, json_name: "policyVersion"
       optional :scope, :string, 4, json_name: "scope"
+    end
+    add_message "cerbos.engine.v1.PlanResourcesAst" do
+      optional :filter_ast, :message, 1, "cerbos.engine.v1.PlanResourcesAst.Node", json_name: "filterAst"
+    end
+    add_message "cerbos.engine.v1.PlanResourcesAst.Node" do
+      oneof :node do
+        optional :logical_operation, :message, 1, "cerbos.engine.v1.PlanResourcesAst.LogicalOperation", json_name: "logicalOperation"
+        optional :expression, :message, 2, "google.api.expr.v1alpha1.CheckedExpr", json_name: "expression"
+      end
+    end
+    add_message "cerbos.engine.v1.PlanResourcesAst.LogicalOperation" do
+      optional :operator, :enum, 1, "cerbos.engine.v1.PlanResourcesAst.LogicalOperation.Operator", json_name: "operator"
+      repeated :nodes, :message, 2, "cerbos.engine.v1.PlanResourcesAst.Node", json_name: "nodes"
+    end
+    add_enum "cerbos.engine.v1.PlanResourcesAst.LogicalOperation.Operator" do
+      value :OPERATOR_UNSPECIFIED, 0
+      value :OPERATOR_AND, 1
+      value :OPERATOR_OR, 2
+      value :OPERATOR_NOT, 3
+    end
+    add_message "cerbos.engine.v1.PlanResourcesFilter" do
+      optional :kind, :enum, 1, "cerbos.engine.v1.PlanResourcesFilter.Kind", json_name: "kind"
+      optional :condition, :message, 2, "cerbos.engine.v1.PlanResourcesFilter.Expression.Operand", json_name: "condition"
+    end
+    add_message "cerbos.engine.v1.PlanResourcesFilter.Expression" do
+      optional :operator, :string, 1, json_name: "operator"
+      repeated :operands, :message, 2, "cerbos.engine.v1.PlanResourcesFilter.Expression.Operand", json_name: "operands"
+    end
+    add_message "cerbos.engine.v1.PlanResourcesFilter.Expression.Operand" do
+      oneof :node do
+        optional :value, :message, 1, "google.protobuf.Value", json_name: "value"
+        optional :expression, :message, 2, "cerbos.engine.v1.PlanResourcesFilter.Expression", json_name: "expression"
+        optional :variable, :string, 3, json_name: "variable"
+      end
+    end
+    add_enum "cerbos.engine.v1.PlanResourcesFilter.Kind" do
+      value :KIND_UNSPECIFIED, 0
+      value :KIND_ALWAYS_ALLOWED, 1
+      value :KIND_ALWAYS_DENIED, 2
+      value :KIND_CONDITIONAL, 3
+    end
+    add_message "cerbos.engine.v1.PlanResourcesOutput" do
+      optional :request_id, :string, 1, json_name: "requestId"
+      optional :action, :string, 2, json_name: "action"
+      optional :kind, :string, 3, json_name: "kind"
+      optional :policy_version, :string, 4, json_name: "policyVersion"
+      optional :scope, :string, 5, json_name: "scope"
+      optional :filter, :message, 6, "cerbos.engine.v1.PlanResourcesFilter", json_name: "filter"
+      optional :filter_debug, :string, 7, json_name: "filterDebug"
     end
     add_message "cerbos.engine.v1.CheckInput" do
       optional :request_id, :string, 1, json_name: "requestId"
@@ -45,30 +94,6 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :effect, :enum, 1, "cerbos.effect.v1.Effect", json_name: "effect"
       optional :policy, :string, 2, json_name: "policy"
       optional :scope, :string, 3, json_name: "scope"
-    end
-    add_message "cerbos.engine.v1.PlanResourcesOutput" do
-      optional :request_id, :string, 1, json_name: "requestId"
-      optional :action, :string, 2, json_name: "action"
-      optional :kind, :string, 3, json_name: "kind"
-      optional :policy_version, :string, 4, json_name: "policyVersion"
-      optional :scope, :string, 5, json_name: "scope"
-      optional :filter, :message, 6, "cerbos.engine.v1.PlanResourcesOutput.Node", json_name: "filter"
-    end
-    add_message "cerbos.engine.v1.PlanResourcesOutput.Node" do
-      oneof :node do
-        optional :logical_operation, :message, 1, "cerbos.engine.v1.PlanResourcesOutput.LogicalOperation", json_name: "logicalOperation"
-        optional :expression, :message, 2, "google.api.expr.v1alpha1.CheckedExpr", json_name: "expression"
-      end
-    end
-    add_message "cerbos.engine.v1.PlanResourcesOutput.LogicalOperation" do
-      optional :operator, :enum, 1, "cerbos.engine.v1.PlanResourcesOutput.LogicalOperation.Operator", json_name: "operator"
-      repeated :nodes, :message, 2, "cerbos.engine.v1.PlanResourcesOutput.Node", json_name: "nodes"
-    end
-    add_enum "cerbos.engine.v1.PlanResourcesOutput.LogicalOperation.Operator" do
-      value :OPERATOR_UNSPECIFIED, 0
-      value :OPERATOR_AND, 1
-      value :OPERATOR_OR, 2
-      value :OPERATOR_NOT, 3
     end
     add_message "cerbos.engine.v1.Resource" do
       optional :kind, :string, 1, json_name: "kind"
@@ -143,15 +168,20 @@ end
 module Cerbos::Protobuf::Cerbos
   module Engine
     module V1
-      PlanResourcesRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.PlanResourcesRequest").msgclass
-      PlanResourcesRequest::Resource = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.PlanResourcesRequest.Resource").msgclass
+      PlanResourcesInput = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.PlanResourcesInput").msgclass
+      PlanResourcesInput::Resource = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.PlanResourcesInput.Resource").msgclass
+      PlanResourcesAst = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.PlanResourcesAst").msgclass
+      PlanResourcesAst::Node = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.PlanResourcesAst.Node").msgclass
+      PlanResourcesAst::LogicalOperation = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.PlanResourcesAst.LogicalOperation").msgclass
+      PlanResourcesAst::LogicalOperation::Operator = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.PlanResourcesAst.LogicalOperation.Operator").enummodule
+      PlanResourcesFilter = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.PlanResourcesFilter").msgclass
+      PlanResourcesFilter::Expression = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.PlanResourcesFilter.Expression").msgclass
+      PlanResourcesFilter::Expression::Operand = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.PlanResourcesFilter.Expression.Operand").msgclass
+      PlanResourcesFilter::Kind = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.PlanResourcesFilter.Kind").enummodule
+      PlanResourcesOutput = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.PlanResourcesOutput").msgclass
       CheckInput = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.CheckInput").msgclass
       CheckOutput = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.CheckOutput").msgclass
       CheckOutput::ActionEffect = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.CheckOutput.ActionEffect").msgclass
-      PlanResourcesOutput = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.PlanResourcesOutput").msgclass
-      PlanResourcesOutput::Node = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.PlanResourcesOutput.Node").msgclass
-      PlanResourcesOutput::LogicalOperation = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.PlanResourcesOutput.LogicalOperation").msgclass
-      PlanResourcesOutput::LogicalOperation::Operator = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.PlanResourcesOutput.LogicalOperation.Operator").enummodule
       Resource = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.Resource").msgclass
       Principal = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.Principal").msgclass
       AuxData = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.engine.v1.AuxData").msgclass
