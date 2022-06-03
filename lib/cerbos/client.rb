@@ -53,6 +53,13 @@ module Cerbos
     # @param request_id [String] identifier for tracing the request.
     #
     # @return [Boolean]
+    #
+    # @example
+    #   client.allow?(
+    #     principal: {id: "user@example.com", roles: ["USER"]},
+    #     resource: {kind: "document", id: "1"},
+    #     action: "view"
+    #   ) # => true
     def allow?(principal:, resource:, action:, aux_data: nil, request_id: SecureRandom.uuid)
       check_resource(
         principal: principal,
