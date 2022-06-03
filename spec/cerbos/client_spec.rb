@@ -314,12 +314,12 @@ RSpec.describe Cerbos::Client do
           condition: Cerbos::Output::PlanResources::Expression.new(
             operator: "eq",
             operands: [
-              Cerbos::Output::PlanResources::Expression::Variable.new(name: "R.attr.owner"),
+              Cerbos::Output::PlanResources::Expression::Variable.new(name: "request.resource.attr.owner"),
               Cerbos::Output::PlanResources::Expression::Value.new(value: "me@example.com")
             ]
           ),
           metadata: Cerbos::Output::PlanResources::Metadata.new(
-            condition_string: '(R.attr.owner == "me@example.com")',
+            condition_string: '(request.resource.attr.owner == "me@example.com")',
             matched_scope: "test"
           )
         ))
