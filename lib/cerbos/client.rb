@@ -9,7 +9,7 @@ module Cerbos
   class Client
     # Create a client for interacting with the Cerbos PDP server over gRPC.
     #
-    # @param target [String] Cerbos PDP server address (`"host", "host:port"`, or `"unix:/path/to/socket"`).
+    # @param target [String] Cerbos PDP server address (`"host"`, `"host:port"`, or `"unix:/path/to/socket"`).
     # @param tls [TLS, MutualTLS, false] gRPC connection encryption settings (`false` for plaintext).
     # @param grpc_channel_args [Hash{String, Symbol => String, Integer}] low-level settings for the gRPC channel (see [available keys in the gRPC documentation](https://grpc.github.io/grpc/core/group__grpc__arg__keys.html)).
     # @param playground_instance [String, nil] identifier of the playground instance to use when prototyping against the hosted demo PDP.
@@ -53,6 +53,13 @@ module Cerbos
     # @param request_id [String] identifier for tracing the request.
     #
     # @return [Boolean]
+    #
+    # @example
+    #   client.allow?(
+    #     principal: {id: "user@example.com", roles: ["USER"]},
+    #     resource: {kind: "document", id: "1"},
+    #     action: "view"
+    #   ) # => true
     def allow?(principal:, resource:, action:, aux_data: nil, request_id: SecureRandom.uuid)
       check_resource(
         principal: principal,
@@ -119,7 +126,7 @@ module Cerbos
     #     ]
     #   )
     #
-    #   result.allow?(resource: {kind: "document", id: "1"}, action: "view") # => true
+    #   decision.allow?(resource: {kind: "document", id: "1"}, action: "view") # => true
     def check_resources(principal:, resources:, aux_data: nil, include_metadata: false, request_id: SecureRandom.uuid)
       handle_errors do
         request = Protobuf::Cerbos::Request::V1::CheckResourcesRequest.new(

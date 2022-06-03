@@ -1,5 +1,6 @@
 ## [Unreleased]
-No notable changes.
+### Changed
+- Minor documentation fixes ([#21](https://github.com/cerbos/cerbos-sdk-ruby/pull/21))
 
 ## [0.3.0] - 2022-05-13
 ### Added
