@@ -9,7 +9,7 @@ module Cerbos
   class Client
     # Create a client for interacting with the Cerbos PDP server over gRPC.
     #
-    # @param target [String] Cerbos PDP server address (`"host", "host:port"`, or `"unix:/path/to/socket"`).
+    # @param target [String] Cerbos PDP server address (`"host"`, `"host:port"`, or `"unix:/path/to/socket"`).
     # @param tls [TLS, MutualTLS, false] gRPC connection encryption settings (`false` for plaintext).
     # @param grpc_channel_args [Hash{String, Symbol => String, Integer}] low-level settings for the gRPC channel (see [available keys in the gRPC documentation](https://grpc.github.io/grpc/core/group__grpc__arg__keys.html)).
     # @param playground_instance [String, nil] identifier of the playground instance to use when prototyping against the hosted demo PDP.
