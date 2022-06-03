@@ -12,6 +12,7 @@ module Cerbos
     # @param target [String] Cerbos PDP server address (`"host"`, `"host:port"`, or `"unix:/path/to/socket"`).
     # @param tls [TLS, MutualTLS, false] gRPC connection encryption settings (`false` for plaintext).
     # @param grpc_channel_args [Hash{String, Symbol => String, Integer}] low-level settings for the gRPC channel (see [available keys in the gRPC documentation](https://grpc.github.io/grpc/core/group__grpc__arg__keys.html)).
+    # @param on_validation_error [:return, :raise, #call] action to take when input fails schema validation (`:return` to return the validation errors in the response, `:raise` to raise {Error::ValidationFailed}, or a callback to invoke).
     # @param playground_instance [String, nil] identifier of the playground instance to use when prototyping against the hosted demo PDP.
     # @param timeout [Numeric, nil] timeout for gRPC calls, in seconds (`nil` to never time out).
     #
@@ -23,7 +24,15 @@ module Cerbos
     #
     # @example Connect to the hosted demo PDP to experiment [in the playground](https://play.cerbos.dev)
     #   client = Cerbos::Client.new("demo-pdp.cerbos.cloud", tls: Cerbos::TLS.new, playground_instance: "gE623b0180QlsG5a4QIN6UOZ6f3iSFW2")
-    def initialize(target, tls:, grpc_channel_args: {}, playground_instance: nil, timeout: nil)
+    #
+    # @example Raise an error when input fails schema validation
+    #   client = Cerbos::Client.new("localhost:3593", tls: false, on_validation_error: :raise)
+    #
+    # @example Invoke a callback when input fails schema validation
+    #   client = Cerbos::Client.new("localhost:3593", tls: false, on_validation_error: ->(validation_errors) { do_something_with validation_errors })
+    def initialize(target, tls:, grpc_channel_args: {}, on_validation_error: :return, playground_instance: nil, timeout: nil)
+      @on_validation_error = on_validation_error
+
       handle_errors do
         credentials = tls ? tls.to_channel_credentials : :this_channel_is_insecure
 
@@ -139,7 +148,9 @@ module Cerbos
 
         response = perform_request(@cerbos_service, :check_resources, request)
 
-        Output::CheckResources.from_protobuf(response)
+        Output::CheckResources.from_protobuf(response).tap do |output|
+          handle_validation_errors output
+        end
       end
     end
 
@@ -205,6 +216,17 @@ module Cerbos
       raise Error::NotOK.from_grpc_bad_status(error)
     rescue => error
       raise Error, error.message
+    end
+
+    def handle_validation_errors(output)
+      return if @on_validation_error == :return
+
+      validation_errors = output.results.flat_map(&:validation_errors)
+      return if validation_errors.empty?
+
+      raise Error::ValidationFailed.new(validation_errors) if @on_validation_error == :raise
+
+      @on_validation_error.call validation_errors
     end
 
     def perform_request(service, rpc, request)

@@ -3,6 +3,21 @@
 module Cerbos
   # Base type for errors thrown by the `cerbos` gem.
   class Error < StandardError
+    # Input failed schema validation.
+    class ValidationFailed < Error
+      # The validation errors that occurred.
+      #
+      # @return [Array<Output::CheckResources::Result::ValidationError>]
+      attr_reader :validation_errors
+
+      # @private
+      def initialize(validation_errors)
+        super "Input failed schema validation"
+
+        @validation_errors = validation_errors
+      end
+    end
+
     # An error indicating an unsuccessful gRPC operation.
     class NotOK < Error
       # The gRPC status code.
@@ -33,7 +48,7 @@ module Cerbos
 
       # @private
       def initialize(code:, details:, metadata: {})
-        super("gRPC error #{code}: #{details}")
+        super "gRPC error #{code}: #{details}"
 
         @code = code
         @details = details

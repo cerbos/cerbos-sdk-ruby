@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 RSpec.describe Cerbos::Client do
-  subject(:client) { described_class.new(target, tls: tls) }
+  subject(:client) { described_class.new(target, on_validation_error: on_validation_error, tls: tls) }
 
   let(:target) { "#{host}:#{port}" }
   let(:host) { "localhost" }
+  let(:on_validation_error) { :return }
 
   shared_examples "client" do
     describe "#allow?" do
@@ -335,6 +336,82 @@ RSpec.describe Cerbos::Client do
           commit: a_string_matching(/\A[0-9a-f]{40}\z/),
           version: ENV.fetch("CERBOS_VERSION")
         ))
+      end
+    end
+
+    context "when configured to raise on validation error" do
+      let(:on_validation_error) { :raise }
+
+      it "raises an error when validation fails", :aggregate_failures do
+        expect {
+          client.allow?(
+            principal: {
+              id: "me@example.com",
+              policy_version: "1",
+              scope: "test",
+              roles: ["USER"],
+              attributes: {
+                country: "NZ"
+              }
+            },
+            resource: {
+              kind: "document",
+              id: "invalid",
+              policy_version: "1",
+              scope: "test",
+              attributes: {
+                owner: 123
+              }
+            },
+            action: "view"
+          )
+        }.to raise_error { |error|
+          expect(error).to be_a(Cerbos::Error::ValidationFailed).and(have_attributes(
+            validation_errors: [
+              Cerbos::Output::CheckResources::Result::ValidationError.new(
+                path: "/owner",
+                message: "expected string, but got number",
+                source: :SOURCE_RESOURCE
+              )
+            ]
+          ))
+        }
+      end
+    end
+
+    context "when configured with a callback on validation error" do
+      let(:on_validation_error) { instance_double(Proc, call: nil) }
+
+      it "raises an error when validation fails", :aggregate_failures do
+        client.allow?(
+          principal: {
+            id: "me@example.com",
+            policy_version: "1",
+            scope: "test",
+            roles: ["USER"],
+            attributes: {
+              country: "NZ"
+            }
+          },
+          resource: {
+            kind: "document",
+            id: "invalid",
+            policy_version: "1",
+            scope: "test",
+            attributes: {
+              owner: 123
+            }
+          },
+          action: "view"
+        )
+
+        expect(on_validation_error).to have_received(:call).with([
+          Cerbos::Output::CheckResources::Result::ValidationError.new(
+            path: "/owner",
+            message: "expected string, but got number",
+            source: :SOURCE_RESOURCE
+          )
+        ])
       end
     end
   end

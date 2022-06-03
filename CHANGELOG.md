@@ -1,4 +1,7 @@
 ## [Unreleased]
+### Added
+- `on_validation_error` option to `Cerbos::Client#initialize` ([#22](https://github.com/cerbos/cerbos-sdk-ruby/pull/22))
+
 ### Changed
 - Minor documentation fixes ([#21](https://github.com/cerbos/cerbos-sdk-ruby/pull/21))
 
