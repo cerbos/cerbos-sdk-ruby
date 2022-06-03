@@ -126,7 +126,7 @@ module Cerbos
     #     ]
     #   )
     #
-    #   result.allow?(resource: {kind: "document", id: "1"}, action: "view") # => true
+    #   decision.allow?(resource: {kind: "document", id: "1"}, action: "view") # => true
     def check_resources(principal:, resources:, aux_data: nil, include_metadata: false, request_id: SecureRandom.uuid)
       handle_errors do
         request = Protobuf::Cerbos::Request::V1::CheckResourcesRequest.new(
