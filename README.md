@@ -53,3 +53,13 @@ decision.allow?("edit") # => false
 ```
 
 For more details, [see the `Client` documentation](https://www.rubydoc.info/gems/cerbos/Cerbos/Client).
+
+## Further reading
+
+- [API reference](https://www.rubydoc.info/gems/cerbos/Cerbos)
+- [Cerbos documentation](https://docs.cerbos.dev)
+
+## Get help
+
+- [Join the Cerbos community on Slack](http://go.cerbos.io/slack)
+- [Email us at help@cerbos.dev](mailto:help@cerbos.dev)
