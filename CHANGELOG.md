@@ -1,4 +1,7 @@
 ## [Unreleased]
+No notable changes.
+
+## [0.5.0] - 2022-06-09
 ### Added
 - Allow symbol keys in nested attributes hashes ([#28](https://github.com/cerbos/cerbos-sdk-ruby/pull/28))
 
@@ -23,7 +26,8 @@
 ### Added
 - Initial implementation of `Cerbos::Client` ([#2](https://github.com/cerbos/cerbos-sdk-ruby/pull/2))
 
-[Unreleased]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.1.0...v0.2.0
