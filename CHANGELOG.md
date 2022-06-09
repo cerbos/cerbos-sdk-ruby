@@ -1,5 +1,6 @@
 ## [Unreleased]
-No notable changes.
+### Added
+- Allow symbol keys in nested attributes hashes ([#28](https://github.com/cerbos/cerbos-sdk-ruby/pull/28))
 
 ## [0.4.0] - 2022-06-03
 ### Added

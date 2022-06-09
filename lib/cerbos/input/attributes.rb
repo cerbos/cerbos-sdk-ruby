@@ -22,7 +22,20 @@ module Cerbos
 
       # @private
       def to_protobuf
-        @attributes.transform_values { |value| Google::Protobuf::Value.from_ruby(value) }
+        @attributes.transform_values { |value| Google::Protobuf::Value.from_ruby(deep_stringify_keys(value)) }
+      end
+
+      private
+
+      def deep_stringify_keys(object)
+        case object
+        when Hash
+          object.each_with_object({}) { |(key, value), result| result[key.to_s] = deep_stringify_keys(value) }
+        when Array
+          object.map { |value| deep_stringify_keys(value) }
+        else
+          object
+        end
       end
     end
   end

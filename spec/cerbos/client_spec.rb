@@ -17,7 +17,10 @@ RSpec.describe Cerbos::Client do
             scope: "test",
             roles: ["USER"],
             attributes: {
-              country: "NZ"
+              country: {
+                alpha2: "NZ",
+                alpha3: "NZL"
+              }
             }
           },
           resource: {
@@ -53,7 +56,10 @@ RSpec.describe Cerbos::Client do
             scope: "test",
             roles: ["USER"],
             attributes: {
-              country: "NZ"
+              country: {
+                alpha2: "NZ",
+                alpha3: "NZL"
+              }
             }
           },
           resource: {
@@ -120,7 +126,10 @@ RSpec.describe Cerbos::Client do
             scope: "test",
             roles: ["USER"],
             attributes: {
-              country: "NZ"
+              country: {
+                alpha2: "NZ",
+                alpha3: "NZL"
+              }
             }
           },
           resources: [
@@ -288,7 +297,10 @@ RSpec.describe Cerbos::Client do
             scope: "test",
             roles: ["USER"],
             attributes: {
-              country: "NZ"
+              country: {
+                alpha2: "NZ",
+                alpha3: "NZL"
+              }
             }
           },
           resource: {
@@ -351,7 +363,10 @@ RSpec.describe Cerbos::Client do
               scope: "test",
               roles: ["USER"],
               attributes: {
-                country: "NZ"
+                country: {
+                  alpha2: "NZ",
+                  alpha3: "NZL"
+                }
               }
             },
             resource: {
@@ -390,7 +405,10 @@ RSpec.describe Cerbos::Client do
             scope: "test",
             roles: ["USER"],
             attributes: {
-              country: "NZ"
+              country: {
+                alpha2: "NZ",
+                alpha3: "NZL"
+              }
             }
           },
           resource: {
