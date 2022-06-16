@@ -6,6 +6,7 @@ RSpec.describe Cerbos::Client do
   let(:target) { "#{host}:#{port}" }
   let(:host) { "localhost" }
   let(:on_validation_error) { :return }
+  let(:cerbos_version) { ENV.fetch("CERBOS_VERSION") }
 
   shared_examples "client" do
     describe "#allow?" do
@@ -332,7 +333,12 @@ RSpec.describe Cerbos::Client do
             ]
           ),
           metadata: Cerbos::Output::PlanResources::Metadata.new(
-            condition_string: '(request.resource.attr.owner == "me@example.com")',
+            condition_string:
+              if cerbos_version_at_least?("0.18.0")
+                '(eq request.resource.attr.owner "me@example.com")'
+              else
+                '(request.resource.attr.owner == "me@example.com")'
+              end,
             matched_scope: "test"
           )
         ))
@@ -346,7 +352,7 @@ RSpec.describe Cerbos::Client do
         expect(response).to be_a(Cerbos::Output::ServerInfo).and(have_attributes(
           built_at: an_instance_of(Time),
           commit: a_string_matching(/\A[0-9a-f]{40}\z/),
-          version: ENV.fetch("CERBOS_VERSION")
+          version: cerbos_version
         ))
       end
     end
@@ -473,6 +479,10 @@ RSpec.describe Cerbos::Client do
     it "fails to perform RPC operations" do
       expect { client.server_info }.to raise_error(Cerbos::Error::Unavailable)
     end
+  end
+
+  def cerbos_version_at_least?(version)
+    Gem::Version.new(cerbos_version) >= Gem::Version.new(version)
   end
 
   def read_pem(name)
