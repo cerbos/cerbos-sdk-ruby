@@ -1,7 +1,15 @@
 # frozen_string_literal: true
 
 RSpec.describe Cerbos::Output::PlanResources do
-  subject(:plan_resources) { described_class.new(request_id: "42", kind: kind, condition: Cerbos::Output::PlanResources::Expression::Value.new(value: true), metadata: nil) }
+  subject(:plan_resources) do
+    described_class.new(
+      request_id: "42",
+      kind: kind,
+      condition: Cerbos::Output::PlanResources::Expression::Value.new(value: true),
+      validation_errors: [],
+      metadata: nil
+    )
+  end
 
   context "when always allowed" do
     let(:kind) { :KIND_ALWAYS_ALLOWED }

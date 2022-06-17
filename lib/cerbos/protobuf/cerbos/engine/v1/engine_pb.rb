@@ -75,6 +75,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :scope, :string, 5, json_name: "scope"
       optional :filter, :message, 6, "cerbos.engine.v1.PlanResourcesFilter", json_name: "filter"
       optional :filter_debug, :string, 7, json_name: "filterDebug"
+      repeated :validation_errors, :message, 8, "cerbos.schema.v1.ValidationError", json_name: "validationErrors"
     end
     add_message "cerbos.engine.v1.CheckInput" do
       optional :request_id, :string, 1, json_name: "requestId"

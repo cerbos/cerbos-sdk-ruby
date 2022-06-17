@@ -55,6 +55,13 @@ module Cerbos
         results.find { |result| matching_resource?(search, result.resource) }
       end
 
+      # List unique schema validation errors for the principal or resource attributes.
+      #
+      # @return [Array<ValidationError>]
+      def validation_errors
+        results.flat_map(&:validation_errors).uniq
+      end
+
       private
 
       def matching_resource?(search, candidate)
@@ -88,11 +95,21 @@ module Cerbos
       #   @return [Metadata]
       #   @return [nil] if `include_metadata` was `false`.
 
+      # @private
+      def self.const_missing(const)
+        if const == :ValidationError
+          warn "#{name}::ValidationError is deprecated; use #{ValidationError.name} instead (called from #{caller(1..1).first})"
+          return ValidationError
+        end
+
+        super
+      end
+
       def self.from_protobuf(entry)
         new(
           resource: CheckResources::Result::Resource.from_protobuf(entry.resource),
           actions: entry.actions.to_h,
-          validation_errors: (entry.validation_errors || []).map { |validation_error| CheckResources::Result::ValidationError.from_protobuf(validation_error) },
+          validation_errors: (entry.validation_errors || []).map { |validation_error| ValidationError.from_protobuf(validation_error) },
           metadata: CheckResources::Result::Metadata.from_protobuf(entry.meta)
         )
       end
@@ -151,46 +168,6 @@ module Cerbos
           policy_version: resource.policy_version,
           scope: resource.scope
         )
-      end
-    end
-
-    # An error that occurred while validating the principal or resource attributes against a schema.
-    CheckResources::Result::ValidationError = Output.new_class(:path, :message, :source) do
-      # @!attribute [r] path
-      #   The path to the attribute that failed validation.
-      #
-      #   @return [String]
-
-      # @!attribute [r] message
-      #   The error message.
-      #
-      #   @return [String]
-
-      # @!attribute [r] source
-      #   The source of the invalid attributes.
-      #
-      #   @return [:SOURCE_PRINCIPAL, :SOURCE_RESOURCE]
-
-      def self.from_protobuf(validation_error)
-        new(
-          path: validation_error.path,
-          message: validation_error.message,
-          source: validation_error.source
-        )
-      end
-
-      # Check if the principal's attributes failed schema validation.
-      #
-      # @return [Boolean]
-      def from_principal?
-        source == :SOURCE_PRINCIPAL
-      end
-
-      # Check if the resource's attributes failed schema validation.
-      #
-      # @return [Boolean]
-      def from_resource?
-        source == :SOURCE_RESOURCE
       end
     end
 

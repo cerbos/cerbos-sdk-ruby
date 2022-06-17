@@ -1,5 +1,12 @@
 ## [Unreleased]
-No notable changes.
+### Added
+- Support for schema validation in `Cerbos::Client#plan_resources` ([#32](https://github.com/cerbos/cerbos-sdk-ruby/pull/32))
+
+  Requires Cerbos 0.19+.
+  `Cerbos::Output::PlanResources#validation_errors` will always return an empty array if the client is connected to an earlier version of Cerbos.
+
+  As a result, `Cerbos::Output::CheckResources::Result::ValidationError` has moved to `Cerbos::Output::ValidationError`.
+  Attempting to access the class via the old namespace will print a deprecation warning and return the new class.
 
 ## [0.5.0] - 2022-06-09
 ### Added

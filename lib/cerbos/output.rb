@@ -32,6 +32,7 @@ module Cerbos
   end
 end
 
+require_relative "output/validation_error"
 require_relative "output/check_resources"
 require_relative "output/plan_resources"
 require_relative "output/server_info"

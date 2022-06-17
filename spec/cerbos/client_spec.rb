@@ -19,7 +19,7 @@ RSpec.describe Cerbos::Client do
             roles: ["USER"],
             attributes: {
               country: {
-                alpha2: "NZ",
+                alpha2: "",
                 alpha3: "NZL"
               }
             }
@@ -58,7 +58,7 @@ RSpec.describe Cerbos::Client do
             roles: ["USER"],
             attributes: {
               country: {
-                alpha2: "NZ",
+                alpha2: "",
                 alpha3: "NZL"
               }
             }
@@ -96,7 +96,13 @@ RSpec.describe Cerbos::Client do
             "edit" => :EFFECT_ALLOW,
             "delete" => :EFFECT_ALLOW
           },
-          validation_errors: [],
+          validation_errors: [
+            Cerbos::Output::ValidationError.new(
+              path: "/country/alpha2",
+              message: "does not match pattern '[A-Z]{2}'",
+              source: :SOURCE_PRINCIPAL
+            )
+          ],
           metadata: Cerbos::Output::CheckResources::Result::Metadata.new(
             actions: {
               "view" => Cerbos::Output::CheckResources::Result::Metadata::Effect.new(
@@ -128,7 +134,7 @@ RSpec.describe Cerbos::Client do
             roles: ["USER"],
             attributes: {
               country: {
-                alpha2: "NZ",
+                alpha2: "",
                 alpha3: "NZL"
               }
             }
@@ -197,7 +203,13 @@ RSpec.describe Cerbos::Client do
                 "edit" => :EFFECT_ALLOW,
                 "delete" => :EFFECT_ALLOW
               },
-              validation_errors: [],
+              validation_errors: [
+                Cerbos::Output::ValidationError.new(
+                  path: "/country/alpha2",
+                  message: "does not match pattern '[A-Z]{2}'",
+                  source: :SOURCE_PRINCIPAL
+                )
+              ],
               metadata: Cerbos::Output::CheckResources::Result::Metadata.new(
                 actions: {
                   "view" => Cerbos::Output::CheckResources::Result::Metadata::Effect.new(
@@ -228,7 +240,13 @@ RSpec.describe Cerbos::Client do
                 "edit" => :EFFECT_DENY,
                 "delete" => :EFFECT_ALLOW
               },
-              validation_errors: [],
+              validation_errors: [
+                Cerbos::Output::ValidationError.new(
+                  path: "/country/alpha2",
+                  message: "does not match pattern '[A-Z]{2}'",
+                  source: :SOURCE_PRINCIPAL
+                )
+              ],
               metadata: Cerbos::Output::CheckResources::Result::Metadata.new(
                 actions: {
                   "view" => Cerbos::Output::CheckResources::Result::Metadata::Effect.new(
@@ -255,12 +273,17 @@ RSpec.describe Cerbos::Client do
                 scope: "test"
               ),
               actions: {
-                "view" => :EFFECT_DENY,
+                "view" => :EFFECT_ALLOW,
                 "edit" => :EFFECT_DENY,
-                "delete" => :EFFECT_DENY
+                "delete" => :EFFECT_ALLOW
               },
               validation_errors: [
-                Cerbos::Output::CheckResources::Result::ValidationError.new(
+                Cerbos::Output::ValidationError.new(
+                  path: "/country/alpha2",
+                  message: "does not match pattern '[A-Z]{2}'",
+                  source: :SOURCE_PRINCIPAL
+                ),
+                Cerbos::Output::ValidationError.new(
                   path: "/owner",
                   message: "expected string, but got number",
                   source: :SOURCE_RESOURCE
@@ -270,7 +293,7 @@ RSpec.describe Cerbos::Client do
                 actions: {
                   "view" => Cerbos::Output::CheckResources::Result::Metadata::Effect.new(
                     matched_policy: "resource.document.v1/test",
-                    matched_scope: ""
+                    matched_scope: "test"
                   ),
                   "edit" => Cerbos::Output::CheckResources::Result::Metadata::Effect.new(
                     matched_policy: "resource.document.v1/test",
@@ -299,7 +322,7 @@ RSpec.describe Cerbos::Client do
             roles: ["USER"],
             attributes: {
               country: {
-                alpha2: "NZ",
+                alpha2: "",
                 alpha3: "NZL"
               }
             }
@@ -332,6 +355,18 @@ RSpec.describe Cerbos::Client do
               Cerbos::Output::PlanResources::Expression::Value.new(value: "me@example.com")
             ]
           ),
+          validation_errors:
+            if cerbos_version_at_least?("0.19.0-prerelease")
+              [
+                Cerbos::Output::ValidationError.new(
+                  path: "/country/alpha2",
+                  message: "does not match pattern '[A-Z]{2}'",
+                  source: :SOURCE_PRINCIPAL
+                )
+              ]
+            else
+              []
+            end,
           metadata: Cerbos::Output::PlanResources::Metadata.new(
             condition_string:
               if cerbos_version_at_least?("0.18.0")
@@ -360,7 +395,7 @@ RSpec.describe Cerbos::Client do
     context "when configured to raise on validation error" do
       let(:on_validation_error) { :raise }
 
-      it "raises an error when validation fails", :aggregate_failures do
+      it "raises an error when validation fails in #check_resources", :aggregate_failures do
         expect {
           client.allow?(
             principal: {
@@ -370,7 +405,7 @@ RSpec.describe Cerbos::Client do
               roles: ["USER"],
               attributes: {
                 country: {
-                  alpha2: "NZ",
+                  alpha2: "",
                   alpha3: "NZL"
                 }
               }
@@ -389,10 +424,53 @@ RSpec.describe Cerbos::Client do
         }.to raise_error { |error|
           expect(error).to be_a(Cerbos::Error::ValidationFailed).and(have_attributes(
             validation_errors: [
-              Cerbos::Output::CheckResources::Result::ValidationError.new(
+              Cerbos::Output::ValidationError.new(
+                path: "/country/alpha2",
+                message: "does not match pattern '[A-Z]{2}'",
+                source: :SOURCE_PRINCIPAL
+              ),
+              Cerbos::Output::ValidationError.new(
                 path: "/owner",
                 message: "expected string, but got number",
                 source: :SOURCE_RESOURCE
+              )
+            ]
+          ))
+        }
+      end
+
+      it "raises an error when validation fails in #plan_resources", :aggregate_failures do
+        skip "Not supported before Cerbos 0.19.0" unless cerbos_version_at_least?("0.19.0-prerelease")
+
+        expect {
+          client.plan_resources(
+            principal: {
+              id: "me@example.com",
+              policy_version: "1",
+              scope: "test",
+              roles: ["USER"],
+              attributes: {
+                country: {
+                  alpha2: "",
+                  alpha3: "NZL"
+                }
+              }
+            },
+            resource: {
+              kind: "document",
+              policy_version: "1",
+              scope: "test",
+              attributes: {}
+            },
+            action: "edit"
+          )
+        }.to raise_error { |error|
+          expect(error).to be_a(Cerbos::Error::ValidationFailed).and(have_attributes(
+            validation_errors: [
+              Cerbos::Output::ValidationError.new(
+                path: "/country/alpha2",
+                message: "does not match pattern '[A-Z]{2}'",
+                source: :SOURCE_PRINCIPAL
               )
             ]
           ))
@@ -403,7 +481,7 @@ RSpec.describe Cerbos::Client do
     context "when configured with a callback on validation error" do
       let(:on_validation_error) { instance_double(Proc, call: nil) }
 
-      it "raises an error when validation fails", :aggregate_failures do
+      it "invokes the callback when validation fails in #check_resources", :aggregate_failures do
         client.allow?(
           principal: {
             id: "me@example.com",
@@ -412,7 +490,7 @@ RSpec.describe Cerbos::Client do
             roles: ["USER"],
             attributes: {
               country: {
-                alpha2: "NZ",
+                alpha2: "",
                 alpha3: "NZL"
               }
             }
@@ -430,10 +508,49 @@ RSpec.describe Cerbos::Client do
         )
 
         expect(on_validation_error).to have_received(:call).with([
-          Cerbos::Output::CheckResources::Result::ValidationError.new(
+          Cerbos::Output::ValidationError.new(
+            path: "/country/alpha2",
+            message: "does not match pattern '[A-Z]{2}'",
+            source: :SOURCE_PRINCIPAL
+          ),
+          Cerbos::Output::ValidationError.new(
             path: "/owner",
             message: "expected string, but got number",
             source: :SOURCE_RESOURCE
+          )
+        ])
+      end
+
+      it "invokes the callback when validation fails in #plan_resources", :aggregate_failures do
+        skip "Not supported before Cerbos 0.19.0" unless cerbos_version_at_least?("0.19.0-prerelease")
+
+        client.plan_resources(
+          principal: {
+            id: "me@example.com",
+            policy_version: "1",
+            scope: "test",
+            roles: ["USER"],
+            attributes: {
+              country: {
+                alpha2: "",
+                alpha3: "NZL"
+              }
+            }
+          },
+          resource: {
+            kind: "document",
+            policy_version: "1",
+            scope: "test",
+            attributes: {}
+          },
+          action: "edit"
+        )
+
+        expect(on_validation_error).to have_received(:call).with([
+          Cerbos::Output::ValidationError.new(
+            path: "/country/alpha2",
+            message: "does not match pattern '[A-Z]{2}'",
+            source: :SOURCE_PRINCIPAL
           )
         ])
       end
