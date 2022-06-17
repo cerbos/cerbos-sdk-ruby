@@ -181,4 +181,67 @@ RSpec.describe Cerbos::Output::CheckResources do
       )
     end
   end
+
+  describe "#validation_errors" do
+    subject(:validation_errors) { check_resources.validation_errors }
+
+    let(:results) do
+      [
+        Cerbos::Output::CheckResources::Result.new(
+          resource: Cerbos::Output::CheckResources::Result::Resource.new(
+            kind: "document",
+            id: "1",
+            policy_version: "default",
+            scope: ""
+          ),
+          actions: {"allowed" => :EFFECT_ALLOW},
+          validation_errors: [
+            Cerbos::Output::ValidationError.new(
+              path: "/country/alpha2",
+              message: "does not match pattern '[A-Z]{2}'",
+              source: :SOURCE_PRINCIPAL
+            )
+          ],
+          metadata: nil
+        ),
+        Cerbos::Output::CheckResources::Result.new(
+          resource: Cerbos::Output::CheckResources::Result::Resource.new(
+            kind: "document",
+            id: "2",
+            policy_version: "default",
+            scope: ""
+          ),
+          actions: {"allowed" => :EFFECT_ALLOW},
+          validation_errors: [
+            Cerbos::Output::ValidationError.new(
+              path: "/country/alpha2",
+              message: "does not match pattern '[A-Z]{2}'",
+              source: :SOURCE_PRINCIPAL
+            ),
+            Cerbos::Output::ValidationError.new(
+              path: "/owner",
+              message: "expected string, but got number",
+              source: :SOURCE_RESOURCE
+            )
+          ],
+          metadata: nil
+        )
+      ]
+    end
+
+    it "lists validation errors from results" do
+      expect(validation_errors).to eq([
+        Cerbos::Output::ValidationError.new(
+          path: "/country/alpha2",
+          message: "does not match pattern '[A-Z]{2}'",
+          source: :SOURCE_PRINCIPAL
+        ),
+        Cerbos::Output::ValidationError.new(
+          path: "/owner",
+          message: "expected string, but got number",
+          source: :SOURCE_RESOURCE
+        )
+      ])
+    end
+  end
 end

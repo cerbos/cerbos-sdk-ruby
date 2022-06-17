@@ -5,7 +5,7 @@ module Cerbos
     # A query plan that can be used to obtain a list of resources on which a principal is allowed to perform a particular action.
     #
     # @see Client#plan_resources
-    PlanResources = Output.new_class(:request_id, :kind, :condition, :metadata) do
+    PlanResources = Output.new_class(:request_id, :kind, :condition, :validation_errors, :metadata) do
       # @!attribute [r] request_id
       #   The identifier for tracing the request.
       #
@@ -26,6 +26,11 @@ module Cerbos
       #   @see #always_denied?
       #   @see #conditional?
 
+      # @!attribute [r] validation_errors
+      #   Any schema validation errors for the principal or resource attributes.
+      #
+      #   @return [Array<ValidationError>]
+
       # @!attribute [r] metadata
       #   Additional information about the query plan.
       #
@@ -37,6 +42,7 @@ module Cerbos
           request_id: plan_resources.request_id,
           kind: plan_resources.filter.kind,
           condition: PlanResources::Expression::Operand.from_protobuf(plan_resources.filter.condition),
+          validation_errors: (plan_resources.validation_errors || []).map { |validation_error| ValidationError.from_protobuf(validation_error) },
           metadata: PlanResources::Metadata.from_protobuf(plan_resources.meta)
         )
       end

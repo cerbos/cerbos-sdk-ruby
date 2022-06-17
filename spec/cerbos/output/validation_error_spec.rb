@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Cerbos::Output::CheckResources::Result::ValidationError do
+RSpec.describe Cerbos::Output::ValidationError do
   subject(:validation_error) { described_class.new(path: "/foo", message: "bar", source: source) }
 
   context "when source is principal" do

@@ -20,6 +20,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :policy_version, :string, 4, json_name: "policyVersion"
       optional :filter, :message, 5, "cerbos.engine.v1.PlanResourcesFilter", json_name: "filter"
       optional :meta, :message, 6, "cerbos.response.v1.PlanResourcesResponse.Meta", json_name: "meta"
+      repeated :validation_errors, :message, 7, "cerbos.schema.v1.ValidationError", json_name: "validationErrors"
     end
     add_message "cerbos.response.v1.PlanResourcesResponse.Meta" do
       optional :filter_debug, :string, 1, json_name: "filterDebug"

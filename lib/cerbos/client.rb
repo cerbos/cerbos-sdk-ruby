@@ -187,7 +187,9 @@ module Cerbos
 
         response = perform_request(@cerbos_service, :plan_resources, request)
 
-        Output::PlanResources.from_protobuf(response)
+        Output::PlanResources.from_protobuf(response).tap do |output|
+          handle_validation_errors output
+        end
       end
     end
 
@@ -221,7 +223,7 @@ module Cerbos
     def handle_validation_errors(output)
       return if @on_validation_error == :return
 
-      validation_errors = output.results.flat_map(&:validation_errors)
+      validation_errors = output.validation_errors
       return if validation_errors.empty?
 
       raise Error::ValidationFailed.new(validation_errors) if @on_validation_error == :raise
