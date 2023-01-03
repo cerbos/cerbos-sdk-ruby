@@ -1,0 +1,3 @@
+---
+# https://bugs.ruby-lang.org/issues/19005
+BUNDLE_BUILD__GRPC: "--with-ldflags=-Wl,-undefined,dynamic_lookup"
