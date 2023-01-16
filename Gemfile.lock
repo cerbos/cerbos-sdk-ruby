@@ -65,7 +65,7 @@ GEM
     rubocop-rspec (2.16.0)
       rubocop (~> 1.33)
     ruby-progressbar (1.11.0)
-    standard (1.21.1)
+    standard (1.22.0)
       language_server-protocol (~> 3.17.0.2)
       rubocop (= 1.42.0)
       rubocop-performance (= 1.15.2)
@@ -93,4 +93,4 @@ DEPENDENCIES
   yard
 
 BUNDLED WITH
-   2.4.3
+   2.4.4
