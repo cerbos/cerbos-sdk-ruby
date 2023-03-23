@@ -5,6 +5,7 @@ require 'google/protobuf'
 
 require 'cerbos/protobuf/cerbos/effect/v1/effect_pb'
 require 'cerbos/protobuf/cerbos/engine/v1/engine_pb'
+require 'google/protobuf/timestamp_pb'
 require 'google/protobuf/wrappers_pb'
 require 'cerbos/protobuf/validate/validate_pb'
 
@@ -27,6 +28,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       map :annotations, :string, :string, 2
       optional :hash, :message, 3, "google.protobuf.UInt64Value", json_name: "hash"
       optional :store_identifer, :string, 4, json_name: "storeIdentifer"
+      optional :store_identifier, :string, 5, json_name: "storeIdentifier"
     end
     add_message "cerbos.policy.v1.ResourcePolicy" do
       optional :resource, :string, 1, json_name: "resource"
@@ -108,6 +110,9 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     add_message "cerbos.policy.v1.TestFixture.AuxData" do
       map :aux_data, :string, :message, 1, "cerbos.engine.v1.AuxData"
     end
+    add_message "cerbos.policy.v1.TestOptions" do
+      optional :now, :message, 1, "google.protobuf.Timestamp", json_name: "now"
+    end
     add_message "cerbos.policy.v1.TestSuite" do
       optional :name, :string, 1, json_name: "name"
       optional :description, :string, 2, json_name: "description"
@@ -117,6 +122,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       map :principals, :string, :message, 6, "cerbos.engine.v1.Principal"
       map :resources, :string, :message, 7, "cerbos.engine.v1.Resource"
       map :aux_data, :string, :message, 8, "cerbos.engine.v1.AuxData"
+      optional :options, :message, 9, "cerbos.policy.v1.TestOptions", json_name: "options"
     end
     add_message "cerbos.policy.v1.TestTable" do
       optional :name, :string, 1, json_name: "name"
@@ -125,6 +131,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :skip_reason, :string, 4, json_name: "skipReason"
       optional :input, :message, 5, "cerbos.policy.v1.TestTable.Input", json_name: "input"
       repeated :expected, :message, 6, "cerbos.policy.v1.TestTable.Expectation", json_name: "expected"
+      optional :options, :message, 7, "cerbos.policy.v1.TestOptions", json_name: "options"
     end
     add_message "cerbos.policy.v1.TestTable.Input" do
       repeated :principals, :string, 1, json_name: "principals"
@@ -144,6 +151,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :skip_reason, :string, 4, json_name: "skipReason"
       optional :input, :message, 5, "cerbos.engine.v1.CheckInput", json_name: "input"
       map :expected, :string, :enum, 6, "cerbos.effect.v1.Effect"
+      optional :options, :message, 7, "cerbos.policy.v1.TestOptions", json_name: "options"
     end
     add_message "cerbos.policy.v1.Test.TestName" do
       optional :test_table_name, :string, 1, json_name: "testTableName"
@@ -169,6 +177,11 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       repeated :principals, :message, 3, "cerbos.policy.v1.TestResults.Principal", json_name: "principals"
       optional :summary, :message, 4, "cerbos.policy.v1.TestResults.Summary", json_name: "summary"
       optional :error, :string, 5, json_name: "error"
+      repeated :test_cases, :message, 6, "cerbos.policy.v1.TestResults.TestCase", json_name: "testCases"
+    end
+    add_message "cerbos.policy.v1.TestResults.TestCase" do
+      optional :name, :string, 1, json_name: "name"
+      repeated :principals, :message, 2, "cerbos.policy.v1.TestResults.Principal", json_name: "principals"
     end
     add_message "cerbos.policy.v1.TestResults.Principal" do
       optional :name, :string, 1, json_name: "name"
@@ -226,6 +239,7 @@ module Cerbos::Protobuf::Cerbos
       TestFixture::Principals = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.policy.v1.TestFixture.Principals").msgclass
       TestFixture::Resources = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.policy.v1.TestFixture.Resources").msgclass
       TestFixture::AuxData = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.policy.v1.TestFixture.AuxData").msgclass
+      TestOptions = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.policy.v1.TestOptions").msgclass
       TestSuite = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.policy.v1.TestSuite").msgclass
       TestTable = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.policy.v1.TestTable").msgclass
       TestTable::Input = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.policy.v1.TestTable.Input").msgclass
@@ -236,6 +250,7 @@ module Cerbos::Protobuf::Cerbos
       TestResults::Tally = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.policy.v1.TestResults.Tally").msgclass
       TestResults::Summary = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.policy.v1.TestResults.Summary").msgclass
       TestResults::Suite = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.policy.v1.TestResults.Suite").msgclass
+      TestResults::TestCase = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.policy.v1.TestResults.TestCase").msgclass
       TestResults::Principal = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.policy.v1.TestResults.Principal").msgclass
       TestResults::Resource = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.policy.v1.TestResults.Resource").msgclass
       TestResults::Action = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.policy.v1.TestResults.Action").msgclass

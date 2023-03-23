@@ -122,8 +122,15 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     add_message "cerbos.request.v1.ServerInfoRequest" do
     end
     add_message "cerbos.request.v1.ListPoliciesRequest" do
+      optional :include_disabled, :bool, 1, json_name: "includeDisabled"
     end
     add_message "cerbos.request.v1.GetPolicyRequest" do
+      repeated :id, :string, 1, json_name: "id"
+    end
+    add_message "cerbos.request.v1.DisablePolicyRequest" do
+      repeated :id, :string, 1, json_name: "id"
+    end
+    add_message "cerbos.request.v1.EnablePolicyRequest" do
       repeated :id, :string, 1, json_name: "id"
     end
     add_message "cerbos.request.v1.AddOrUpdateSchemaRequest" do
@@ -168,6 +175,8 @@ module Cerbos::Protobuf::Cerbos
       ServerInfoRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.request.v1.ServerInfoRequest").msgclass
       ListPoliciesRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.request.v1.ListPoliciesRequest").msgclass
       GetPolicyRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.request.v1.GetPolicyRequest").msgclass
+      DisablePolicyRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.request.v1.DisablePolicyRequest").msgclass
+      EnablePolicyRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.request.v1.EnablePolicyRequest").msgclass
       AddOrUpdateSchemaRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.request.v1.AddOrUpdateSchemaRequest").msgclass
       ListSchemasRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.request.v1.ListSchemasRequest").msgclass
       GetSchemaRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.request.v1.GetSchemaRequest").msgclass

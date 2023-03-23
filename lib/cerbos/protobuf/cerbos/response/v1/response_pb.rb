@@ -150,6 +150,12 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     add_message "cerbos.response.v1.GetPolicyResponse" do
       repeated :policies, :message, 1, "cerbos.policy.v1.Policy", json_name: "policies"
     end
+    add_message "cerbos.response.v1.DisablePolicyResponse" do
+      optional :disabled_policies, :uint32, 1, json_name: "disabledPolicies"
+    end
+    add_message "cerbos.response.v1.EnablePolicyResponse" do
+      optional :enabled_policies, :uint32, 1, json_name: "enabledPolicies"
+    end
     add_message "cerbos.response.v1.AddOrUpdateSchemaResponse" do
     end
     add_message "cerbos.response.v1.ListSchemasResponse" do
@@ -159,6 +165,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       repeated :schemas, :message, 1, "cerbos.schema.v1.Schema", json_name: "schemas"
     end
     add_message "cerbos.response.v1.DeleteSchemaResponse" do
+      optional :deleted_schemas, :uint32, 1, json_name: "deletedSchemas"
     end
     add_message "cerbos.response.v1.ReloadStoreResponse" do
     end
@@ -196,6 +203,8 @@ module Cerbos::Protobuf::Cerbos
       ServerInfoResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.ServerInfoResponse").msgclass
       ListPoliciesResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.ListPoliciesResponse").msgclass
       GetPolicyResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.GetPolicyResponse").msgclass
+      DisablePolicyResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.DisablePolicyResponse").msgclass
+      EnablePolicyResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.EnablePolicyResponse").msgclass
       AddOrUpdateSchemaResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.AddOrUpdateSchemaResponse").msgclass
       ListSchemasResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.ListSchemasResponse").msgclass
       GetSchemaResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.GetSchemaResponse").msgclass

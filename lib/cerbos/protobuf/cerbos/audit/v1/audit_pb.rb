@@ -23,6 +23,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       repeated :inputs, :message, 4, "cerbos.engine.v1.CheckInput", json_name: "inputs"
       repeated :outputs, :message, 5, "cerbos.engine.v1.CheckOutput", json_name: "outputs"
       optional :error, :string, 6, json_name: "error"
+      map :metadata, :string, :message, 15, "cerbos.audit.v1.MetaValues"
       oneof :method do
         optional :check_resources, :message, 7, "cerbos.audit.v1.DecisionLogEntry.CheckResources", json_name: "checkResources"
         optional :plan_resources, :message, 8, "cerbos.audit.v1.DecisionLogEntry.PlanResources", json_name: "planResources"

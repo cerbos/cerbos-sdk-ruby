@@ -103,6 +103,11 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       repeated :type, :enum, 35, "grpc.gateway.protoc_gen_openapiv2.options.JSONSchema.JSONSchemaSimpleTypes", json_name: "type"
       optional :format, :string, 36, json_name: "format"
       repeated :enum, :string, 46, json_name: "enum"
+      optional :field_configuration, :message, 1001, "grpc.gateway.protoc_gen_openapiv2.options.JSONSchema.FieldConfiguration", json_name: "fieldConfiguration"
+      map :extensions, :string, :message, 48, "google.protobuf.Value"
+    end
+    add_message "grpc.gateway.protoc_gen_openapiv2.options.JSONSchema.FieldConfiguration" do
+      optional :path_param_name, :string, 47, json_name: "pathParamName"
     end
     add_enum "grpc.gateway.protoc_gen_openapiv2.options.JSONSchema.JSONSchemaSimpleTypes" do
       value :UNKNOWN, 0
@@ -183,6 +188,7 @@ module Cerbos::Protobuf::Grpc
         ExternalDocumentation = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("grpc.gateway.protoc_gen_openapiv2.options.ExternalDocumentation").msgclass
         Schema = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("grpc.gateway.protoc_gen_openapiv2.options.Schema").msgclass
         JSONSchema = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("grpc.gateway.protoc_gen_openapiv2.options.JSONSchema").msgclass
+        JSONSchema::FieldConfiguration = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("grpc.gateway.protoc_gen_openapiv2.options.JSONSchema.FieldConfiguration").msgclass
         JSONSchema::JSONSchemaSimpleTypes = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("grpc.gateway.protoc_gen_openapiv2.options.JSONSchema.JSONSchemaSimpleTypes").enummodule
         Tag = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("grpc.gateway.protoc_gen_openapiv2.options.Tag").msgclass
         SecurityDefinitions = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("grpc.gateway.protoc_gen_openapiv2.options.SecurityDefinitions").msgclass
