@@ -1,4 +1,9 @@
 version: v1
+
+types:
+  include:
+    - cerbos.svc.v1.CerbosService
+
 plugins:
   - plugin: buf.build/grpc/ruby
     out: .

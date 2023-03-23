@@ -1,5 +1,6 @@
 ## [Unreleased]
-No notable changes.
+### Removed
+- Unused generated code ([#83](https://github.com/cerbos/cerbos-sdk-ruby/pull/83))
 
 ## [0.6.0] - 2022-07-01
 ### Added
