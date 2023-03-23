@@ -3,10 +3,6 @@
 
 require 'google/protobuf'
 
-require 'cerbos/protobuf/google/api/field_behavior_pb'
-require 'cerbos/protobuf/protoc-gen-openapiv2/options/annotations_pb'
-require 'cerbos/protobuf/validate/validate_pb'
-
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("cerbos/schema/v1/schema.proto", :syntax => :proto3) do
     add_message "cerbos.schema.v1.ValidationError" do
@@ -19,10 +15,6 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       value :SOURCE_PRINCIPAL, 1
       value :SOURCE_RESOURCE, 2
     end
-    add_message "cerbos.schema.v1.Schema" do
-      optional :id, :string, 1, json_name: "id"
-      optional :definition, :bytes, 2, json_name: "definition"
-    end
   end
 end
 
@@ -31,7 +23,6 @@ module Cerbos::Protobuf::Cerbos
     module V1
       ValidationError = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.schema.v1.ValidationError").msgclass
       ValidationError::Source = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.schema.v1.ValidationError.Source").enummodule
-      Schema = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.schema.v1.Schema").msgclass
     end
   end
 end

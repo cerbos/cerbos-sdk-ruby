@@ -1,7 +1,12 @@
 version: v1
+
+types:
+  include:
+    - cerbos.svc.v1.CerbosService
+
 plugins:
-  - remote: buf.build/grpc/plugins/ruby:v1.46.1-1
+  - plugin: buf.build/grpc/ruby
     out: .
 
-  - remote: buf.build/protocolbuffers/plugins/ruby:v3.20.1-1
+  - plugin: buf.build/protocolbuffers/ruby
     out: .

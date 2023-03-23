@@ -3,12 +3,9 @@
 
 require 'google/protobuf'
 
-require 'cerbos/protobuf/cerbos/audit/v1/audit_pb'
 require 'cerbos/protobuf/cerbos/effect/v1/effect_pb'
 require 'cerbos/protobuf/cerbos/engine/v1/engine_pb'
-require 'cerbos/protobuf/cerbos/policy/v1/policy_pb'
 require 'cerbos/protobuf/cerbos/schema/v1/schema_pb'
-require 'google/protobuf/empty_pb'
 require 'cerbos/protobuf/protoc-gen-openapiv2/options/annotations_pb'
 
 Google::Protobuf::DescriptorPool.generated_pool.build do
@@ -79,88 +76,10 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :matched_policy, :string, 1, json_name: "matchedPolicy"
       optional :matched_scope, :string, 2, json_name: "matchedScope"
     end
-    add_message "cerbos.response.v1.PlaygroundFailure" do
-      repeated :errors, :message, 1, "cerbos.response.v1.PlaygroundFailure.Error", json_name: "errors"
-    end
-    add_message "cerbos.response.v1.PlaygroundFailure.Error" do
-      optional :file, :string, 1, json_name: "file"
-      optional :error, :string, 2, json_name: "error"
-    end
-    add_message "cerbos.response.v1.PlaygroundValidateResponse" do
-      optional :playground_id, :string, 1, json_name: "playgroundId"
-      oneof :outcome do
-        optional :failure, :message, 2, "cerbos.response.v1.PlaygroundFailure", json_name: "failure"
-        optional :success, :message, 3, "google.protobuf.Empty", json_name: "success"
-      end
-    end
-    add_message "cerbos.response.v1.PlaygroundTestResponse" do
-      optional :playground_id, :string, 1, json_name: "playgroundId"
-      oneof :outcome do
-        optional :failure, :message, 2, "cerbos.response.v1.PlaygroundFailure", json_name: "failure"
-        optional :success, :message, 3, "cerbos.response.v1.PlaygroundTestResponse.TestResults", json_name: "success"
-      end
-    end
-    add_message "cerbos.response.v1.PlaygroundTestResponse.TestResults" do
-      optional :results, :message, 1, "cerbos.policy.v1.TestResults", json_name: "results"
-    end
-    add_message "cerbos.response.v1.PlaygroundEvaluateResponse" do
-      optional :playground_id, :string, 1, json_name: "playgroundId"
-      oneof :outcome do
-        optional :failure, :message, 2, "cerbos.response.v1.PlaygroundFailure", json_name: "failure"
-        optional :success, :message, 3, "cerbos.response.v1.PlaygroundEvaluateResponse.EvalResultList", json_name: "success"
-      end
-    end
-    add_message "cerbos.response.v1.PlaygroundEvaluateResponse.EvalResult" do
-      optional :action, :string, 1, json_name: "action"
-      optional :effect, :enum, 2, "cerbos.effect.v1.Effect", json_name: "effect"
-      optional :policy, :string, 3, json_name: "policy"
-      repeated :effective_derived_roles, :string, 4, json_name: "effectiveDerivedRoles"
-      repeated :validation_errors, :message, 5, "cerbos.schema.v1.ValidationError", json_name: "validationErrors"
-    end
-    add_message "cerbos.response.v1.PlaygroundEvaluateResponse.EvalResultList" do
-      repeated :results, :message, 1, "cerbos.response.v1.PlaygroundEvaluateResponse.EvalResult", json_name: "results"
-    end
-    add_message "cerbos.response.v1.PlaygroundProxyResponse" do
-      optional :playground_id, :string, 1, json_name: "playgroundId"
-      oneof :outcome do
-        optional :failure, :message, 2, "cerbos.response.v1.PlaygroundFailure", json_name: "failure"
-        optional :check_resource_set, :message, 3, "cerbos.response.v1.CheckResourceSetResponse", json_name: "checkResourceSet"
-        optional :check_resource_batch, :message, 4, "cerbos.response.v1.CheckResourceBatchResponse", json_name: "checkResourceBatch"
-        optional :plan_resources, :message, 5, "cerbos.response.v1.PlanResourcesResponse", json_name: "planResources"
-        optional :check_resources, :message, 6, "cerbos.response.v1.CheckResourcesResponse", json_name: "checkResources"
-      end
-    end
-    add_message "cerbos.response.v1.AddOrUpdatePolicyResponse" do
-      optional :success, :message, 1, "google.protobuf.Empty", json_name: "success"
-    end
-    add_message "cerbos.response.v1.ListAuditLogEntriesResponse" do
-      oneof :entry do
-        optional :access_log_entry, :message, 1, "cerbos.audit.v1.AccessLogEntry", json_name: "accessLogEntry"
-        optional :decision_log_entry, :message, 2, "cerbos.audit.v1.DecisionLogEntry", json_name: "decisionLogEntry"
-      end
-    end
     add_message "cerbos.response.v1.ServerInfoResponse" do
       optional :version, :string, 1, json_name: "version"
       optional :commit, :string, 2, json_name: "commit"
       optional :build_date, :string, 3, json_name: "buildDate"
-    end
-    add_message "cerbos.response.v1.ListPoliciesResponse" do
-      repeated :policy_ids, :string, 1, json_name: "policyIds"
-    end
-    add_message "cerbos.response.v1.GetPolicyResponse" do
-      repeated :policies, :message, 1, "cerbos.policy.v1.Policy", json_name: "policies"
-    end
-    add_message "cerbos.response.v1.AddOrUpdateSchemaResponse" do
-    end
-    add_message "cerbos.response.v1.ListSchemasResponse" do
-      repeated :schema_ids, :string, 1, json_name: "schemaIds"
-    end
-    add_message "cerbos.response.v1.GetSchemaResponse" do
-      repeated :schemas, :message, 1, "cerbos.schema.v1.Schema", json_name: "schemas"
-    end
-    add_message "cerbos.response.v1.DeleteSchemaResponse" do
-    end
-    add_message "cerbos.response.v1.ReloadStoreResponse" do
     end
   end
 end
@@ -182,25 +101,7 @@ module Cerbos::Protobuf::Cerbos
       CheckResourcesResponse::ResultEntry::Resource = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.CheckResourcesResponse.ResultEntry.Resource").msgclass
       CheckResourcesResponse::ResultEntry::Meta = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.CheckResourcesResponse.ResultEntry.Meta").msgclass
       CheckResourcesResponse::ResultEntry::Meta::EffectMeta = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.CheckResourcesResponse.ResultEntry.Meta.EffectMeta").msgclass
-      PlaygroundFailure = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.PlaygroundFailure").msgclass
-      PlaygroundFailure::Error = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.PlaygroundFailure.Error").msgclass
-      PlaygroundValidateResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.PlaygroundValidateResponse").msgclass
-      PlaygroundTestResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.PlaygroundTestResponse").msgclass
-      PlaygroundTestResponse::TestResults = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.PlaygroundTestResponse.TestResults").msgclass
-      PlaygroundEvaluateResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.PlaygroundEvaluateResponse").msgclass
-      PlaygroundEvaluateResponse::EvalResult = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.PlaygroundEvaluateResponse.EvalResult").msgclass
-      PlaygroundEvaluateResponse::EvalResultList = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.PlaygroundEvaluateResponse.EvalResultList").msgclass
-      PlaygroundProxyResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.PlaygroundProxyResponse").msgclass
-      AddOrUpdatePolicyResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.AddOrUpdatePolicyResponse").msgclass
-      ListAuditLogEntriesResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.ListAuditLogEntriesResponse").msgclass
       ServerInfoResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.ServerInfoResponse").msgclass
-      ListPoliciesResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.ListPoliciesResponse").msgclass
-      GetPolicyResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.GetPolicyResponse").msgclass
-      AddOrUpdateSchemaResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.AddOrUpdateSchemaResponse").msgclass
-      ListSchemasResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.ListSchemasResponse").msgclass
-      GetSchemaResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.GetSchemaResponse").msgclass
-      DeleteSchemaResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.DeleteSchemaResponse").msgclass
-      ReloadStoreResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.response.v1.ReloadStoreResponse").msgclass
     end
   end
 end

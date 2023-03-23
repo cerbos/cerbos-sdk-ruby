@@ -5,10 +5,6 @@ require 'google/protobuf'
 
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("google/api/http.proto", :syntax => :proto3) do
-    add_message "google.api.Http" do
-      repeated :rules, :message, 1, "google.api.HttpRule", json_name: "rules"
-      optional :fully_decode_reserved_expansion, :bool, 2, json_name: "fullyDecodeReservedExpansion"
-    end
     add_message "google.api.HttpRule" do
       optional :selector, :string, 1, json_name: "selector"
       optional :body, :string, 7, json_name: "body"
@@ -32,7 +28,6 @@ end
 
 module Cerbos::Protobuf::Google
   module Api
-    Http = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("google.api.Http").msgclass
     HttpRule = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("google.api.HttpRule").msgclass
     CustomHttpPattern = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("google.api.CustomHttpPattern").msgclass
   end
