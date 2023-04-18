@@ -1,5 +1,6 @@
 ## [Unreleased]
-No notable changes.
+### Removed
+- Support for Ruby 2.7 ([#90](https://github.com/cerbos/cerbos-sdk-ruby/pull/90))
 
 ## [0.6.1] - 2023-03-23
 ### Removed

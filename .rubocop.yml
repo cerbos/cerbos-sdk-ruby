@@ -9,7 +9,7 @@ require:
   - rubocop-rspec
 
 inherit_gem:
-  standard: config/ruby-2.7.yml
+  standard: config/ruby-3.0.yml
 
 AllCops:
   Exclude:
