@@ -126,7 +126,7 @@ module Cerbos
       #
       # @return [Boolean]
       def allow_all?
-        actions.each_value.all? { |effect| effect == :EFFECT_ALLOW }
+        actions.each_value.all?(:EFFECT_ALLOW)
       end
 
       # List the actions that should be allowed for the resource.
