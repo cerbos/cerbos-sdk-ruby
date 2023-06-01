@@ -6,7 +6,8 @@ RSpec.describe Cerbos::Output::CheckResources::Result do
       resource: instance_double(Cerbos::Output::CheckResources::Result::Resource),
       actions: actions,
       validation_errors: [],
-      metadata: nil
+      metadata: nil,
+      outputs: []
     )
   end
 
@@ -65,6 +66,35 @@ RSpec.describe Cerbos::Output::CheckResources::Result do
   describe "#allowed_actions" do
     it "returns a list of allowed actions" do
       expect(result.allowed_actions).to eq(["yes", "yup", "yeah"])
+    end
+  end
+
+  describe "#output" do
+    subject(:result) do
+      described_class.new(
+        resource: instance_double(Cerbos::Output::CheckResources::Result::Resource),
+        actions: {},
+        validation_errors: [],
+        metadata: nil,
+        outputs: [
+          Cerbos::Output::CheckResources::Result::Output.new(
+            source: "resource.document.v1/scope#rule",
+            value: 42
+          )
+        ]
+      )
+    end
+
+    context "when the output is found" do
+      it "returns the value" do
+        expect(result.output("resource.document.v1/scope#rule")).to eq(42)
+      end
+    end
+
+    context "when the output is not found" do
+      it "returns nil" do
+        expect(result.output("resource.wat.v1/scope#rule")).to be_nil
+      end
     end
   end
 end

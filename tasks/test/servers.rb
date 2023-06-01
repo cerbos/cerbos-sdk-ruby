@@ -18,6 +18,19 @@ module Tasks
           sh(*docker_compose_command("up", "--wait"))
         end
 
+        def export_policies_version
+          cerbos_version = Gem::Version.new(ENV.fetch("CERBOS_VERSION").delete_suffix("-prerelease"))
+
+          ENV["POLICIES_VERSION"] = Dir.glob("*", base: "spec/servers/policies").max_by { |policies_directory|
+            policies_version = Gem::Version.new(policies_directory)
+            if policies_version <= cerbos_version
+              policies_version
+            else
+              Gem::Version.new("0")
+            end
+          }
+        end
+
         def export_ports
           command = docker_compose_command("ps", "--format", "json")
           output, status = Open3.capture2(*command)
@@ -29,6 +42,7 @@ module Tasks
         end
 
         def stop
+          ENV["POLICIES_VERSION"] = ""
           sh(*docker_compose_command("down"))
         end
 

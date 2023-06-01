@@ -23,8 +23,13 @@ end
 namespace :test do
   namespace :servers do
     desc "Start the test servers"
-    task :start do
+    task start: [:export_policies_version] do
       Tasks::Test::Servers.start
+    end
+
+    desc "Set POLICIES_VERSION to the maximum supported with CERBOS_VERSION"
+    task :export_policies_version do
+      Tasks::Test::Servers.export_policies_version
     end
 
     desc "Set CERBOS_PORTS to the test server containers' published GRPC ports"
@@ -39,7 +44,7 @@ namespace :test do
   end
 end
 
-RSpec::Core::RakeTask.new test: ["test:servers:export_ports"]
+RSpec::Core::RakeTask.new test: ["test:servers:export_policies_version", "test:servers:export_ports"]
 
 desc "Generate documentation"
 YARD::Rake::YardocTask.new :docs do |task|

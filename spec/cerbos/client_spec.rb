@@ -119,7 +119,18 @@ RSpec.describe Cerbos::Client do
               )
             },
             effective_derived_roles: ["OWNER"]
-          )
+          ),
+          outputs:
+            if cerbos_version_at_least?("0.27.0")
+              [
+                Cerbos::Output::CheckResources::Result::Output.new(
+                  source: "resource.document.v1#delete",
+                  value: "delete_allowed:me@example.com"
+                )
+              ]
+            else
+              []
+            end
         ))
       end
     end
@@ -226,7 +237,18 @@ RSpec.describe Cerbos::Client do
                   )
                 },
                 effective_derived_roles: ["OWNER"]
-              )
+              ),
+              outputs:
+                if cerbos_version_at_least?("0.27.0")
+                  [
+                    Cerbos::Output::CheckResources::Result::Output.new(
+                      source: "resource.document.v1#delete",
+                      value: "delete_allowed:me@example.com"
+                    )
+                  ]
+                else
+                  []
+                end
             ),
             Cerbos::Output::CheckResources::Result.new(
               resource: Cerbos::Output::CheckResources::Result::Resource.new(
@@ -263,7 +285,18 @@ RSpec.describe Cerbos::Client do
                   )
                 },
                 effective_derived_roles: []
-              )
+              ),
+              outputs:
+                if cerbos_version_at_least?("0.27.0")
+                  [
+                    Cerbos::Output::CheckResources::Result::Output.new(
+                      source: "resource.document.v1#delete",
+                      value: "delete_allowed:me@example.com"
+                    )
+                  ]
+                else
+                  []
+                end
             ),
             Cerbos::Output::CheckResources::Result.new(
               resource: Cerbos::Output::CheckResources::Result::Resource.new(
@@ -305,7 +338,18 @@ RSpec.describe Cerbos::Client do
                   )
                 },
                 effective_derived_roles: []
-              )
+              ),
+              outputs:
+                if cerbos_version_at_least?("0.27.0")
+                  [
+                    Cerbos::Output::CheckResources::Result::Output.new(
+                      source: "resource.document.v1#delete",
+                      value: "delete_allowed:me@example.com"
+                    )
+                  ]
+                else
+                  []
+                end
             )
           ]
         ))
@@ -356,7 +400,7 @@ RSpec.describe Cerbos::Client do
             ]
           ),
           validation_errors:
-            if cerbos_version_at_least?("0.19.0-prerelease")
+            if cerbos_version_at_least?("0.19.0")
               [
                 Cerbos::Output::ValidationError.new(
                   path: "/country/alpha2",
@@ -440,7 +484,7 @@ RSpec.describe Cerbos::Client do
       end
 
       it "raises an error when validation fails in #plan_resources", :aggregate_failures do
-        skip "Not supported before Cerbos 0.19.0" unless cerbos_version_at_least?("0.19.0-prerelease")
+        skip "Not supported before Cerbos 0.19.0" unless cerbos_version_at_least?("0.19.0")
 
         expect {
           client.plan_resources(
@@ -522,7 +566,7 @@ RSpec.describe Cerbos::Client do
       end
 
       it "invokes the callback when validation fails in #plan_resources", :aggregate_failures do
-        skip "Not supported before Cerbos 0.19.0" unless cerbos_version_at_least?("0.19.0-prerelease")
+        skip "Not supported before Cerbos 0.19.0" unless cerbos_version_at_least?("0.19.0")
 
         client.plan_resources(
           principal: {
@@ -599,7 +643,7 @@ RSpec.describe Cerbos::Client do
   end
 
   def cerbos_version_at_least?(version)
-    Gem::Version.new(cerbos_version) >= Gem::Version.new(version)
+    Gem::Version.new(cerbos_version.delete_suffix("-prerelease")) >= Gem::Version.new(version)
   end
 
   def read_pem(name)
