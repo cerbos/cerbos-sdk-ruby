@@ -73,7 +73,7 @@ module Cerbos
     end
 
     # The outcome of checking a principal's permissions on single resource.
-    CheckResources::Result = Output.new_class(:resource, :actions, :validation_errors, :metadata) do
+    CheckResources::Result = Output.new_class(:resource, :actions, :validation_errors, :metadata, :outputs) do
       # @!attribute [r] resource
       #   The resource that was checked.
       #
@@ -95,6 +95,11 @@ module Cerbos
       #   @return [Metadata]
       #   @return [nil] if `include_metadata` was `false`.
 
+      # @!attribute [r] outputs
+      #   User-defined outputs from policy rule evaluations.
+      #
+      #   @return [Array<Output>]
+
       # @private
       def self.const_missing(const)
         if const == :ValidationError
@@ -110,7 +115,8 @@ module Cerbos
           resource: CheckResources::Result::Resource.from_protobuf(entry.resource),
           actions: entry.actions.to_h,
           validation_errors: (entry.validation_errors || []).map { |validation_error| ValidationError.from_protobuf(validation_error) },
-          metadata: CheckResources::Result::Metadata.from_protobuf(entry.meta)
+          metadata: CheckResources::Result::Metadata.from_protobuf(entry.meta),
+          outputs: (entry.outputs || []).map { |output_entry| CheckResources::Result::Output.from_protobuf(output_entry) }
         )
       end
 
@@ -134,6 +140,15 @@ module Cerbos
       # @return [Array<String>]
       def allowed_actions
         actions.filter_map { |action, effect| action if effect == :EFFECT_ALLOW }
+      end
+
+      # Find the value of the user-defined output for a particular policy rule.
+      #
+      # @param source [String] the identifier of the policy rule that produced the output.
+      # @return [String, Numeric, Boolean, Array, Hash, nil]
+      # @return [nil] if the result does not include an output for the source.
+      def output(source)
+        outputs.find { |output| output.source == source }&.value
       end
     end
 
@@ -213,6 +228,26 @@ module Cerbos
         new(
           matched_policy: effect_meta.matched_policy,
           matched_scope: effect_meta.matched_scope
+        )
+      end
+    end
+
+    # User-defined output from a policy rule evaluation.
+    CheckResources::Result::Output = Output.new_class(:source, :value) do
+      # @!attribute [r] source
+      #   The identifier of the policy rule that produced the output.
+      #
+      #   @return [String]
+
+      # @!attribute [r] value
+      #   The result of evaluating the output expression.
+      #
+      #   @return [String, Numeric, Boolean, Array, Hash, nil]
+
+      def self.from_protobuf(output_entry)
+        new(
+          source: output_entry.src,
+          value: output_entry.val&.to_ruby(true)
         )
       end
     end

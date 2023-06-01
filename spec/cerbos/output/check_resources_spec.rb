@@ -20,7 +20,8 @@ RSpec.describe Cerbos::Output::CheckResources do
             "denied" => :EFFECT_DENY
           },
           validation_errors: [],
-          metadata: nil
+          metadata: nil,
+          outputs: []
         )
       ]
     end
@@ -69,7 +70,8 @@ RSpec.describe Cerbos::Output::CheckResources do
           ),
           actions: actions,
           validation_errors: [],
-          metadata: nil
+          metadata: nil,
+          outputs: []
         )
       ]
     end
@@ -177,7 +179,8 @@ RSpec.describe Cerbos::Output::CheckResources do
         resource: Cerbos::Output::CheckResources::Result::Resource.new(**resource),
         actions: {},
         validation_errors: [],
-        metadata: nil
+        metadata: nil,
+        outputs: []
       )
     end
   end
@@ -202,7 +205,8 @@ RSpec.describe Cerbos::Output::CheckResources do
               source: :SOURCE_PRINCIPAL
             )
           ],
-          metadata: nil
+          metadata: nil,
+          outputs: []
         ),
         Cerbos::Output::CheckResources::Result.new(
           resource: Cerbos::Output::CheckResources::Result::Resource.new(
@@ -224,7 +228,8 @@ RSpec.describe Cerbos::Output::CheckResources do
               source: :SOURCE_RESOURCE
             )
           ],
-          metadata: nil
+          metadata: nil,
+          outputs: []
         )
       ]
     end
