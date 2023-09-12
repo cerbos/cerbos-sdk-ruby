@@ -4,7 +4,7 @@ services:
   plaintext:
     image: ghcr.io/cerbos/cerbos:${CERBOS_IMAGE_TAG:-$CERBOS_VERSION}
     environment:
-      - CERBOS_CONFIG=/config/plaintext.cerbos.yaml
+      - CERBOS_CONFIG=/config/plaintext.yaml
     healthcheck:
       interval: 2s
     ports:
@@ -12,7 +12,7 @@ services:
     user: ${USER}
     volumes:
       - type: bind
-        source: config
+        source: config/cerbos
         target: /config
         read_only: true
       - type: bind
@@ -21,9 +21,11 @@ services:
         read_only: true
 
   socket:
+    profiles:
+      - linux
     extends: plaintext
     environment:
-      - CERBOS_CONFIG=/config/socket.cerbos.yaml
+      - CERBOS_CONFIG=/config/socket.yaml
     volumes:
       - type: bind
         source: ../../tmp/socket
@@ -32,7 +34,7 @@ services:
   tls:
     extends: plaintext
     environment:
-      - CERBOS_CONFIG=/config/tls.cerbos.yaml
+      - CERBOS_CONFIG=/config/tls.yaml
     volumes:
       - type: bind
         source: ../../tmp/certificates
@@ -40,11 +42,11 @@ services:
         read_only: true
 
   mtls:
-    image: traefik:2.6
+    image: traefik:2.10
     command:
       - --entrypoints.grpc.address=:3593
       - --ping
-      - --providers.file.filename=/config/mtls.traefik.yaml
+      - --providers.file.filename=/config/mtls.yaml
     healthcheck:
       interval: 2s
       timeout: 1s
@@ -61,6 +63,6 @@ services:
         target: /certificates
         read_only: true
       - type: bind
-        source: config
+        source: config/traefik
         target: /config
         read_only: true
