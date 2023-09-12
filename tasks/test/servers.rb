@@ -36,20 +36,22 @@ module Tasks
           output, status = Open3.capture2(*command)
           raise "`#{command.join(" ")}` exited with status #{status.exitstatus}" unless status.success?
 
-          ports(JSON.parse(output)).each do |service, port|
+          ports(output).each do |service, port|
             ENV["CERBOS_PORT_#{service.upcase}"] = port.to_s
           end
         end
 
         def stop
           ENV["POLICIES_VERSION"] = ""
-          sh(*docker_compose_command("down"))
+          sh(*docker_compose_command("down", "--remove-orphans"))
         end
 
         private
 
-        def ports(containers)
-          containers
+        def ports(output)
+          output
+            .each_line
+            .flat_map { |line| JSON.parse(line) }
             .map { |container| [container.fetch("Service"), port(container)] }
             .to_h
             .compact
@@ -66,7 +68,8 @@ module Tasks
           [
             {"USER" => "#{Process.uid}:#{Process.gid}"},
             "docker", "compose",
-            "--file", File.expand_path("../../spec/servers/docker-compose.yml", __dir__),
+            "--file", File.expand_path("../../spec/servers/docker-compose.yaml", __dir__),
+            "--profile", Gem::Platform.local.os,
             *args
           ]
         end
