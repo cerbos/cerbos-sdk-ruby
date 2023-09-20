@@ -8,7 +8,9 @@ services:
     healthcheck:
       interval: 2s
     ports:
-      - 3593
+      - protocol: tcp
+        target: 3593
+        host_ip: "::1"
     user: ${USER}
     volumes:
       - type: bind
@@ -56,7 +58,9 @@ services:
         - healthcheck
         - --ping
     ports:
-      - 3593
+      - protocol: tcp
+        target: 3593
+        host_ip: "::1"
     volumes:
       - type: bind
         source: ../../tmp/certificates
