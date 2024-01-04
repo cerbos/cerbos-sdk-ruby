@@ -12,7 +12,7 @@ module Cerbos
 
       # @private
       def initialize(validation_errors)
-        super "Input failed schema validation"
+        super("Input failed schema validation")
 
         @validation_errors = validation_errors
       end
@@ -48,7 +48,7 @@ module Cerbos
 
       # @private
       def initialize(code:, details:, metadata: {})
-        super "gRPC error #{code}: #{details}"
+        super("gRPC error #{code}: #{details}")
 
         @code = code
         @details = details
