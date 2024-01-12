@@ -1,6 +1,8 @@
 ## [Unreleased]
 
-No notable changes.
+### Added
+
+- `grpc_metadata` option to `Cerbos::Client` constructor and request methods to add gRPC metadata (a.k.a. HTTP headers) to requests to the policy decision point ([#132](https://github.com/cerbos/cerbos-sdk-ruby/pull/132))
 
 ## [0.7.0] - 2023-06-07
 

@@ -88,6 +88,7 @@ GEM
       lint_roller (~> 1.1)
       rubocop-performance (~> 1.20.1)
     unicode-display_width (2.5.0)
+    webrick (1.8.1)
     yard (0.9.34)
 
 PLATFORMS
@@ -106,7 +107,8 @@ DEPENDENCIES
   rubocop-rake
   rubocop-rspec
   standard
+  webrick
   yard
 
 BUNDLED WITH
-   2.4.19
+   2.5.4

@@ -4,14 +4,22 @@ module Cerbos
   # A client for interacting with the Cerbos policy decision point (PDP) server over gRPC.
   #
   # An instance of the client may be shared between threads.
-  # However, due to [an issue in the underlying `grpc` gem](https://github.com/grpc/grpc/issues/8798), it's not possible to use the client before and after process forks.
-  # If your application runs on a forking webserver (for example, Puma in clustered mode), then you'll need to ensure that you only create client instances in the child (worker) processes.
+  #
+  # Due to [a limitation in the underlying `grpc` gem](https://github.com/grpc/grpc/issues/8798), creating a client instance before a process fork is [only (experimentally) supported on Linux](https://github.com/grpc/grpc/pull/33430) and requires you to
+  # - have at least v1.57.0 of the `grpc` gem installed,
+  # - set the `GRPC_ENABLE_FORK_SUPPORT` environment variable to `1`,
+  # - call `GRPC.prefork` before forking,
+  # - call `GRPC.postfork_parent` in the parent process after forking, and
+  # - call `GRPC.postfork_child` in the child processes after forking.
+  #
+  # Otherwise, if your application runs on a forking webserver (for example, Puma in clustered mode), then you'll need to ensure that you only create client instances in the child (worker) processes.
   class Client
     # Create a client for interacting with the Cerbos PDP server over gRPC.
     #
     # @param target [String] Cerbos PDP server address (`"host"`, `"host:port"`, or `"unix:/path/to/socket"`).
     # @param tls [TLS, MutualTLS, false] gRPC connection encryption settings (`false` for plaintext).
     # @param grpc_channel_args [Hash{String, Symbol => String, Integer}] low-level settings for the gRPC channel (see [available keys in the gRPC documentation](https://grpc.github.io/grpc/core/group__grpc__arg__keys.html)).
+    # @param grpc_metadata [Hash{String, Symbol => String, Array<String>}] gRPC metadata (a.k.a. HTTP headers) to add to every request to the PDP.
     # @param on_validation_error [:return, :raise, #call] action to take when input fails schema validation (`:return` to return the validation errors in the response, `:raise` to raise {Error::ValidationFailed}, or a callback to invoke).
     # @param playground_instance [String, nil] identifier of the playground instance to use when prototyping against the hosted demo PDP.
     # @param timeout [Numeric, nil] timeout for gRPC calls, in seconds (`nil` to never time out).
@@ -30,7 +38,8 @@ module Cerbos
     #
     # @example Invoke a callback when input fails schema validation
     #   client = Cerbos::Client.new("localhost:3593", tls: false, on_validation_error: ->(validation_errors) { do_something_with validation_errors })
-    def initialize(target, tls:, grpc_channel_args: {}, on_validation_error: :return, playground_instance: nil, timeout: nil)
+    def initialize(target, tls:, grpc_channel_args: {}, grpc_metadata: {}, on_validation_error: :return, playground_instance: nil, timeout: nil)
+      @grpc_metadata = grpc_metadata.transform_keys(&:to_sym)
       @on_validation_error = on_validation_error
 
       handle_errors do
@@ -60,6 +69,7 @@ module Cerbos
     # @param action [String] the action to check.
     # @param aux_data [Input::AuxData, Hash, nil] auxiliary data.
     # @param request_id [String] identifier for tracing the request.
+    # @param grpc_metadata [Hash{String, Symbol => String, Array<String>}] gRPC metadata (a.k.a. HTTP headers) to add to the request.
     #
     # @return [Boolean]
     #
@@ -69,13 +79,14 @@ module Cerbos
     #     resource: {kind: "document", id: "1"},
     #     action: "view"
     #   ) # => true
-    def allow?(principal:, resource:, action:, aux_data: nil, request_id: SecureRandom.uuid)
+    def allow?(principal:, resource:, action:, aux_data: nil, request_id: SecureRandom.uuid, grpc_metadata: {})
       check_resource(
         principal: principal,
         resource: resource,
         actions: [action],
         aux_data: aux_data,
-        request_id: request_id
+        request_id: request_id,
+        grpc_metadata: grpc_metadata
       ).allow?(action)
     end
 
@@ -87,6 +98,7 @@ module Cerbos
     # @param aux_data [Input::AuxData, Hash, nil] auxiliary data.
     # @param include_metadata [Boolean] `true` to include additional metadata ({Output::CheckResources::Result::Metadata}) in the results.
     # @param request_id [String] identifier for tracing the request.
+    # @param grpc_metadata [Hash{String, Symbol => String, Array<String>}] gRPC metadata (a.k.a. HTTP headers) to add to the request.
     #
     # @return [Output::CheckResources::Result]
     #
@@ -98,14 +110,15 @@ module Cerbos
     #   )
     #
     #   decision.allow?("view") # => true
-    def check_resource(principal:, resource:, actions:, aux_data: nil, include_metadata: false, request_id: SecureRandom.uuid)
+    def check_resource(principal:, resource:, actions:, aux_data: nil, include_metadata: false, request_id: SecureRandom.uuid, grpc_metadata: {})
       handle_errors do
         check_resources(
           principal: principal,
           resources: [Input::ResourceCheck.new(resource: resource, actions: actions)],
           aux_data: aux_data,
           include_metadata: include_metadata,
-          request_id: request_id
+          request_id: request_id,
+          grpc_metadata: grpc_metadata
         ).find_result(resource)
       end
     end
@@ -117,6 +130,7 @@ module Cerbos
     # @param aux_data [Input::AuxData, Hash, nil] auxiliary data.
     # @param include_metadata [Boolean] `true` to include additional metadata ({Output::CheckResources::Result::Metadata}) in the results.
     # @param request_id [String] identifier for tracing the request.
+    # @param grpc_metadata [Hash{String, Symbol => String, Array<String>}] gRPC metadata (a.k.a. HTTP headers) to add to the request.
     #
     # @return [Output::CheckResources]
     #
@@ -136,7 +150,7 @@ module Cerbos
     #   )
     #
     #   decision.allow?(resource: {kind: "document", id: "1"}, action: "view") # => true
-    def check_resources(principal:, resources:, aux_data: nil, include_metadata: false, request_id: SecureRandom.uuid)
+    def check_resources(principal:, resources:, aux_data: nil, include_metadata: false, request_id: SecureRandom.uuid, grpc_metadata: {})
       handle_errors do
         request = Protobuf::Cerbos::Request::V1::CheckResourcesRequest.new(
           principal: Input.coerce_required(principal, Input::Principal).to_protobuf,
@@ -146,7 +160,7 @@ module Cerbos
           request_id: request_id
         )
 
-        response = perform_request(@cerbos_service, :check_resources, request)
+        response = perform_request(@cerbos_service, :check_resources, request, grpc_metadata)
 
         Output::CheckResources.from_protobuf(response).tap do |output|
           handle_validation_errors output
@@ -162,6 +176,7 @@ module Cerbos
     # @param aux_data [Input::AuxData, Hash, nil] auxiliary data.
     # @param include_metadata [Boolean] `true` to include additional metadata ({Output::CheckResources::Result::Metadata}) in the results.
     # @param request_id [String] identifier for tracing the request.
+    # @param grpc_metadata [Hash{String, Symbol => String, Array<String>}] gRPC metadata (a.k.a. HTTP headers) to add to the request.
     #
     # @return [Output::PlanResources]
     #
@@ -174,7 +189,7 @@ module Cerbos
     #
     #   plan.conditional? # => true
     #   plan.condition # => #<Cerbos::Output::PlanResources::Expression ...>
-    def plan_resources(principal:, resource:, action:, aux_data: nil, include_metadata: false, request_id: SecureRandom.uuid)
+    def plan_resources(principal:, resource:, action:, aux_data: nil, include_metadata: false, request_id: SecureRandom.uuid, grpc_metadata: {})
       handle_errors do
         request = Protobuf::Cerbos::Request::V1::PlanResourcesRequest.new(
           principal: Input.coerce_required(principal, Input::Principal).to_protobuf,
@@ -185,7 +200,7 @@ module Cerbos
           request_id: request_id
         )
 
-        response = perform_request(@cerbos_service, :plan_resources, request)
+        response = perform_request(@cerbos_service, :plan_resources, request, grpc_metadata)
 
         Output::PlanResources.from_protobuf(response).tap do |output|
           handle_validation_errors output
@@ -195,12 +210,14 @@ module Cerbos
 
     # Retrieve information about the Cerbos PDP server.
     #
+    # @param grpc_metadata [Hash{String, Symbol => String, Array<String>}] gRPC metadata (a.k.a. HTTP headers) to add to the request.
+    #
     # @return [Output::ServerInfo]
-    def server_info
+    def server_info(grpc_metadata: {})
       handle_errors do
         request = Protobuf::Cerbos::Request::V1::ServerInfoRequest.new
 
-        response = perform_request(@cerbos_service, :server_info, request)
+        response = perform_request(@cerbos_service, :server_info, request, grpc_metadata)
 
         Output::ServerInfo.from_protobuf(response)
       end
@@ -231,8 +248,8 @@ module Cerbos
       @on_validation_error.call validation_errors
     end
 
-    def perform_request(service, rpc, request)
-      service.public_send(rpc, request)
+    def perform_request(service, rpc, request, metadata)
+      service.public_send(rpc, request, metadata: @grpc_metadata.merge(metadata.transform_keys(&:to_sym)))
     end
   end
 end
