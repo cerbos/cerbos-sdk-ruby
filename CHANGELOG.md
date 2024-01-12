@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+No notable changes.
+
+## [0.8.0] - 2024-01-12
+
 ### Added
 
 - `grpc_metadata` option to `Cerbos::Client` constructor and request methods to add gRPC metadata (a.k.a. HTTP headers) to requests to the policy decision point ([#132](https://github.com/cerbos/cerbos-sdk-ruby/pull/132))
@@ -70,7 +74,8 @@
 
 - Initial implementation of `Cerbos::Client` ([#2](https://github.com/cerbos/cerbos-sdk-ruby/pull/2))
 
-[Unreleased]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.6.1...v0.7.0
 [0.6.1]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.5.0...v0.6.0
