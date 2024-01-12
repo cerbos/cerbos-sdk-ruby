@@ -4,8 +4,15 @@ module Cerbos
   # A client for interacting with the Cerbos policy decision point (PDP) server over gRPC.
   #
   # An instance of the client may be shared between threads.
-  # However, due to [an issue in the underlying `grpc` gem](https://github.com/grpc/grpc/issues/8798), it's not possible to use the client before and after process forks.
-  # If your application runs on a forking webserver (for example, Puma in clustered mode), then you'll need to ensure that you only create client instances in the child (worker) processes.
+  #
+  # Due to [a limitation in the underlying `grpc` gem](https://github.com/grpc/grpc/issues/8798), creating a client instance before a process fork is [only (experimentally) supported on Linux](https://github.com/grpc/grpc/pull/33430) and requires you to
+  # - have at least v1.57.0 of the `grpc` gem installed,
+  # - set the `GRPC_ENABLE_FORK_SUPPORT` environment variable to `1`,
+  # - call `GRPC.prefork` before forking,
+  # - call `GRPC.postfork_parent` in the parent process after forking, and
+  # - call `GRPC.postfork_child` in the child processes after forking.
+  #
+  # Otherwise, if your application runs on a forking webserver (for example, Puma in clustered mode), then you'll need to ensure that you only create client instances in the child (worker) processes.
   class Client
     # Create a client for interacting with the Cerbos PDP server over gRPC.
     #
