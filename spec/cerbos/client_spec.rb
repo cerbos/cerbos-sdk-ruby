@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
+require_relative "stub_server"
+
 RSpec.describe Cerbos::Client do
-  subject(:client) { described_class.new(target, on_validation_error: on_validation_error, tls: tls) }
+  subject(:client) { described_class.new(target, grpc_metadata: grpc_metadata, on_validation_error: on_validation_error, tls: tls) }
 
   let(:target) { "#{host}:#{port}" }
   let(:host) { "localhost" }
+  let(:grpc_metadata) { {} }
   let(:on_validation_error) { :return }
   let(:cerbos_version) { ENV.fetch("CERBOS_VERSION") }
 
@@ -639,6 +642,39 @@ RSpec.describe Cerbos::Client do
 
     it "fails to perform RPC operations" do
       expect { client.server_info }.to raise_error(Cerbos::Error::Unavailable)
+    end
+  end
+
+  describe "gRPC metadata" do
+    let(:server) { StubServer.new }
+    let(:service) { server.service }
+    let(:port) { server.port }
+    let(:tls) { false }
+    let(:grpc_metadata) { {foo: "42"} }
+    let(:response) { Cerbos::Protobuf::Cerbos::Response::V1::ServerInfoResponse.new }
+
+    before do
+      allow(service).to receive(:server_info).and_return(response)
+      server.start
+    end
+
+    after do
+      server.stop
+    end
+
+    [
+      ["sets client-wide metadata on all requests", {}, {"foo" => "42"}],
+      ["adds per-request metadata", {bar: ["99", "100"]}, {"foo" => "42", "bar" => ["99", "100"]}],
+      ["overrides client-wide metadata with per-request metadata using symbol keys", {foo: "43", bar: ["99", "100"]}, {"foo" => "43", "bar" => ["99", "100"]}],
+      ["overrides client-wide metadata with per-request metadata using string keys", {"foo" => "43", "bar" => ["99", "100"]}, {"foo" => "43", "bar" => ["99", "100"]}]
+    ].each do |description, request_metadata, expected_metadata|
+      it description do
+        client.server_info grpc_metadata: request_metadata
+
+        expect(service).to have_received(:server_info) do |_, call|
+          expect(call.metadata).to match(expected_metadata.merge({"user-agent" => a_string_starting_with("cerbos-sdk-ruby/#{Cerbos::VERSION} grpc-ruby/#{GRPC::VERSION} ")}))
+        end
+      end
     end
   end
 
