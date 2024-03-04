@@ -99,7 +99,7 @@ GEM
       rubocop-performance (~> 1.20.2)
     unicode-display_width (2.5.0)
     webrick (1.8.1)
-    yard (0.9.35)
+    yard (0.9.36)
 
 PLATFORMS
   arm64-darwin
