@@ -28,6 +28,8 @@ Net::HTTP.start "api.github.com", 443, use_ssl: true do |http|
       version = Gem::Version.new(release.fetch("tag_name").delete_prefix("v"))
       available_cerbos_versions << version if version >= minimum_cerbos_version
     end
+
+    page += 1
   end
 end
 
