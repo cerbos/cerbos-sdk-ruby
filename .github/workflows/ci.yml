@@ -45,7 +45,7 @@ jobs:
   test:
     name: Test (Cerbos ${{ matrix.cerbos }} | Ruby ${{ matrix.ruby }})
     runs-on: ubuntu-latest
-    continue-on-error: ${{ endsWith(matrix.cerbos, '-prerelease') }}
+    continue-on-error: ${{ github.event_name != 'schedule' && endsWith(matrix.cerbos, '-prerelease') }}
     env:
       CERBOS_VERSION: ${{ matrix.cerbos }}
     needs:
