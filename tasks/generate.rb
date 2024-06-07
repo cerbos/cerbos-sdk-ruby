@@ -22,7 +22,7 @@ module Tasks
       end
 
       def generate
-        sh "buf", "generate", "--include-imports", "--output", ROOT_PATH, "buf.build/cerbos/cerbos-api"
+        sh "buf", "generate", "--include-imports", "--output", ROOT_PATH
       end
 
       def postprocess
