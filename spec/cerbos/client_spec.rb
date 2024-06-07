@@ -20,7 +20,7 @@ RSpec.describe Cerbos::Client do
             policy_version: "1",
             scope: "test",
             roles: ["USER"],
-            attributes: {
+            attr: {
               country: {
                 alpha2: "",
                 alpha3: "NZL"
@@ -32,7 +32,7 @@ RSpec.describe Cerbos::Client do
             id: "mine",
             policy_version: "1",
             scope: "test",
-            attributes: {
+            attr: {
               owner: "me@example.com"
             }
           },
@@ -59,7 +59,7 @@ RSpec.describe Cerbos::Client do
             policy_version: "1",
             scope: "test",
             roles: ["USER"],
-            attributes: {
+            attr: {
               country: {
                 alpha2: "",
                 alpha3: "NZL"
@@ -71,7 +71,7 @@ RSpec.describe Cerbos::Client do
             id: "mine",
             policy_version: "1",
             scope: "test",
-            attributes: {
+            attr: {
               owner: "me@example.com"
             }
           },
@@ -146,7 +146,7 @@ RSpec.describe Cerbos::Client do
             policy_version: "1",
             scope: "test",
             roles: ["USER"],
-            attributes: {
+            attr: {
               country: {
                 alpha2: "",
                 alpha3: "NZL"
@@ -160,7 +160,7 @@ RSpec.describe Cerbos::Client do
                 id: "mine",
                 policy_version: "1",
                 scope: "test",
-                attributes: {
+                attr: {
                   owner: "me@example.com"
                 }
               },
@@ -172,7 +172,7 @@ RSpec.describe Cerbos::Client do
                 id: "theirs",
                 policy_version: "1",
                 scope: "test",
-                attributes: {
+                attr: {
                   owner: "them@example.com"
                 }
               },
@@ -184,7 +184,7 @@ RSpec.describe Cerbos::Client do
                 id: "invalid",
                 policy_version: "1",
                 scope: "test",
-                attributes: {
+                attr: {
                   owner: 123
                 }
               },
@@ -367,7 +367,7 @@ RSpec.describe Cerbos::Client do
             policy_version: "1",
             scope: "test",
             roles: ["USER"],
-            attributes: {
+            attr: {
               country: {
                 alpha2: "",
                 alpha3: "NZL"
@@ -378,7 +378,7 @@ RSpec.describe Cerbos::Client do
             kind: "document",
             policy_version: "1",
             scope: "test",
-            attributes: {}
+            attr: {}
           },
           action: "edit",
           aux_data: {
@@ -450,7 +450,7 @@ RSpec.describe Cerbos::Client do
               policy_version: "1",
               scope: "test",
               roles: ["USER"],
-              attributes: {
+              attr: {
                 country: {
                   alpha2: "",
                   alpha3: "NZL"
@@ -462,7 +462,7 @@ RSpec.describe Cerbos::Client do
               id: "invalid",
               policy_version: "1",
               scope: "test",
-              attributes: {
+              attr: {
                 owner: 123
               }
             },
@@ -496,7 +496,7 @@ RSpec.describe Cerbos::Client do
               policy_version: "1",
               scope: "test",
               roles: ["USER"],
-              attributes: {
+              attr: {
                 country: {
                   alpha2: "",
                   alpha3: "NZL"
@@ -507,7 +507,7 @@ RSpec.describe Cerbos::Client do
               kind: "document",
               policy_version: "1",
               scope: "test",
-              attributes: {}
+              attr: {}
             },
             action: "edit"
           )
@@ -535,7 +535,7 @@ RSpec.describe Cerbos::Client do
             policy_version: "1",
             scope: "test",
             roles: ["USER"],
-            attributes: {
+            attr: {
               country: {
                 alpha2: "",
                 alpha3: "NZL"
@@ -547,7 +547,7 @@ RSpec.describe Cerbos::Client do
             id: "invalid",
             policy_version: "1",
             scope: "test",
-            attributes: {
+            attr: {
               owner: 123
             }
           },
@@ -577,7 +577,7 @@ RSpec.describe Cerbos::Client do
             policy_version: "1",
             scope: "test",
             roles: ["USER"],
-            attributes: {
+            attr: {
               country: {
                 alpha2: "",
                 alpha3: "NZL"
@@ -588,7 +588,7 @@ RSpec.describe Cerbos::Client do
             kind: "document",
             policy_version: "1",
             scope: "test",
-            attributes: {}
+            attr: {}
           },
           action: "edit"
         )

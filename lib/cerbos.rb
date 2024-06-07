@@ -10,6 +10,17 @@ require "time"
 #
 # Create a {Client} instance to interact with the Cerbos policy decision point server over gRPC.
 module Cerbos
+  # @private
+  def self.deprecation_warning(message)
+    return unless Warning[:deprecated]
+
+    message = "[cerbos] #{message}"
+
+    location = caller_locations.find { |location| !location.absolute_path.start_with?(__dir__) }
+    message = "#{location.path}:#{location.lineno}: #{message}" unless location.nil?
+
+    warn message, category: :deprecated
+  end
 end
 
 require_relative "cerbos/client"

@@ -17,7 +17,7 @@ module Cerbos
       # Application-specific attributes describing the principal.
       #
       # @return [Attributes]
-      attr_reader :attributes
+      attr_reader :attr
 
       # The policy version to use when authorizing the principal.
       #
@@ -37,15 +37,30 @@ module Cerbos
       #
       # @param id [String] a unique identifier for the principal.
       # @param roles [Array<String>] the roles held by the principal.
-      # @param attributes [Attributes, Hash] application-specific attributes describing the principal.
+      # @param attr [Attributes, Hash] application-specific attributes describing the principal.
+      # @param attributes [Attributes, Hash] deprecated (use `attr` instead).
       # @param policy_version [String, nil] the policy version to use when authorizing the principal (`nil` to use the Cerbos policy decision point server's configured default version).
       # @param scope [String, nil] the policy scope to use when authorizing the principal.
-      def initialize(id:, roles:, attributes: {}, policy_version: nil, scope: nil)
+      def initialize(id:, roles:, attr: {}, attributes: nil, policy_version: nil, scope: nil)
+        unless attributes.nil?
+          Cerbos.deprecation_warning "The `attributes` keyword argument is deprecated. Use `attr` instead."
+          attr = attributes
+        end
+
         @id = id
         @roles = roles
-        @attributes = Input.coerce_required(attributes, Attributes)
+        @attr = Input.coerce_required(attr, Attributes)
         @policy_version = policy_version
         @scope = scope
+      end
+
+      # Application-specific attributes describing the principal.
+      #
+      # @deprecated Use {#attr} instead.
+      # @return [Attributes]
+      def attributes
+        Cerbos.deprecation_warning "The `attributes` method is deprecated. Use `attr` instead."
+        attr
       end
 
       # @private
@@ -53,7 +68,7 @@ module Cerbos
         Protobuf::Cerbos::Engine::V1::Principal.new(
           id: id,
           roles: roles,
-          attr: attributes.to_protobuf,
+          attr: attr.to_protobuf,
           policy_version: policy_version,
           scope: scope
         )

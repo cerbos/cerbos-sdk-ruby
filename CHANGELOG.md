@@ -1,6 +1,11 @@
 ## [Unreleased]
 
-No notable changes.
+### Changed
+
+- Use `attr` for principal and resource attributes ([#157](https://github.com/cerbos/cerbos-sdk-ruby/pull/157))
+
+  This makes the API consistent with policy expressions.
+  `attributes` is still supported for backwards compatibility, but is now deprecated.
 
 ## [0.8.0] - 2024-01-12
 
