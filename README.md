@@ -41,7 +41,7 @@ decision = client.check_resource(
   resource: {
     kind: "document",
     id: "1",
-    attributes: {
+    attr: {
       owner: "author@example.com"
     }
   },
