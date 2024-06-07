@@ -4,10 +4,34 @@
 require "json"
 require "net/http"
 
-# We support non-end-of-life Ruby versions: https://www.ruby-lang.org/en/downloads/branches/
-ruby_versions = ["3.1", "3.2", "3.3"]
+class Versions
+  attr_reader :all, :oldest, :latest
 
-latest_ruby_version = ruby_versions.last
+  def initialize(all)
+    @all = all
+    @oldest = all.first
+    @latest = all.last
+  end
+
+  def all_except_latest
+    all - [latest]
+  end
+end
+
+def resolve_dependency_versions(dependency)
+  tuples, _errors = Gem::SpecFetcher.fetcher.search_for_dependency(dependency)
+  Versions.new(tuples.map { |tuple, _source| tuple.version.segments.first(2).join(".") }.uniq)
+end
+
+def matrix_entries(vary, *latest, include_latest: false)
+  vary_versions = vary.all
+  vary_versions -= [vary.latest] unless include_latest
+
+  vary_versions.map { |version| {"title" => "#{vary.name} #{version}", vary.name.downcase => version}.merge(latest.map { |versions| [versions.name.downcase, versions.latest] }.to_h) }
+end
+
+# We support non-end-of-life Ruby versions: https://www.ruby-lang.org/en/downloads/branches/
+ruby_versions = Versions.new(["3.1", "3.2", "3.3"])
 
 minimum_cerbos_version = Gem::Version.new("0.16.0")
 available_cerbos_versions = []
@@ -33,19 +57,30 @@ Net::HTTP.start "api.github.com", 443, use_ssl: true do |http|
   end
 end
 
-*previous_cerbos_versions, latest_cerbos_version =
+cerbos_versions = Versions.new(
   available_cerbos_versions
     .group_by { |version| version.segments[0..1] }
     .map { |_, patch_versions| patch_versions.max }
     .sort
+)
 
-prerelease_cerbos_version = "#{latest_cerbos_version.bump}.0-prerelease"
+cerbos_versions.all.push "#{cerbos_versions.latest.bump}.0-prerelease"
+
+dependencies_versions = Gem::Specification.load("cerbos.gemspec").dependencies.map { |dependency| [dependency.name, resolve_dependency_versions(dependency)] }.to_h
 
 matrix = {
   include: [
-    *previous_cerbos_versions.map { |previous_cerbos_version| {ruby: latest_ruby_version, cerbos: previous_cerbos_version} },
-    *ruby_versions.map { |ruby_version| {ruby: ruby_version, cerbos: latest_cerbos_version} },
-    {ruby: latest_ruby_version, cerbos: prerelease_cerbos_version}
+    *cerbos_versions.all.map { |cerbos_version|
+      {title: "Cerbos #{cerbos_version}", cerbos: cerbos_version, ruby: ruby_versions.latest}
+    },
+    *ruby_versions.all_except_latest.map { |ruby_version|
+      {title: "Ruby #{ruby_version}", cerbos: cerbos_versions.latest, ruby: ruby_version}
+    },
+    *dependencies_versions.flat_map { |dependency_name, dependency_versions|
+      dependency_versions.all_except_latest.map { |dependency_version|
+        {title: "#{dependency_name} #{dependency_version}", cerbos: cerbos_versions.latest, ruby: ruby_versions.oldest, dependency_name: dependency_name, dependency_version: dependency_version}
+      }
+    }
   ]
 }
 
