@@ -7,6 +7,10 @@
   This makes the API consistent with policy expressions.
   `attributes` is still supported for backwards compatibility, but is now deprecated.
 
+### Removed
+
+- Support for Ruby 3.0 ([#158](https://github.com/cerbos/cerbos-sdk-ruby/pull/158))
+
 ## [0.8.0] - 2024-01-12
 
 ### Added
