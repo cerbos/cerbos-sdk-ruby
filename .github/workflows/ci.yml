@@ -43,11 +43,13 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
 
   test:
-    name: Test (Cerbos ${{ matrix.cerbos }} | Ruby ${{ matrix.ruby }})
+    name: Test (${{ matrix.title }})
     runs-on: ubuntu-latest
     continue-on-error: ${{ github.event_name != 'schedule' && endsWith(matrix.cerbos, '-prerelease') }}
     env:
       CERBOS_VERSION: ${{ matrix.cerbos }}
+      TEST_MATRIX_DEPENDENCY_NAME: ${{ matrix.dependency_name }}
+      TEST_MATRIX_DEPENDENCY_VERSION: ${{ matrix.dependency_version }}
     needs:
       - test-matrix
     strategy:
@@ -60,8 +62,20 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          bundler-cache: true
           ruby-version: ${{ matrix.ruby }}
+
+      - name: Update Gemfile.lock
+        if: ${{ matrix.dependency_name }}
+        run: bin/bundle lock --update ${{ matrix.dependency_name }}
+
+      - name: Install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      - name: List installed gems
+        run: bin/bundle list
 
       - name: Start test servers
         run: bin/rake test:servers:start
