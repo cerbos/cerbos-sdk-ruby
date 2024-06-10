@@ -7,6 +7,8 @@
   This makes the API consistent with policy expressions.
   `attributes` is still supported for backwards compatibility, but is now deprecated.
 
+- Increased [`google-protobuf`] version requirement to 3.21.12+ to avoid [failure to load `protovalidate` extension field descriptors](https://github.com/protocolbuffers/upb/pull/1034) ([#159](https://github.com/cerbos/cerbos-sdk-ruby/pull/159))
+
 ### Removed
 
 - Support for Ruby 3.0 ([#158](https://github.com/cerbos/cerbos-sdk-ruby/pull/158))
@@ -75,7 +77,7 @@
 
 ### Changed
 
-- Increased `grpc` version requirement to 1.46+ to avoid [installing a native gem compiled for `x86_64-darwin` on `arm64-darwin`](https://github.com/grpc/grpc/issues/29100) ([#8](https://github.com/cerbos/cerbos-sdk-ruby/pull/8))
+- Increased [`grpc`] version requirement to 1.46+ to avoid [installing a native gem compiled for `x86_64-darwin` on `arm64-darwin`](https://github.com/grpc/grpc/issues/29100) ([#8](https://github.com/cerbos/cerbos-sdk-ruby/pull/8))
 
 ## [0.1.0] - 2022-05-12
 
@@ -93,3 +95,5 @@
 [0.3.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/4481009e9dec2e1e6a2df8ea2f828690ceabbefc...v0.1.0
+[`google-protobuf`]: https://rubygems.org/gems/google-protobuf
+[`grpc`]: https://rubygems.org/gems/grpc
