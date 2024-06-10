@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     cerbos (0.8.0)
+      google-protobuf (~> 3.19)
       grpc (~> 1.46)
 
 GEM
