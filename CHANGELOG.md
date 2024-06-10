@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+No notable changes.
+
+## [0.9.0] - 2024-06-10
+
 ### Changed
 
 - Use `attr` for principal and resource attributes ([#157](https://github.com/cerbos/cerbos-sdk-ruby/pull/157))
@@ -85,7 +89,8 @@
 
 - Initial implementation of `Cerbos::Client` ([#2](https://github.com/cerbos/cerbos-sdk-ruby/pull/2))
 
-[Unreleased]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.8.0...HEAD
+[Unreleased]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.9.0...HEAD
+[0.9.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.6.1...v0.7.0
 [0.6.1]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.6.0...v0.6.1
