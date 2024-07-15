@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+No notable changes.
+
+## [0.9.1] - 2024-07-15
+
 ### Changed
 
 - Updated [`google-protobuf`] version requirement to also accept 4.26+ ([#171](https://github.com/cerbos/cerbos-sdk-ruby/pull/171))
@@ -91,7 +95,8 @@
 
 - Initial implementation of `Cerbos::Client` ([#2](https://github.com/cerbos/cerbos-sdk-ruby/pull/2))
 
-[Unreleased]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.9.0...HEAD
+[Unreleased]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.9.1...HEAD
+[0.9.1]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.9.0...v0.9.1
 [0.9.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.6.1...v0.7.0
