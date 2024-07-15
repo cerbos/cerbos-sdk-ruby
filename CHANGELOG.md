@@ -1,6 +1,8 @@
 ## [Unreleased]
 
-No notable changes.
+### Changed
+
+- Updated [`google-protobuf`] version requirement to also accept 4.26+ ([#171](https://github.com/cerbos/cerbos-sdk-ruby/pull/171))
 
 ## [0.9.0] - 2024-06-10
 
