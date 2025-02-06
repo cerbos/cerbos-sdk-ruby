@@ -59,6 +59,13 @@ module Cerbos
           channel_args: channel_args,
           timeout: timeout
         )
+
+        @health_service = Protobuf::Grpc::Health::V1::Health::Stub.new(
+          target,
+          credentials,
+          channel_args: channel_args,
+          timeout: timeout
+        )
       end
     end
 
@@ -88,6 +95,33 @@ module Cerbos
         request_id: request_id,
         grpc_metadata: grpc_metadata
       ).allow?(action)
+    end
+
+    # Check the health of a service provided by the policy decision point server.
+    #
+    # @param service ["cerbos.svc.v1.CerbosService", "cerbos.svc.v1.CerbosAdminService"] the service to check.
+    # @param grpc_metadata [Hash{String, Symbol => String, Array<String>}] gRPC metadata (a.k.a. HTTP headers) to add to the request.
+    #
+    # @return [Output::HealthCheck]
+    #
+    # @example
+    #   cerbos_api = client.check_health
+    #   cerbos_api.status # => :SERVING
+    #
+    #   admin_api = client.check_health(service: "cerbos.svc.v1.CerbosAdminService")
+    #   admin_api.status # => :DISABLED
+    def check_health(service: "cerbos.svc.v1.CerbosService", grpc_metadata: {})
+      handle_errors do
+        request = Protobuf::Grpc::Health::V1::HealthCheckRequest.new(service: service)
+
+        response = perform_request(@health_service, :check, request, grpc_metadata)
+
+        Output::HealthCheck.from_protobuf(response)
+      end
+    rescue Error::NotFound
+      return Output::HealthCheck.new(status: :DISABLED) if service == "cerbos.svc.v1.CerbosAdminService"
+
+      raise
     end
 
     # Check a principal's permissions on a resource.

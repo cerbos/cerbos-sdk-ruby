@@ -84,6 +84,13 @@ module Cerbos
       end
     end
 
+    # The gRPC operation was rejected because the requested entity was not found.
+    class NotFound < NotOK
+      def initialize(code: GRPC::Core::StatusCodes::NOT_FOUND, **args)
+        super
+      end
+    end
+
     # The gRPC operation failed because a resource has been exhausted.
     class ResourceExhausted < NotOK
       def initialize(code: GRPC::Core::StatusCodes::RESOURCE_EXHAUSTED, **args)
@@ -117,6 +124,7 @@ module Cerbos
       GRPC::DeadlineExceeded => DeadlineExceeded,
       GRPC::Internal => InternalError,
       GRPC::InvalidArgument => InvalidArgument,
+      GRPC::NotFound => NotFound,
       GRPC::ResourceExhausted => ResourceExhausted,
       GRPC::Unauthenticated => Unauthenticated,
       GRPC::Unavailable => Unavailable,

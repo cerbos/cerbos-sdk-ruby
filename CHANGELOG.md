@@ -1,6 +1,8 @@
 ## [Unreleased]
 
-No notable changes.
+### Added
+
+- `Cerbos::Client#check_health` method to perform health checks on the policy decision point server ([#221](https://github.com/cerbos/cerbos-sdk-ruby/pull/221))
 
 ## [0.9.1] - 2024-07-15
 

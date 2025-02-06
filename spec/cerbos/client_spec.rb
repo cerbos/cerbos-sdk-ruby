@@ -51,6 +51,28 @@ RSpec.describe Cerbos::Client do
       end
     end
 
+    describe "#check_health" do
+      subject(:response) do
+        client.check_health(service: service)
+      end
+
+      context "when checking the Cerbos service" do
+        let(:service) { "cerbos.svc.v1.CerbosService" }
+
+        it "checks the Cerbos service health" do
+          expect(response).to eq(Cerbos::Output::HealthCheck.new(status: :SERVING))
+        end
+      end
+
+      context "when checking the admin service" do
+        let(:service) { "cerbos.svc.v1.CerbosAdminService" }
+
+        it "checks the admin service health" do
+          expect(response).to eq(Cerbos::Output::HealthCheck.new(status: :DISABLED))
+        end
+      end
+    end
+
     describe "#check_resource" do
       subject(:response) do
         client.check_resource(
