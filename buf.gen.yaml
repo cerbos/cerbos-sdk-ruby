@@ -5,6 +5,10 @@ inputs:
     types:
       - cerbos.svc.v1.CerbosService
 
+  - module: buf.build/grpc/grpc
+    types:
+      - grpc.health.v1.Health
+
 plugins:
   - remote: buf.build/grpc/ruby
     out: .
