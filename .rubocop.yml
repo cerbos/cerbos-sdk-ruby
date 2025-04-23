@@ -27,6 +27,9 @@ AllCops:
 RSpec/ExampleLength:
   Enabled: false
 
+RSpec/IncludeExamples:
+  Enabled: false
+
 RSpec/MultipleExpectations:
   Enabled: false
 
