@@ -1,6 +1,8 @@
 ## [Unreleased]
 
-No notable changes.
+### Removed
+
+- Support for Ruby 3.1 ([#234](https://github.com/cerbos/cerbos-sdk-ruby/pull/234))
 
 ## [0.10.0] - 2025-02-06
 
