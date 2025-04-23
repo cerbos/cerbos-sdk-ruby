@@ -1,0 +1,26 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    ":dependencyDashboard",
+    ":gitSignOff",
+    ":prConcurrentLimitNone",
+    "schedule:weekly"
+  ],
+  "configMigration": true,
+  "reviewers": ["haines"],
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["*"],
+      "groupName": "dependencies"
+    },
+    {
+      "matchPackageNames": ["commonmarker"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false,
+      "description": "https://github.com/lsegal/yard/issues/1528"
+    }
+  ]
+}
