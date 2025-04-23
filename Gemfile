@@ -6,7 +6,7 @@ source "https://rubygems.org"
 
 gemspec
 
-gem "commonmarker"
+gem "commonmarker", "< 1.0"
 gem "jwt"
 gem "openssl"
 gem "pry"
