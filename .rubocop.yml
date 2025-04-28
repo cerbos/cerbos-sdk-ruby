@@ -12,7 +12,7 @@ plugins:
   - standard-performance
 
 inherit_gem:
-  standard: config/ruby-3.1.yml
+  standard: config/ruby-3.2.yml
 
 AllCops:
   Exclude:

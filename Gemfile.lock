@@ -3,7 +3,7 @@ PATH
   specs:
     cerbos (0.10.0)
       google-protobuf (>= 3.21.12, < 5.0)
-      grpc (~> 1.46)
+      grpc (~> 1.52)
 
 GEM
   remote: https://rubygems.org/

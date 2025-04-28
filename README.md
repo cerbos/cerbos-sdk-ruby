@@ -12,7 +12,7 @@ The Cerbos Ruby SDK makes it easy to interact with the Cerbos PDP from your Ruby
 ## Prerequisites
 
 - Cerbos 0.16+
-- Ruby 3.1+
+- Ruby 3.2+
 
 ## Installation
 
