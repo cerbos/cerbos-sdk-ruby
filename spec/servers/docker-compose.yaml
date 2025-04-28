@@ -44,7 +44,7 @@ services:
         read_only: true
 
   mtls:
-    image: traefik:2.10
+    image: traefik:v3.3
     command:
       - --entrypoints.grpc.address=:3593
       - --ping
