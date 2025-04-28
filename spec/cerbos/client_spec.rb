@@ -382,70 +382,136 @@ RSpec.describe Cerbos::Client do
     end
 
     describe "#plan_resources" do
-      subject(:response) do
-        client.plan_resources(
-          principal: {
-            id: "me@example.com",
-            policy_version: "1",
-            scope: "test",
-            roles: ["USER"],
-            attr: {
-              country: {
-                alpha2: "",
-                alpha3: "NZL"
+      context "with action" do
+        subject(:response) do
+          client.plan_resources(
+            principal: {
+              id: "me@example.com",
+              policy_version: "1",
+              scope: "test",
+              roles: ["USER"],
+              attr: {
+                country: {
+                  alpha2: "",
+                  alpha3: "NZL"
+                }
               }
-            }
-          },
-          resource: {
-            kind: "document",
-            policy_version: "1",
-            scope: "test",
-            attr: {}
-          },
-          action: "edit",
-          aux_data: {
-            jwt: {
-              token: JWT.encode({delete: true}, nil, "none")
-            }
-          },
-          include_metadata: true,
-          request_id: "42"
-        )
+            },
+            resource: {
+              kind: "document",
+              policy_version: "1",
+              scope: "test",
+              attr: {}
+            },
+            action: "edit",
+            aux_data: {
+              jwt: {
+                token: JWT.encode({delete: true}, nil, "none")
+              }
+            },
+            include_metadata: true,
+            request_id: "42"
+          )
+        end
+
+        it "returns a query plan for resources" do
+          expect(response).to eq(Cerbos::Output::PlanResources.new(
+            request_id: "42",
+            kind: :KIND_CONDITIONAL,
+            condition: Cerbos::Output::PlanResources::Expression.new(
+              operator: "eq",
+              operands: [
+                Cerbos::Output::PlanResources::Expression::Variable.new(name: "request.resource.attr.owner"),
+                Cerbos::Output::PlanResources::Expression::Value.new(value: "me@example.com")
+              ]
+            ),
+            validation_errors:
+              if cerbos_version_at_least?("0.19.0")
+                [
+                  Cerbos::Output::ValidationError.new(
+                    path: "/country/alpha2",
+                    message: "does not match pattern '[A-Z]{2}'",
+                    source: :SOURCE_PRINCIPAL
+                  )
+                ]
+              else
+                []
+              end,
+            metadata: Cerbos::Output::PlanResources::Metadata.new(
+              condition_string:
+                if cerbos_version_at_least?("0.18.0")
+                  '(eq request.resource.attr.owner "me@example.com")'
+                else
+                  '(request.resource.attr.owner == "me@example.com")'
+                end,
+              matched_scope: "test",
+              matched_scopes: {}
+            )
+          ))
+        end
       end
 
-      it "returns a query plan for resources" do
-        expect(response).to eq(Cerbos::Output::PlanResources.new(
-          request_id: "42",
-          kind: :KIND_CONDITIONAL,
-          condition: Cerbos::Output::PlanResources::Expression.new(
-            operator: "eq",
-            operands: [
-              Cerbos::Output::PlanResources::Expression::Variable.new(name: "request.resource.attr.owner"),
-              Cerbos::Output::PlanResources::Expression::Value.new(value: "me@example.com")
-            ]
-          ),
-          validation_errors:
-            if cerbos_version_at_least?("0.19.0")
-              [
-                Cerbos::Output::ValidationError.new(
-                  path: "/country/alpha2",
-                  message: "does not match pattern '[A-Z]{2}'",
-                  source: :SOURCE_PRINCIPAL
-                )
-              ]
-            else
-              []
-            end,
-          metadata: Cerbos::Output::PlanResources::Metadata.new(
-            condition_string:
-              if cerbos_version_at_least?("0.18.0")
-                '(eq request.resource.attr.owner "me@example.com")'
-              else
-                '(request.resource.attr.owner == "me@example.com")'
-              end,
-            matched_scope: "test"
+      context "with actions" do
+        subject(:response) do
+          client.plan_resources(
+            principal: {
+              id: "me@example.com",
+              policy_version: "1",
+              scope: "test",
+              roles: ["USER"],
+              attr: {
+                country: {
+                  alpha2: "",
+                  alpha3: "NZL"
+                }
+              }
+            },
+            resource: {
+              kind: "document",
+              policy_version: "1",
+              scope: "test",
+              attr: {}
+            },
+            actions: ["edit"],
+            aux_data: {
+              jwt: {
+                token: JWT.encode({delete: true}, nil, "none")
+              }
+            },
+            include_metadata: true,
+            request_id: "42"
           )
-        ))
+        end
+
+        before do
+          skip "Not supported before Cerbos 0.44.0" unless cerbos_version_at_least?("0.44.0")
+        end
+
+        it "returns a query plan for resources" do
+          expect(response).to eq(Cerbos::Output::PlanResources.new(
+            request_id: "42",
+            kind: :KIND_CONDITIONAL,
+            condition: Cerbos::Output::PlanResources::Expression.new(
+              operator: "eq",
+              operands: [
+                Cerbos::Output::PlanResources::Expression::Variable.new(name: "request.resource.attr.owner"),
+                Cerbos::Output::PlanResources::Expression::Value.new(value: "me@example.com")
+              ]
+            ),
+            validation_errors: [
+              Cerbos::Output::ValidationError.new(
+                path: "/country/alpha2",
+                message: "does not match pattern '[A-Z]{2}'",
+                source: :SOURCE_PRINCIPAL
+              )
+            ],
+            metadata: Cerbos::Output::PlanResources::Metadata.new(
+              condition_string: '(eq request.resource.attr.owner "me@example.com")',
+              matched_scope: "",
+              matched_scopes: {"edit" => "test"}
+            )
+          ))
+        end
       end
     end
 

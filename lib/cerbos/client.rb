@@ -206,7 +206,8 @@ module Cerbos
     #
     # @param principal [Input::Principal, Hash] the principal for whom to plan.
     # @param resource [Input::ResourceQuery, Hash] partial details of the resources for which to plan.
-    # @param action [String] the action for which to plan.
+    # @param action [String] deprecated (use `actions` instead).
+    # @param actions [Array<String>] the actions for which to plan (requires a policy decision point server running Cerbos v0.44+).
     # @param aux_data [Input::AuxData, Hash, nil] auxiliary data.
     # @param include_metadata [Boolean] `true` to include additional metadata ({Output::CheckResources::Result::Metadata}) in the results.
     # @param request_id [String] identifier for tracing the request.
@@ -218,17 +219,18 @@ module Cerbos
     #   plan = client.plan_resources(
     #     principal: {id: "user@example.com", roles: ["USER"]},
     #     resource: {kind: "document"},
-    #     action: "view"
+    #     actions: ["view"]
     #   )
     #
     #   plan.conditional? # => true
     #   plan.condition # => #<Cerbos::Output::PlanResources::Expression ...>
-    def plan_resources(principal:, resource:, action:, aux_data: nil, include_metadata: false, request_id: SecureRandom.uuid, grpc_metadata: {})
+    def plan_resources(principal:, resource:, action: "", actions: [], aux_data: nil, include_metadata: false, request_id: SecureRandom.uuid, grpc_metadata: {})
       handle_errors do
         request = Protobuf::Cerbos::Request::V1::PlanResourcesRequest.new(
           principal: Input.coerce_required(principal, Input::Principal).to_protobuf,
           resource: Input.coerce_required(resource, Input::ResourceQuery).to_protobuf,
           action: action,
+          actions: actions,
           aux_data: Input.coerce_optional(aux_data, Input::AuxData)&.to_protobuf,
           include_meta: include_metadata,
           request_id: request_id

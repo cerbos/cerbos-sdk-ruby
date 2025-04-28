@@ -129,7 +129,7 @@ module Cerbos
     end
 
     # Additional information about the query plan.
-    PlanResources::Metadata = Output.new_class(:condition_string, :matched_scope) do
+    PlanResources::Metadata = Output.new_class(:condition_string, :matched_scope, :matched_scopes) do
       # @!attribute [r] condition_string
       #   The query condition abstract syntax tree rendered as a human-readable string, to help with debugging.
       #
@@ -142,12 +142,20 @@ module Cerbos
       #
       #   @see https://docs.cerbos.dev/cerbos/latest/policies/scoped_policies.html Scoped policies
 
+      # @!attribute [r] matched_scopes
+      #   The policy scopes that were used to plan the query for each action.
+      #
+      #   @return [Hash{String => String}]
+      #
+      #   @see https://docs.cerbos.dev/cerbos/latest/policies/scoped_policies.html Scoped policies
+
       def self.from_protobuf(meta)
         return nil if meta.nil?
 
         new(
           condition_string: meta.filter_debug,
-          matched_scope: meta.matched_scope
+          matched_scope: meta.matched_scope,
+          matched_scopes: meta.matched_scopes
         )
       end
     end
