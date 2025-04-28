@@ -1,5 +1,11 @@
 ## [Unreleased]
 
+### Added
+
+- Support for multiple actions in `Cerbos::Client#plan_resources` ([#239](https://github.com/cerbos/cerbos-sdk-ruby/pull/239))
+
+  Requires a policy decision point server running Cerbos 0.44+.
+
 ### Removed
 
 - Support for Ruby 3.1 ([#234](https://github.com/cerbos/cerbos-sdk-ruby/pull/234))

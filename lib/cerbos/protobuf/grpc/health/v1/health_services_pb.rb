@@ -44,9 +44,19 @@ module Cerbos::Protobuf::Grpc
           #
           # Clients should set a deadline when calling Check, and can declare the
           # server unhealthy if they do not receive a timely response.
-          #
-          # Check implementations should be idempotent and side effect free.
           rpc :Check, ::Cerbos::Protobuf::Grpc::Health::V1::HealthCheckRequest, ::Cerbos::Protobuf::Grpc::Health::V1::HealthCheckResponse
+          # List provides a non-atomic snapshot of the health of all the available
+          # services.
+          #
+          # The server may respond with a RESOURCE_EXHAUSTED error if too many services
+          # exist.
+          #
+          # Clients should set a deadline when calling List, and can declare the server
+          # unhealthy if they do not receive a timely response.
+          #
+          # Clients should keep in mind that the list of health services exposed by an
+          # application can change over the lifetime of the process.
+          rpc :List, ::Cerbos::Protobuf::Grpc::Health::V1::HealthListRequest, ::Cerbos::Protobuf::Grpc::Health::V1::HealthListResponse
           # Performs a watch for the serving status of the requested service.
           # The server will immediately send back a message indicating the current
           # serving status.  It will then subsequently send a new message whenever
