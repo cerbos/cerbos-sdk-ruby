@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+No notable changes.
+
+## [0.11.0] - 2025-06-03
+
 ### Added
 
 - Support for multiple actions in `Cerbos::Client#plan_resources` ([#239](https://github.com/cerbos/cerbos-sdk-ruby/pull/239))
@@ -109,7 +113,8 @@
 
 - Initial implementation of `Cerbos::Client` ([#2](https://github.com/cerbos/cerbos-sdk-ruby/pull/2))
 
-[Unreleased]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.10.0...HEAD
+[Unreleased]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.11.0...HEAD
+[0.11.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.9.1...v0.10.0
 [0.9.1]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.9.0...v0.9.1
 [0.9.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.8.0...v0.9.0
