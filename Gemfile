@@ -6,14 +6,17 @@ source "https://rubygems.org"
 
 gemspec
 
-gem "commonmarker", "< 1.0"
+gem "commonmarker", "< 1.0" # https://github.com/lsegal/yard/issues/1528
+gem "dotenv"
 gem "jwt"
 gem "openssl"
 gem "pry"
 gem "rake"
+gem "reline"
 gem "rspec"
 gem "rubocop-rake"
 gem "rubocop-rspec"
+gem "rubyzip"
 gem "standard"
 gem "webrick"
 gem "yard"
