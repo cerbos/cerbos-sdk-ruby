@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     cerbos (0.11.0)
+      concurrent-ruby (~> 1.2)
       google-protobuf (>= 3.21.12, < 5.0)
       grpc (~> 1.52)
 
@@ -13,7 +14,9 @@ GEM
     bigdecimal (3.2.2)
     coderay (1.1.3)
     commonmarker (0.23.11)
+    concurrent-ruby (1.3.5)
     diff-lcs (1.6.2)
+    dotenv (3.1.8)
     google-protobuf (4.31.1-arm64-darwin)
       bigdecimal
       rake (>= 13)
@@ -28,6 +31,7 @@ GEM
     grpc (1.73.0-x86_64-linux)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
+    io-console (0.8.1)
     json (2.12.2)
     jwt (3.1.2)
       base64
@@ -47,6 +51,8 @@ GEM
     rainbow (3.1.1)
     rake (13.3.0)
     regexp_parser (2.10.0)
+    reline (0.6.2)
+      io-console (~> 0.5)
     rspec (3.13.1)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)
@@ -85,6 +91,7 @@ GEM
       lint_roller (~> 1.1)
       rubocop (~> 1.72, >= 1.72.1)
     ruby-progressbar (1.13.0)
+    rubyzip (3.0.0)
     standard (1.50.0)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.0)
@@ -110,16 +117,19 @@ PLATFORMS
 DEPENDENCIES
   cerbos!
   commonmarker (< 1.0)
+  dotenv
   jwt
   openssl
   pry
   rake
+  reline
   rspec
   rubocop-rake
   rubocop-rspec
+  rubyzip
   standard
   webrick
   yard
 
 BUNDLED WITH
-   2.6.9
+   2.7.1

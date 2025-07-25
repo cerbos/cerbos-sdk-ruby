@@ -42,6 +42,10 @@ namespace :test do
       Tasks::Test::Servers.stop
     end
   end
+
+  RSpec::Core::RakeTask.new :hub do |task|
+    task.rspec_opts = "--tag hub"
+  end
 end
 
 RSpec::Core::RakeTask.new test: ["test:servers:export_policies_version", "test:servers:export_ports"]

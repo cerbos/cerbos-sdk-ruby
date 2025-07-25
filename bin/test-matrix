@@ -69,19 +69,26 @@ cerbos_versions.all.push "#{cerbos_versions.latest.bump}.0-prerelease"
 dependencies_versions = Gem::Specification.load("cerbos.gemspec").dependencies.map { |dependency| [dependency.name, resolve_dependency_versions(dependency)] }.to_h
 
 matrix = {
-  include: [
-    *cerbos_versions.all.map { |cerbos_version|
-      {title: "Cerbos #{cerbos_version}", cerbos: cerbos_version, ruby: ruby_versions.latest}
-    },
-    *ruby_versions.all_except_latest.map { |ruby_version|
-      {title: "Ruby #{ruby_version}", cerbos: cerbos_versions.latest, ruby: ruby_version}
-    },
-    *dependencies_versions.flat_map { |dependency_name, dependency_versions|
-      dependency_versions.all_except_latest.map { |dependency_version|
-        {title: "#{dependency_name} #{dependency_version}", cerbos: cerbos_versions.latest, ruby: ruby_versions.oldest, dependency_name: dependency_name, dependency_version: dependency_version}
+  parallel: {
+    include: [
+      *cerbos_versions.all.map { |cerbos_version|
+        {title: "Cerbos #{cerbos_version}", cerbos: cerbos_version, ruby: ruby_versions.latest}
+      },
+      *ruby_versions.all_except_latest.map { |ruby_version|
+        {title: "Ruby #{ruby_version}", cerbos: cerbos_versions.latest, ruby: ruby_version}
+      },
+      *dependencies_versions.flat_map { |dependency_name, dependency_versions|
+        dependency_versions.all_except_latest.map { |dependency_version|
+          {title: "#{dependency_name} #{dependency_version}", cerbos: cerbos_versions.latest, ruby: ruby_versions.oldest, dependency_name: dependency_name, dependency_version: dependency_version}
+        }
       }
+    ].map { |entry| entry.merge(setup: "bin/rake test:servers:start", test: "bin/rake test") }
+  },
+  serial: {
+    include: ruby_versions.all.map { |ruby_version|
+      {title: "Hub | Ruby #{ruby_version}", ruby: ruby_version, test: "bin/rake test:hub"}
     }
-  ]
+  }
 }
 
 puts JSON.pretty_generate(matrix)
