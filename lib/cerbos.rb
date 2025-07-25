@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require "concurrent/atomic/atomic_fixnum"
+require "concurrent/atomic/atomic_reference"
+require "concurrent/atomic/read_write_lock"
 require "google/protobuf"
 require "google/protobuf/well_known_types"
 require "grpc"
@@ -23,11 +26,14 @@ module Cerbos
   end
 end
 
+require_relative "cerbos/abstract_class"
+require_relative "cerbos/protobuf"
+require_relative "cerbos/service"
 require_relative "cerbos/client"
 require_relative "cerbos/input"
 require_relative "cerbos/error"
 require_relative "cerbos/output"
-require_relative "cerbos/protobuf"
+require_relative "cerbos/hub"
 require_relative "cerbos/tls"
 require_relative "cerbos/mutual_tls"
 require_relative "cerbos/version"
