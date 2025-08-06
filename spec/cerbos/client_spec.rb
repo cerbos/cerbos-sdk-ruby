@@ -3,7 +3,7 @@
 require_relative "stub_server"
 
 RSpec.describe Cerbos::Client do
-  subject(:client) { described_class.new(target, grpc_metadata: grpc_metadata, on_validation_error: on_validation_error, tls: tls) }
+  subject(:client) { described_class.new(target, grpc_metadata:, on_validation_error:, tls:) }
 
   let(:target) { "#{host}:#{port}" }
   let(:host) { "localhost" }
@@ -735,7 +735,7 @@ RSpec.describe Cerbos::Client do
 
   describe "gRPC metadata" do
     let(:server) { StubServer.new }
-    let(:service) { server.service }
+    let(:service) { server.cerbos_service }
     let(:port) { server.port }
     let(:tls) { false }
     let(:grpc_metadata) { {foo: "42"} }

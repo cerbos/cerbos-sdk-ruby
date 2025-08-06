@@ -7,9 +7,10 @@ module Cerbos
     def self.coerce_required(value, to_class)
       raise ArgumentError, "Value is required" if value.nil?
       return value if value.is_a?(to_class)
+      return to_class.from_h(**value) if to_class.respond_to?(:from_h)
 
       to_class.new(**value)
-    rescue ArgumentError, TypeError => error
+    rescue ArgumentError, NoMatchingPatternError, TypeError => error
       raise Error::InvalidArgument.new(details: "Failed to create #{to_class.name} from #{value.inspect}: #{error}")
     end
 

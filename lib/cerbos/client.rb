@@ -39,32 +39,31 @@ module Cerbos
     # @example Invoke a callback when input fails schema validation
     #   client = Cerbos::Client.new("localhost:3593", tls: false, on_validation_error: ->(validation_errors) { do_something_with validation_errors })
     def initialize(target, tls:, grpc_channel_args: {}, grpc_metadata: {}, on_validation_error: :return, playground_instance: nil, timeout: nil)
-      @grpc_metadata = grpc_metadata.transform_keys(&:to_sym)
       @on_validation_error = on_validation_error
 
-      handle_errors do
+      Error.handle do
         credentials = tls ? tls.to_channel_credentials : :this_channel_is_insecure
 
         unless playground_instance.nil?
           credentials = credentials.compose(GRPC::Core::CallCredentials.new(->(*) { {"playground-instance" => playground_instance} }))
         end
 
-        channel_args = grpc_channel_args.merge({
-          "grpc.primary_user_agent" => [grpc_channel_args["grpc.primary_user_agent"], "cerbos-sdk-ruby/#{VERSION}"].compact.join(" ")
-        })
-
-        @cerbos_service = Protobuf::Cerbos::Svc::V1::CerbosService::Stub.new(
-          target,
-          credentials,
-          channel_args: channel_args,
-          timeout: timeout
+        @cerbos_service = Service.new(
+          stub: Protobuf::Cerbos::Svc::V1::CerbosService::Stub,
+          target:,
+          credentials:,
+          grpc_channel_args:,
+          grpc_metadata:,
+          timeout:
         )
 
-        @health_service = Protobuf::Grpc::Health::V1::Health::Stub.new(
-          target,
-          credentials,
-          channel_args: channel_args,
-          timeout: timeout
+        @health_service = Service.new(
+          stub: Protobuf::Grpc::Health::V1::Health::Stub,
+          target:,
+          credentials:,
+          grpc_channel_args:,
+          grpc_metadata:,
+          timeout:
         )
       end
     end
@@ -111,10 +110,10 @@ module Cerbos
     #   admin_api = client.check_health(service: "cerbos.svc.v1.CerbosAdminService")
     #   admin_api.status # => :DISABLED
     def check_health(service: "cerbos.svc.v1.CerbosService", grpc_metadata: {})
-      handle_errors do
+      Error.handle do
         request = Protobuf::Grpc::Health::V1::HealthCheckRequest.new(service: service)
 
-        response = perform_request(@health_service, :check, request, grpc_metadata)
+        response = @health_service.call(:check, request, grpc_metadata)
 
         Output::HealthCheck.from_protobuf(response)
       end
@@ -145,7 +144,7 @@ module Cerbos
     #
     #   decision.allow?("view") # => true
     def check_resource(principal:, resource:, actions:, aux_data: nil, include_metadata: false, request_id: SecureRandom.uuid, grpc_metadata: {})
-      handle_errors do
+      Error.handle do
         check_resources(
           principal: principal,
           resources: [Input::ResourceCheck.new(resource: resource, actions: actions)],
@@ -185,7 +184,7 @@ module Cerbos
     #
     #   decision.allow?(resource: {kind: "document", id: "1"}, action: "view") # => true
     def check_resources(principal:, resources:, aux_data: nil, include_metadata: false, request_id: SecureRandom.uuid, grpc_metadata: {})
-      handle_errors do
+      Error.handle do
         request = Protobuf::Cerbos::Request::V1::CheckResourcesRequest.new(
           principal: Input.coerce_required(principal, Input::Principal).to_protobuf,
           resources: Input.coerce_array(resources, Input::ResourceCheck).map(&:to_protobuf),
@@ -194,7 +193,7 @@ module Cerbos
           request_id: request_id
         )
 
-        response = perform_request(@cerbos_service, :check_resources, request, grpc_metadata)
+        response = @cerbos_service.call(:check_resources, request, grpc_metadata)
 
         Output::CheckResources.from_protobuf(response).tap do |output|
           handle_validation_errors output
@@ -225,7 +224,7 @@ module Cerbos
     #   plan.conditional? # => true
     #   plan.condition # => #<Cerbos::Output::PlanResources::Expression ...>
     def plan_resources(principal:, resource:, action: "", actions: [], aux_data: nil, include_metadata: false, request_id: SecureRandom.uuid, grpc_metadata: {})
-      handle_errors do
+      Error.handle do
         request = Protobuf::Cerbos::Request::V1::PlanResourcesRequest.new(
           principal: Input.coerce_required(principal, Input::Principal).to_protobuf,
           resource: Input.coerce_required(resource, Input::ResourceQuery).to_protobuf,
@@ -236,7 +235,7 @@ module Cerbos
           request_id: request_id
         )
 
-        response = perform_request(@cerbos_service, :plan_resources, request, grpc_metadata)
+        response = @cerbos_service.call(:plan_resources, request, grpc_metadata)
 
         Output::PlanResources.from_protobuf(response).tap do |output|
           handle_validation_errors output
@@ -250,28 +249,16 @@ module Cerbos
     #
     # @return [Output::ServerInfo]
     def server_info(grpc_metadata: {})
-      handle_errors do
+      Error.handle do
         request = Protobuf::Cerbos::Request::V1::ServerInfoRequest.new
 
-        response = perform_request(@cerbos_service, :server_info, request, grpc_metadata)
+        response = @cerbos_service.call(:server_info, request, grpc_metadata)
 
         Output::ServerInfo.from_protobuf(response)
       end
     end
 
     private
-
-    def handle_errors
-      yield
-    rescue Error
-      raise
-    rescue ArgumentError, TypeError => error
-      raise Error::InvalidArgument.new(details: error.message)
-    rescue GRPC::BadStatus => error
-      raise Error::NotOK.from_grpc_bad_status(error)
-    rescue => error
-      raise Error, error.message
-    end
 
     def handle_validation_errors(output)
       return if @on_validation_error == :return
@@ -282,10 +269,6 @@ module Cerbos
       raise Error::ValidationFailed.new(validation_errors) if @on_validation_error == :raise
 
       @on_validation_error.call validation_errors
-    end
-
-    def perform_request(service, rpc, request, metadata)
-      service.public_send(rpc, request, metadata: @grpc_metadata.merge(metadata.transform_keys(&:to_sym)))
     end
   end
 end

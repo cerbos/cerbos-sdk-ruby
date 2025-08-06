@@ -7,7 +7,7 @@ require 'google/protobuf'
 
 descriptor_data = "\n\x1d\x63\x65rbos/schema/v1/schema.proto\x12\x10\x63\x65rbos.schema.v1\"\xce\x01\n\x0fValidationError\x12\x12\n\x04path\x18\x01 \x01(\tR\x04path\x12\x18\n\x07message\x18\x02 \x01(\tR\x07message\x12@\n\x06source\x18\x03 \x01(\x0e\x32(.cerbos.schema.v1.ValidationError.SourceR\x06source\"K\n\x06Source\x12\x16\n\x12SOURCE_UNSPECIFIED\x10\x00\x12\x14\n\x10SOURCE_PRINCIPAL\x10\x01\x12\x13\n\x0fSOURCE_RESOURCE\x10\x02\x42o\n\x18\x64\x65v.cerbos.api.v1.schemaZ<github.com/cerbos/cerbos/api/genpb/cerbos/schema/v1;schemav1\xaa\x02\x14\x43\x65rbos.Api.V1.Schemab\x06proto3"
 
-pool = Google::Protobuf::DescriptorPool.generated_pool
+pool = ::Google::Protobuf::DescriptorPool.generated_pool
 pool.add_serialized_file(descriptor_data)
 
 module Cerbos::Protobuf::Cerbos

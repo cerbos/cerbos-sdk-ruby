@@ -42,6 +42,10 @@ namespace :test do
       Tasks::Test::Servers.stop
     end
   end
+
+  RSpec::Core::RakeTask.new :hub do |task|
+    task.rspec_opts = "--tag hub"
+  end
 end
 
 RSpec::Core::RakeTask.new test: ["test:servers:export_policies_version", "test:servers:export_ports"]
@@ -59,6 +63,11 @@ YARD::Rake::YardocTask.new :docs do |task|
 end
 
 namespace :docs do
+  desc "Check for broken links"
+  task :check_links do
+    sh "bin/check-links"
+  end
+
   desc "Run documentation server"
   task :server do
     exec "bin/yard", "server", "--reload"
