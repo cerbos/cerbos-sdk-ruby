@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+No notable changes.
+
+## [0.12.0] - 2025-08-12
+
 ### Added
 
 - `Cerbos::Hub::Stores::Client` for interacting with policy stores in Cerbos Hub ([#251](https://github.com/cerbos/cerbos-sdk-ruby/pull/251))
@@ -115,7 +119,8 @@
 
 - Initial implementation of `Cerbos::Client` ([#2](https://github.com/cerbos/cerbos-sdk-ruby/pull/2))
 
-[Unreleased]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.11.0...HEAD
+[Unreleased]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.12.0...HEAD
+[0.12.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.9.1...v0.10.0
 [0.9.1]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.9.0...v0.9.1

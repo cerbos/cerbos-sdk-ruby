@@ -5,7 +5,7 @@ set -o pipefail
 
 excludes=(--exclude https://www.rubydoc.info/gems/cerbos) # https://github.com/docmeta/rubydoc.info/issues/209
 if [[ "${GITHUB_HEAD_REF:-}" = prepare-release-* ]]; then
-  excludes=(--exclude https://github.com/cerbos/cerbos-sdk-ruby/compare/)
+  excludes+=(--exclude https://github.com/cerbos/cerbos-sdk-ruby/compare/)
 fi
 
 docker run \
