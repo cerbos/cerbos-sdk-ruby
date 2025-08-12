@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -34,7 +34,7 @@ jobs:
       matrix: ${{ steps.test-matrix.outputs.matrix }}
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - id: test-matrix
         name: Generate test matrix
@@ -57,7 +57,7 @@ jobs:
       matrix: ${{ fromJSON(needs.test-matrix.outputs.matrix) }}
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
