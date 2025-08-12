@@ -2,7 +2,7 @@
 
 module CerbosOutputNewClassHandler
   def process
-    if statement[1].call? && statement[1][0][0] == s(:const, "Output") && statement[1][2] == s(:ident, "new_class")
+    if statement[1].call? && receivers.include?(statement[1][0]) && statement[1][2] == s(:ident, "new_class")
       process_output_new_class(statement)
     else
       super
@@ -10,6 +10,13 @@ module CerbosOutputNewClassHandler
   end
 
   private
+
+  def receivers
+    @receivers ||= Set[
+      s(:const_path_ref, s(:var_ref, s(:const, "Cerbos")), s(:const, "Output")),
+      s(:var_ref, s(:const, "Output"))
+    ].freeze
+  end
 
   def process_output_new_class(statement)
     proxy = P(namespace, statement[0].source)
