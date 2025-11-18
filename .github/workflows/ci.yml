@@ -44,6 +44,7 @@ jobs:
         run: bin/test-matrix
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          TEST_CERBOS_HUB: ${{ secrets.CERBOS_HUB_API_ENDPOINT != '' }}
 
   test-parallel:
     name: Test (${{ matrix.title }})
@@ -88,9 +89,9 @@ jobs:
         run: ${{ matrix.test }}
 
   test-serial:
+    if: fromJSON(needs.test-matrix.outputs.matrix).serial.enabled
     name: Test (${{ matrix.title }})
     runs-on: ubuntu-latest
-    continue-on-error: ${{ github.event_name != 'schedule' && endsWith(matrix.cerbos, '-prerelease') }}
     env:
       CERBOS_HUB_API_ENDPOINT: ${{ secrets.CERBOS_HUB_API_ENDPOINT }}
       CERBOS_HUB_STORE_ID: ${{ secrets.CERBOS_HUB_STORE_ID }}
@@ -102,7 +103,7 @@ jobs:
       - test-matrix
     strategy:
       fail-fast: false
-      matrix: ${{ fromJSON(needs.test-matrix.outputs.matrix).serial }}
+      matrix: ${{ fromJSON(needs.test-matrix.outputs.matrix).serial.matrix }}
       max-parallel: 1
     steps:
       - name: Check out code
@@ -144,4 +145,4 @@ jobs:
       - name: Check test results
         run: |-
           test "${{ needs.test-parallel.result }}" = "success"
-          test "${{ needs.test-serial.result }}" = "success"
+          test "${{ needs.test-serial.result }}" = "success" || test "${{ needs.test-serial.result }}" = "skipped"
