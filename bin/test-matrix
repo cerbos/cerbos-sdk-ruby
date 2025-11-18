@@ -85,8 +85,11 @@ matrix = {
     ].map { |entry| entry.merge({setup: "bin/rake test:servers:start", test: "bin/rake test"}) }
   },
   serial: {
-    include: ruby_versions.all.map { |ruby_version|
-      {title: "Hub | Ruby #{ruby_version}", ruby: ruby_version, test: "bin/rake test:hub"}
+    enabled: ENV.fetch("TEST_CERBOS_HUB") == "true",
+    matrix: {
+      include: ruby_versions.all.map { |ruby_version|
+        {title: "Hub | Ruby #{ruby_version}", ruby: ruby_version, test: "bin/rake test:hub"}
+      }
     }
   }
 }
