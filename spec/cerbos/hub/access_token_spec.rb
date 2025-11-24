@@ -59,14 +59,12 @@ RSpec.describe Cerbos::Hub::AccessToken do
     context "when token is about to expire" do
       let(:responses) { [success, success] }
 
-      current_time = 0
+      it "refreshes" do
+        current_time = 0
 
-      before do
         allow(Process).to receive(:clock_gettime).and_call_original
         allow(Process).to receive(:clock_gettime).with(Process::CLOCK_MONOTONIC) { current_time }
-      end
 
-      it "refreshes" do
         expect(access_token.fetch).to eq(token)
 
         current_time = expires_in - 300.001
@@ -84,14 +82,12 @@ RSpec.describe Cerbos::Hub::AccessToken do
     context "when errors occur" do
       let(:responses) { [GRPC::Unavailable.new, GRPC::Aborted.new, success] }
 
-      current_time = 0
+      it "backs off" do
+        current_time = 0
 
-      before do
         allow(Process).to receive(:clock_gettime).and_call_original
         allow(Process).to receive(:clock_gettime).with(Process::CLOCK_MONOTONIC) { current_time }
-      end
 
-      it "backs off" do
         cause = nil
         expect { access_token.fetch }.to raise_error { |error|
           expect(error).to be_a(Cerbos::Error::Unavailable)
