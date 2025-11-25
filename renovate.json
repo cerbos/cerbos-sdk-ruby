@@ -4,6 +4,7 @@
     ":dependencyDashboard",
     ":gitSignOff",
     ":prConcurrentLimitNone",
+    "helpers:pinGitHubActionDigests",
     "schedule:weekly"
   ],
   "configMigration": true,
