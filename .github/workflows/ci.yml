@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@8aeb6ff8030dd539317f8e1769a044873b56ea71 # v1.268.0
         with:
           bundler-cache: true
 
@@ -37,7 +37,7 @@ jobs:
       matrix: ${{ steps.test-matrix.outputs.matrix }}
     steps:
       - name: Check out code
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
 
       - id: test-matrix
         name: Generate test matrix
@@ -61,10 +61,10 @@ jobs:
       matrix: ${{ fromJSON(needs.test-matrix.outputs.matrix).parallel }}
     steps:
       - name: Check out code
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@8aeb6ff8030dd539317f8e1769a044873b56ea71 # v1.268.0
         with:
           ruby-version: ${{ matrix.ruby }}
 
@@ -73,7 +73,7 @@ jobs:
         run: bin/bundle lock --update ${{ matrix.dependency_name }}
 
       - name: Install gems
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@8aeb6ff8030dd539317f8e1769a044873b56ea71 # v1.268.0
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
@@ -107,10 +107,10 @@ jobs:
       max-parallel: 1
     steps:
       - name: Check out code
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@8aeb6ff8030dd539317f8e1769a044873b56ea71 # v1.268.0
         with:
           ruby-version: ${{ matrix.ruby }}
 
@@ -119,7 +119,7 @@ jobs:
         run: bin/bundle lock --update ${{ matrix.dependency_name }}
 
       - name: Install gems
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@8aeb6ff8030dd539317f8e1769a044873b56ea71 # v1.268.0
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
