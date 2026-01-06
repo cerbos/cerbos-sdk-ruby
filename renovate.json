@@ -1,18 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    ":dependencyDashboard",
-    ":gitSignOff",
-    ":prConcurrentLimitNone",
-    ":semanticCommitsDisabled",
-    "helpers:pinGitHubActionDigests",
-    "schedule:weekly"
-  ],
-  "configMigration": true,
+  "extends": ["github>cerbos/renovate"],
   "reviewers": ["haines"],
-  "lockFileMaintenance": {
-    "enabled": true
-  },
   "packageRules": [
     {
       "matchUpdateTypes": ["*"],

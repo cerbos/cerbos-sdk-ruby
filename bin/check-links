@@ -14,7 +14,7 @@ docker run \
   --env GITHUB_TOKEN \
   --mount "type=bind,source=${PWD},target=/input" \
   --workdir /input \
-  lycheeverse/lychee:latest-alpine \
+  lycheeverse/lychee:0.22.0-alpine \
   "${excludes[@]}" \
   --exclude-path vendor/bundle \
   --include-fragments \
