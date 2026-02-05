@@ -23,15 +23,8 @@ def resolve_dependency_versions(dependency)
   Versions.new(tuples.map { |tuple, _source| tuple.version.segments.first(2).join(".") }.uniq)
 end
 
-def matrix_entries(vary, *latest, include_latest: false)
-  vary_versions = vary.all
-  vary_versions -= [vary.latest] unless include_latest
-
-  vary_versions.map { |version| {"title" => "#{vary.name} #{version}", vary.name.downcase => version}.merge(latest.map { |versions| [versions.name.downcase, versions.latest] }.to_h) }
-end
-
 # We support non-end-of-life Ruby versions: https://www.ruby-lang.org/en/downloads/branches/
-ruby_versions = Versions.new(["3.2", "3.3", "3.4"])
+ruby_versions = Versions.new(["3.2", "3.3", "3.4", "4.0"])
 
 minimum_cerbos_version = Gem::Version.new("0.16.0")
 available_cerbos_versions = []
