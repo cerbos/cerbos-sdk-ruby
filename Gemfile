@@ -6,7 +6,6 @@ source "https://rubygems.org"
 
 gemspec
 
-gem "commonmarker", "< 1.0" # https://github.com/lsegal/yard/issues/1528
 gem "dotenv"
 gem "jwt"
 gem "openssl"
@@ -18,8 +17,12 @@ gem "rubocop-rake"
 gem "rubocop-rspec"
 gem "rubyzip"
 gem "standard"
-gem "webrick"
-gem "yard"
+
+group :docs do
+  gem "commonmarker", "< 1.0" # https://github.com/lsegal/yard/issues/1528
+  gem "webrick"
+  gem "yard"
+end
 
 dependency_name = ENV.fetch("TEST_MATRIX_DEPENDENCY_NAME", "")
 dependency_version = ENV.fetch("TEST_MATRIX_DEPENDENCY_VERSION", "")

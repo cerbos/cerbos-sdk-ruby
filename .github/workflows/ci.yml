@@ -51,6 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: ${{ github.event_name != 'schedule' && endsWith(matrix.cerbos, '-prerelease') }}
     env:
+      BUNDLE_WITHOUT: docs
       CERBOS_VERSION: ${{ matrix.cerbos }}
       TEST_MATRIX_DEPENDENCY_NAME: ${{ matrix.dependency_name }}
       TEST_MATRIX_DEPENDENCY_VERSION: ${{ matrix.dependency_version }}
@@ -93,6 +94,7 @@ jobs:
     name: Test (${{ matrix.title }})
     runs-on: ubuntu-latest
     env:
+      BUNDLE_WITHOUT: docs
       CERBOS_HUB_API_ENDPOINT: ${{ secrets.CERBOS_HUB_API_ENDPOINT }}
       CERBOS_HUB_STORE_ID: ${{ secrets.CERBOS_HUB_STORE_ID }}
       CERBOS_HUB_STORES_CLIENT_ID: ${{ secrets.CERBOS_HUB_STORES_CLIENT_ID }}

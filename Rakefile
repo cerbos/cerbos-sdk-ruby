@@ -3,7 +3,6 @@
 require "bundler/gem_tasks"
 require "rspec/core/rake_task"
 require "rubocop/rake_task"
-require "yard"
 
 require_relative "tasks/generate"
 require_relative "tasks/test/servers"
@@ -50,16 +49,22 @@ end
 
 RSpec::Core::RakeTask.new test: ["test:servers:export_policies_version", "test:servers:export_ports"]
 
-desc "Generate documentation"
-YARD::Rake::YardocTask.new :docs do |task|
-  task.options = ["--fail-on-warning", "--no-stats"]
+begin
+  require "yard"
 
-  task.after = lambda do
-    stats = YARD::CLI::Stats.new(false)
-    stats.run "--compact", "--list-undoc"
-    undocumented = stats.instance_variable_get(:@undocumented)
-    abort "\nFound #{undocumented} undocumented objects" unless undocumented.zero?
+  desc "Generate documentation"
+  YARD::Rake::YardocTask.new :docs do |task|
+    task.options = ["--fail-on-warning", "--no-stats"]
+
+    task.after = lambda do
+      stats = YARD::CLI::Stats.new(false)
+      stats.run "--compact", "--list-undoc"
+      undocumented = stats.instance_variable_get(:@undocumented)
+      abort "\nFound #{undocumented} undocumented objects" unless undocumented.zero?
+    end
   end
+rescue LoadError
+  # Bundle installed without docs group
 end
 
 namespace :docs do
