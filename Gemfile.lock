@@ -17,64 +17,64 @@ GEM
     concurrent-ruby (1.3.6)
     diff-lcs (1.6.2)
     dotenv (3.2.0)
-    google-protobuf (4.34.0.rc.1)
+    google-protobuf (4.34.0.rc.2)
       bigdecimal
-      rake (>= 13)
-    google-protobuf (4.34.0.rc.1-aarch64-linux-gnu)
+      rake (~> 13.3)
+    google-protobuf (4.34.0.rc.2-aarch64-linux-gnu)
       bigdecimal
-      rake (>= 13)
-    google-protobuf (4.34.0.rc.1-aarch64-linux-musl)
+      rake (~> 13.3)
+    google-protobuf (4.34.0.rc.2-aarch64-linux-musl)
       bigdecimal
-      rake (>= 13)
-    google-protobuf (4.34.0.rc.1-arm64-darwin)
+      rake (~> 13.3)
+    google-protobuf (4.34.0.rc.2-arm64-darwin)
       bigdecimal
-      rake (>= 13)
-    google-protobuf (4.34.0.rc.1-x86-linux-gnu)
+      rake (~> 13.3)
+    google-protobuf (4.34.0.rc.2-x86-linux-gnu)
       bigdecimal
-      rake (>= 13)
-    google-protobuf (4.34.0.rc.1-x86-linux-musl)
+      rake (~> 13.3)
+    google-protobuf (4.34.0.rc.2-x86-linux-musl)
       bigdecimal
-      rake (>= 13)
-    google-protobuf (4.34.0.rc.1-x86_64-darwin)
+      rake (~> 13.3)
+    google-protobuf (4.34.0.rc.2-x86_64-darwin)
       bigdecimal
-      rake (>= 13)
-    google-protobuf (4.34.0.rc.1-x86_64-linux-gnu)
+      rake (~> 13.3)
+    google-protobuf (4.34.0.rc.2-x86_64-linux-gnu)
       bigdecimal
-      rake (>= 13)
-    google-protobuf (4.34.0.rc.1-x86_64-linux-musl)
+      rake (~> 13.3)
+    google-protobuf (4.34.0.rc.2-x86_64-linux-musl)
       bigdecimal
-      rake (>= 13)
+      rake (~> 13.3)
     googleapis-common-protos-types (1.22.0)
       google-protobuf (~> 4.26)
-    grpc (1.76.0)
+    grpc (1.78.0)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.76.0-aarch64-linux-gnu)
+    grpc (1.78.0-aarch64-linux-gnu)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.76.0-aarch64-linux-musl)
+    grpc (1.78.0-aarch64-linux-musl)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.76.0-arm64-darwin)
+    grpc (1.78.0-arm64-darwin)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.76.0-x86-linux-gnu)
+    grpc (1.78.0-x86-linux-gnu)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.76.0-x86-linux-musl)
+    grpc (1.78.0-x86-linux-musl)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.76.0-x86_64-darwin)
+    grpc (1.78.0-x86_64-darwin)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.76.0-x86_64-linux-gnu)
+    grpc (1.78.0-x86_64-linux-gnu)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.76.0-x86_64-linux-musl)
+    grpc (1.78.0-x86_64-linux-musl)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
     io-console (0.8.2)
-    json (2.18.0)
+    json (2.18.1)
     jwt (3.1.2)
       base64
     language_server-protocol (3.17.0.5)
@@ -191,27 +191,27 @@ CHECKSUMS
   concurrent-ruby (1.3.6) sha256=6b56837e1e7e5292f9864f34b69c5a2cbc75c0cf5338f1ce9903d10fa762d5ab
   diff-lcs (1.6.2) sha256=9ae0d2cba7d4df3075fe8cd8602a8604993efc0dfa934cff568969efb1909962
   dotenv (3.2.0) sha256=e375b83121ea7ca4ce20f214740076129ab8514cd81378161f11c03853fe619d
-  google-protobuf (4.34.0.rc.1) sha256=880950b54f25a5a2cfe24b45eb2d5741a44e393e6247d2e7f498df7aec7ff733
-  google-protobuf (4.34.0.rc.1-aarch64-linux-gnu) sha256=b663745e76c83a692c00897f09a86c6381a9561488abb442df3d05d6894c30df
-  google-protobuf (4.34.0.rc.1-aarch64-linux-musl) sha256=484de03ea9dc355036f256bc48a5ab4534b318d82b0edb0170281dcfb31839f7
-  google-protobuf (4.34.0.rc.1-arm64-darwin) sha256=b633d9f54a9006087096eb107fa926afd379fcc9862282f2061245cae9b5307b
-  google-protobuf (4.34.0.rc.1-x86-linux-gnu) sha256=140164adc3d71ead1f1c413bf55e3fe216bf1e937ab1fffe3b054380c1fd7b66
-  google-protobuf (4.34.0.rc.1-x86-linux-musl) sha256=b8c5d54fb605e690d8fbbceaa4a78eb7d41c365282458c886abfd0a7c2ae65b2
-  google-protobuf (4.34.0.rc.1-x86_64-darwin) sha256=607af949cff82d9ca2d4cda9fba4a460ce708b4572fe26604e77fc56828e3583
-  google-protobuf (4.34.0.rc.1-x86_64-linux-gnu) sha256=eb19742e979830d1fd62e43f83b8360435e038da48aaa6d71d751e79f5675a4a
-  google-protobuf (4.34.0.rc.1-x86_64-linux-musl) sha256=fff019a8e7a9fa63ec131b750d89cc295b23dbb1b256a1eea694c413f3ad5e35
+  google-protobuf (4.34.0.rc.2) sha256=d5258ceb6db65d3a64d0d6ef6dd34ecdf74fe2f0819e776d3165bca04baf5639
+  google-protobuf (4.34.0.rc.2-aarch64-linux-gnu) sha256=ec897d4af48c4784b2c7934717aad3d6fa43bb8f8958b9dbef4d4e17bfff6c33
+  google-protobuf (4.34.0.rc.2-aarch64-linux-musl) sha256=849f781d4b512200d2ff7c7f74022741781d3fbe7dca388279530d47c9d752cb
+  google-protobuf (4.34.0.rc.2-arm64-darwin) sha256=9c83832435ca747f0ce4bb8f5d846b7d2ce16dc87b7cfef1dfd09c76aaf69f44
+  google-protobuf (4.34.0.rc.2-x86-linux-gnu) sha256=b010f3240bb8df7af1be684168674b0213ee22a769f1d7dc567428ad4e1fd13e
+  google-protobuf (4.34.0.rc.2-x86-linux-musl) sha256=fdc7d697f4864c887a76f69322684ae32e7ad05cb700bed9aa7a3b7432d13b65
+  google-protobuf (4.34.0.rc.2-x86_64-darwin) sha256=505e7c88d06939af6a7d71ba0e5f256657f4d57d6de7fa25c9cef2ecf6bd9537
+  google-protobuf (4.34.0.rc.2-x86_64-linux-gnu) sha256=60288e8aee08a2029ae5f79f949bd9f5fbcb0c8cc4387135bd9d58dcc017df6b
+  google-protobuf (4.34.0.rc.2-x86_64-linux-musl) sha256=80fd1166e2c0153ee3ad8f74c8897781828916cceb0785ae2883065bbceff27d
   googleapis-common-protos-types (1.22.0) sha256=f97492b77bd6da0018c860d5004f512fe7cd165554d7019a8f4df6a56fbfc4c7
-  grpc (1.76.0) sha256=112416fa42153aee440fd1b975de4b2bf746656df071bace97c197a6b5575598
-  grpc (1.76.0-aarch64-linux-gnu) sha256=25159422ade5690adc1cbefac0d102395378d5aadf143817611e7bd08de06eff
-  grpc (1.76.0-aarch64-linux-musl) sha256=38ecb67c40ee550723a38d9dfdf676d8d21d81429a5144ce7b78ae896f2e8e53
-  grpc (1.76.0-arm64-darwin) sha256=c23f30c2e6a51bb75d8f617b028453e66e09665d8bf571d99c7be1b1f9dd2b59
-  grpc (1.76.0-x86-linux-gnu) sha256=ccd532d55c23e5e8973d86051092d87ce0754b668d4606d4666e36d5db0c6187
-  grpc (1.76.0-x86-linux-musl) sha256=511a111389d2cbbfef153fa3a0259a535bb87ba231088feb775c9098e19eb7c3
-  grpc (1.76.0-x86_64-darwin) sha256=60a70eb9c0660d6ea2d79aad26c9aac696b34c3ece36200f292f669d16283bec
-  grpc (1.76.0-x86_64-linux-gnu) sha256=1561c852903617acae0a9ef9011bcf313054ba65c5528519b002a9f6b4d5c024
-  grpc (1.76.0-x86_64-linux-musl) sha256=b942a6ae0828e0e696ce26d8b797167314ae7633810c41dd09b45c2176f966cd
+  grpc (1.78.0) sha256=7aaf47b6d7783fb0e7d40fc853d34e802d47aef7b1312862b6e719141b3527c9
+  grpc (1.78.0-aarch64-linux-gnu) sha256=9974f0f2659c818ae77396854a8d51385cb4da51fa436b029d4f280a63b3e895
+  grpc (1.78.0-aarch64-linux-musl) sha256=80b961621c82a37431177709e2788fdbaaf215027ec4eda3d5dcf98f1248da4e
+  grpc (1.78.0-arm64-darwin) sha256=9f85d87cf8acd17e1731942641bf89a9e96ee23334b234fdc95d4d8b28127056
+  grpc (1.78.0-x86-linux-gnu) sha256=7eed04d831596e797e24a9675085cd5f38c0a3b36b5d22b8eb4967583eac5a9e
+  grpc (1.78.0-x86-linux-musl) sha256=5d31a85661dd65c6698c1bf24cf55a5b09473d5ac2a5825f961948e0aa91917a
+  grpc (1.78.0-x86_64-darwin) sha256=ab18fe52d05df47aa2933306c4ef63df60ab5f31a6c06597658daa26fdf0d55e
+  grpc (1.78.0-x86_64-linux-gnu) sha256=6958d0aabc05c63d81dddb56f7c70d981121f6b5099b6690eb640fec5780efb4
+  grpc (1.78.0-x86_64-linux-musl) sha256=d7d5f02e904a25c7ff1a278cca3554dac8f9c82d62902f08192ab9d710c7d5ed
   io-console (0.8.2) sha256=d6e3ae7a7cc7574f4b8893b4fca2162e57a825b223a177b7afa236c5ef9814cc
-  json (2.18.0) sha256=b10506aee4183f5cf49e0efc48073d7b75843ce3782c68dbeb763351c08fd505
+  json (2.18.1) sha256=fe112755501b8d0466b5ada6cf50c8c3f41e897fa128ac5d263ec09eedc9f986
   jwt (3.1.2) sha256=af6991f19a6bb4060d618d9add7a66f0eeb005ac0bc017cd01f63b42e122d535
   language_server-protocol (3.17.0.5) sha256=fd1e39a51a28bf3eec959379985a72e296e9f9acfce46f6a79d31ca8760803cc
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87
