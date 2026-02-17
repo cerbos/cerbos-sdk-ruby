@@ -2,9 +2,9 @@
 
 [![Gem](https://img.shields.io/gem/v/cerbos?style=flat-square)](https://rubygems.org/gems/cerbos)
 &ensp;
-[![Documentation](https://img.shields.io/badge/yard-docs-blue?style=flat-square)](https://www.rubydoc.info/gems/cerbos)
+[![Documentation](https://img.shields.io/badge/yard-docs-blue?style=flat-square)](https://cerbos.github.io/cerbos-sdk-ruby)
 
-[Cerbos](https://cerbos.dev) helps you super-charge your authorization implementation by writing context-aware access control policies for your application resources.
+[Cerbos](https://www.cerbos.dev) helps you super-charge your authorization implementation by writing context-aware access control policies for your application resources.
 Author access rules using an intuitive YAML configuration language, use your Git-ops infrastructure to test and deploy them, and make simple API requests to the Cerbos policy decision point (PDP) server to evaluate the policies and make dynamic access decisions.
 
 The Cerbos Ruby SDK makes it easy to interact with the [Cerbos PDP](https://www.cerbos.dev/product-cerbos-pdp) and [Cerbos Hub](https://www.cerbos.dev/product-cerbos-hub) from your Ruby applications.
@@ -56,7 +56,7 @@ decision.allow?("view") # => true
 decision.allow?("edit") # => false
 ```
 
-For more details, [see the `Cerbos::Client` documentation](https://www.rubydoc.info/gems/cerbos/Cerbos/Client).
+For more details, [see the `Cerbos::Client` documentation](https://cerbos.github.io/cerbos-sdk-ruby/Cerbos/Client.html).
 
 ### Cerbos Hub [policy stores](https://docs.cerbos.dev/cerbos-hub/policy-stores)
 
@@ -79,15 +79,15 @@ response = client.modify_files(
 puts response.new_store_version
 ```
 
-For more details, [see the `Cerbos::Hub::Stores::Client` documentation](https://www.rubydoc.info/gems/cerbos/Cerbos/Hub/Stores/Client).
+For more details, [see the `Cerbos::Hub::Stores::Client` documentation](https://cerbos.github.io/cerbos-sdk-ruby/Cerbos/Hub/Stores/Client.html).
 
 ## Further reading
 
-- [API reference](https://www.rubydoc.info/gems/cerbos/Cerbos)
+- [API reference](https://cerbos.github.io/cerbos-sdk-ruby/Cerbos.html)
 - [Cerbos documentation](https://docs.cerbos.dev)
 - [Cerbos Hub documentation](https://docs.cerbos.dev/cerbos-hub/)
 
 ## Get help
 
-- [Join the Cerbos community on Slack](http://go.cerbos.io/slack)
+- [Join the Cerbos community on Slack](https://go.cerbos.io/slack)
 - [Email us at help@cerbos.dev](mailto:help@cerbos.dev)

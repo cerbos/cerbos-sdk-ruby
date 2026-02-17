@@ -57,6 +57,8 @@ begin
     task.options = ["--fail-on-warning", "--no-stats"]
 
     task.after = lambda do
+      touch "doc/.nojekyll", verbose: false
+
       stats = YARD::CLI::Stats.new(false)
       stats.run "--compact", "--list-undoc"
       undocumented = stats.instance_variable_get(:@undocumented)
