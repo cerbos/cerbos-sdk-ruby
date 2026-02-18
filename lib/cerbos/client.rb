@@ -75,6 +75,7 @@ module Cerbos
     # @param action [String] the action to check.
     # @param aux_data [Input::AuxData, Hash, nil] auxiliary data.
     # @param request_id [String] identifier for tracing the request.
+    # @param request_context [Input::RequestContext, Hash, nil] additional metadata to add to the request (requires a policy decision point server running Cerbos v0.51+).
     # @param grpc_metadata [Hash{String, Symbol => String, Array<String>}] gRPC metadata (a.k.a. HTTP headers) to add to the request.
     #
     # @return [Boolean]
@@ -85,13 +86,14 @@ module Cerbos
     #     resource: {kind: "document", id: "1"},
     #     action: "view"
     #   ) # => true
-    def allow?(principal:, resource:, action:, aux_data: nil, request_id: SecureRandom.uuid, grpc_metadata: {})
+    def allow?(principal:, resource:, action:, aux_data: nil, request_id: SecureRandom.uuid, request_context: nil, grpc_metadata: {})
       check_resource(
         principal: principal,
         resource: resource,
         actions: [action],
         aux_data: aux_data,
         request_id: request_id,
+        request_context: request_context,
         grpc_metadata: grpc_metadata
       ).allow?(action)
     end
@@ -131,6 +133,7 @@ module Cerbos
     # @param aux_data [Input::AuxData, Hash, nil] auxiliary data.
     # @param include_metadata [Boolean] `true` to include additional metadata ({Output::CheckResources::Result::Metadata}) in the results.
     # @param request_id [String] identifier for tracing the request.
+    # @param request_context [Input::RequestContext, Hash, nil] additional metadata to add to the request (requires a policy decision point server running Cerbos v0.51+).
     # @param grpc_metadata [Hash{String, Symbol => String, Array<String>}] gRPC metadata (a.k.a. HTTP headers) to add to the request.
     #
     # @return [Output::CheckResources::Result]
@@ -143,7 +146,7 @@ module Cerbos
     #   )
     #
     #   decision.allow?("view") # => true
-    def check_resource(principal:, resource:, actions:, aux_data: nil, include_metadata: false, request_id: SecureRandom.uuid, grpc_metadata: {})
+    def check_resource(principal:, resource:, actions:, aux_data: nil, include_metadata: false, request_id: SecureRandom.uuid, request_context: nil, grpc_metadata: {})
       Error.handle do
         check_resources(
           principal: principal,
@@ -151,6 +154,7 @@ module Cerbos
           aux_data: aux_data,
           include_metadata: include_metadata,
           request_id: request_id,
+          request_context: request_context,
           grpc_metadata: grpc_metadata
         ).find_result(resource)
       end
@@ -163,6 +167,7 @@ module Cerbos
     # @param aux_data [Input::AuxData, Hash, nil] auxiliary data.
     # @param include_metadata [Boolean] `true` to include additional metadata ({Output::CheckResources::Result::Metadata}) in the results.
     # @param request_id [String] identifier for tracing the request.
+    # @param request_context [Input::RequestContext, Hash, nil] additional metadata to add to the request (requires a policy decision point server running Cerbos v0.51+).
     # @param grpc_metadata [Hash{String, Symbol => String, Array<String>}] gRPC metadata (a.k.a. HTTP headers) to add to the request.
     #
     # @return [Output::CheckResources]
@@ -183,14 +188,15 @@ module Cerbos
     #   )
     #
     #   decision.allow?(resource: {kind: "document", id: "1"}, action: "view") # => true
-    def check_resources(principal:, resources:, aux_data: nil, include_metadata: false, request_id: SecureRandom.uuid, grpc_metadata: {})
+    def check_resources(principal:, resources:, aux_data: nil, include_metadata: false, request_id: SecureRandom.uuid, request_context: nil, grpc_metadata: {})
       Error.handle do
         request = Protobuf::Cerbos::Request::V1::CheckResourcesRequest.new(
           principal: Input.coerce_required(principal, Input::Principal).to_protobuf,
           resources: Input.coerce_array(resources, Input::ResourceCheck).map(&:to_protobuf),
           aux_data: Input.coerce_optional(aux_data, Input::AuxData)&.to_protobuf,
           include_meta: include_metadata,
-          request_id: request_id
+          request_id: request_id,
+          request_context: Input.coerce_optional(request_context, Input::RequestContext)&.to_protobuf
         )
 
         response = @cerbos_service.call(:check_resources, request, grpc_metadata)
@@ -210,6 +216,7 @@ module Cerbos
     # @param aux_data [Input::AuxData, Hash, nil] auxiliary data.
     # @param include_metadata [Boolean] `true` to include additional metadata ({Output::CheckResources::Result::Metadata}) in the results.
     # @param request_id [String] identifier for tracing the request.
+    # @param request_context [Input::RequestContext, Hash, nil] additional metadata to add to the request (requires a policy decision point server running Cerbos v0.51+).
     # @param grpc_metadata [Hash{String, Symbol => String, Array<String>}] gRPC metadata (a.k.a. HTTP headers) to add to the request.
     #
     # @return [Output::PlanResources]
@@ -223,7 +230,7 @@ module Cerbos
     #
     #   plan.conditional? # => true
     #   plan.condition # => #<Cerbos::Output::PlanResources::Expression ...>
-    def plan_resources(principal:, resource:, action: "", actions: [], aux_data: nil, include_metadata: false, request_id: SecureRandom.uuid, grpc_metadata: {})
+    def plan_resources(principal:, resource:, action: "", actions: [], aux_data: nil, include_metadata: false, request_id: SecureRandom.uuid, request_context: nil, grpc_metadata: {})
       Error.handle do
         request = Protobuf::Cerbos::Request::V1::PlanResourcesRequest.new(
           principal: Input.coerce_required(principal, Input::Principal).to_protobuf,
@@ -232,7 +239,8 @@ module Cerbos
           actions: actions,
           aux_data: Input.coerce_optional(aux_data, Input::AuxData)&.to_protobuf,
           include_meta: include_metadata,
-          request_id: request_id
+          request_id: request_id,
+          request_context: Input.coerce_optional(request_context, Input::RequestContext)&.to_protobuf
         )
 
         response = @cerbos_service.call(:plan_resources, request, grpc_metadata)

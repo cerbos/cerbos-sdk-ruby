@@ -1,6 +1,10 @@
 ## [Unreleased]
 
-No notable changes.
+### Added
+
+- `request_context` option to `Cerbos::Client` methods to attach additional metadata to the request for inclusion in audit logs ([#292](https://github.com/cerbos/cerbos-sdk-ruby/pull/292))
+
+  Requires a policy decision point server running Cerbos 0.51+.
 
 ## [0.12.0] - 2025-08-12
 

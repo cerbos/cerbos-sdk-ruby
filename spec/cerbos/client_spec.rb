@@ -42,7 +42,14 @@ RSpec.describe Cerbos::Client do
               token: JWT.encode({delete: true}, nil, "none")
             }
           },
-          request_id: "42"
+          request_id: "42",
+          request_context: cerbos_version_at_least?("0.51.0") ? {
+            annotations: {
+              foo: {
+                bar: "baz"
+              }
+            }
+          } : nil
         )
       end
 
@@ -104,7 +111,14 @@ RSpec.describe Cerbos::Client do
             }
           },
           include_metadata: true,
-          request_id: "42"
+          request_id: "42",
+          request_context: cerbos_version_at_least?("0.51.0") ? {
+            annotations: {
+              foo: {
+                bar: "baz"
+              }
+            }
+          } : nil
         )
       end
 
@@ -219,7 +233,14 @@ RSpec.describe Cerbos::Client do
             }
           },
           include_metadata: true,
-          request_id: "42"
+          request_id: "42",
+          request_context: cerbos_version_at_least?("0.51.0") ? {
+            annotations: {
+              foo: {
+                bar: "baz"
+              }
+            }
+          } : nil
         )
       end
 
@@ -410,7 +431,14 @@ RSpec.describe Cerbos::Client do
               }
             },
             include_metadata: true,
-            request_id: "42"
+            request_id: "42",
+            request_context: cerbos_version_at_least?("0.51.0") ? {
+              annotations: {
+                foo: {
+                  bar: "baz"
+                }
+              }
+            } : nil
           )
         end
 
@@ -479,7 +507,14 @@ RSpec.describe Cerbos::Client do
               }
             },
             include_metadata: true,
-            request_id: "42"
+            request_id: "42",
+            request_context: cerbos_version_at_least?("0.51.0") ? {
+              annotations: {
+                foo: {
+                  bar: "baz"
+                }
+              }
+            } : nil
           )
         end
 
