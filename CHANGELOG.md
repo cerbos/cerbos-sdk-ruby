@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+No notable changes.
+
+## [0.13.0] - 2026-02-18
+
 ### Added
 
 - `request_context` option to `Cerbos::Client` methods to attach additional metadata to the request for inclusion in audit logs ([#292](https://github.com/cerbos/cerbos-sdk-ruby/pull/292))
@@ -127,7 +131,8 @@
 
 - Initial implementation of `Cerbos::Client` ([#2](https://github.com/cerbos/cerbos-sdk-ruby/pull/2))
 
-[Unreleased]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.12.0...HEAD
+[Unreleased]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.13.0...HEAD
+[0.13.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.9.1...v0.10.0

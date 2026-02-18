@@ -2,5 +2,5 @@
 
 module Cerbos
   # Current version of the `cerbos` gem.
-  VERSION = "0.12.0"
+  VERSION = "0.13.0"
 end
