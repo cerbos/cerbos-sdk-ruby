@@ -22,6 +22,7 @@ module Cerbos::Protobuf::Cerbos
             self.service_name = 'cerbos.cloud.store.v1.CerbosStoreService'
 
             rpc :ListFiles, ::Cerbos::Protobuf::Cerbos::Cloud::Store::V1::ListFilesRequest, ::Cerbos::Protobuf::Cerbos::Cloud::Store::V1::ListFilesResponse
+            rpc :GetCurrentVersion, ::Cerbos::Protobuf::Cerbos::Cloud::Store::V1::GetCurrentVersionRequest, ::Cerbos::Protobuf::Cerbos::Cloud::Store::V1::GetCurrentVersionResponse
             rpc :GetFiles, ::Cerbos::Protobuf::Cerbos::Cloud::Store::V1::GetFilesRequest, ::Cerbos::Protobuf::Cerbos::Cloud::Store::V1::GetFilesResponse
             rpc :ModifyFiles, ::Cerbos::Protobuf::Cerbos::Cloud::Store::V1::ModifyFilesRequest, ::Cerbos::Protobuf::Cerbos::Cloud::Store::V1::ModifyFilesResponse
             rpc :ReplaceFiles, ::Cerbos::Protobuf::Cerbos::Cloud::Store::V1::ReplaceFilesRequest, ::Cerbos::Protobuf::Cerbos::Cloud::Store::V1::ReplaceFilesResponse
