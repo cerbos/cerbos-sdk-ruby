@@ -9,6 +9,7 @@ gemspec
 gem "dotenv"
 gem "jwt"
 gem "openssl"
+gem "parallel"
 gem "pry"
 gem "rake"
 gem "reline"

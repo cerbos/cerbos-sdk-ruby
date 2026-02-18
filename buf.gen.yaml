@@ -1,11 +1,7 @@
 version: v2
 
 inputs:
-  - module: buf.build/cerbos/cerbos-api
-    types:
-      - cerbos.svc.v1.CerbosService
-
-  - module: buf.build/cerbos/cloud-api
+  - directory: proto
     types:
       - cerbos.cloud.apikey.v1.ApiKeyService
       - cerbos.cloud.store.v1.CerbosStoreService
@@ -14,9 +10,7 @@ inputs:
       - cerbos.cloud.store.v1.ErrDetailNoUsableFiles
       - cerbos.cloud.store.v1.ErrDetailOperationDiscarded
       - cerbos.cloud.store.v1.ErrDetailValidationFailure
-
-  - module: buf.build/grpc/grpc
-    types:
+      - cerbos.svc.v1.CerbosService
       - grpc.health.v1.Health
 
 plugins:

@@ -5,10 +5,16 @@ require "rspec/core/rake_task"
 require "rubocop/rake_task"
 
 require_relative "tasks/generate"
+require_relative "tasks/protos"
 require_relative "tasks/test/servers"
 
 ENV["CERBOS_VERSION"] ||= "0.16.0"
 ENV["CERBOS_IMAGE_TAG"] ||= ENV["CERBOS_VERSION"].end_with?("-prerelease") ? "dev" : ENV["CERBOS_VERSION"]
+
+desc "Update protos"
+task :protos do
+  Tasks::Protos.call
+end
 
 desc "Generate client code"
 task :generate do
