@@ -22,7 +22,7 @@ gem "standard"
 group :docs do
   gem "commonmarker", "< 1.0" # https://github.com/lsegal/yard/issues/1528
   gem "webrick"
-  gem "yard"
+  gem "yard", "!= 0.9.38" # https://github.com/lsegal/yard/issues/1639
 end
 
 dependency_name = ENV.fetch("TEST_MATRIX_DEPENDENCY_NAME", "")
