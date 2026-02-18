@@ -170,6 +170,7 @@ DEPENDENCIES
   dotenv
   jwt
   openssl
+  parallel
   pry
   rake
   reline

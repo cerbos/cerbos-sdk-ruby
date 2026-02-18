@@ -16,10 +16,18 @@ jobs:
       - name: Check out code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
+      - name: Set up Buf
+        uses: bufbuild/buf-action@8f4a1456a0ab6a1eb80ba68e53832e6fcfacc16c # v1.3.0
+        with:
+          setup_only: true
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd # v1.288.0
         with:
           bundler-cache: true
+
+      - name: Generate code
+        run: bin/rake generate
 
       - name: Lint code
         run: bin/rake lint
@@ -29,6 +37,14 @@ jobs:
 
       - name: Check links
         run: bin/check-links
+
+      - name: Check for uncommitted changes
+        run: |-
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "::error::Uncommitted changes detected"
+            git -c color.ui=always status -vv
+            exit 1
+          fi
 
   test-matrix:
     name: Generate test matrix

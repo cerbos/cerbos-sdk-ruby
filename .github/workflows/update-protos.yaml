@@ -1,0 +1,53 @@
+name: Update protos
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 0 8 * * 1
+
+jobs:
+  update-protos:
+    name: Update protos
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd # v1.288.0
+        with:
+          bundler-cache: true
+
+      - name: Update protos
+        run: bin/rake protos
+
+      - name: Generate code
+        run: bin/rake generate
+
+      - name: Generate bot token
+        uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2.2.1
+        id: generate-token
+        with:
+          app-id: ${{ secrets.CERBOS_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.CERBOS_BOT_PRIVATE_KEY }}
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0 # v8.1.0
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          branch: update-protos
+          delete-branch: true
+          reviewers: haines
+          signoff: true
+          sign-commits: true
+          author: ${{ vars.CERBOS_BOT_AUTHOR }}
+          committer: ${{ vars.CERBOS_BOT_AUTHOR }}
+          commit-message: |-
+            Update protos
+          title: |-
+            Update protos
+          body: |-
+            This PR updates protos and regenerates code.
+          add-paths: |-
+            lib/cerbos/protobuf/**/*.rb
+            proto/**/*.proto
