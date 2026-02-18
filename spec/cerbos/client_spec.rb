@@ -163,6 +163,7 @@ RSpec.describe Cerbos::Client do
             if cerbos_version_at_least?("0.27.0")
               [
                 Cerbos::Output::CheckResources::Result::Output.new(
+                  action: cerbos_version_at_least?("0.51.0") ? "delete" : "",
                   source: "resource.document.v1#delete",
                   value: "delete_allowed:me@example.com"
                 )
@@ -288,6 +289,7 @@ RSpec.describe Cerbos::Client do
                 if cerbos_version_at_least?("0.27.0")
                   [
                     Cerbos::Output::CheckResources::Result::Output.new(
+                      action: cerbos_version_at_least?("0.51.0") ? "delete" : "",
                       source: "resource.document.v1#delete",
                       value: "delete_allowed:me@example.com"
                     )
@@ -336,6 +338,7 @@ RSpec.describe Cerbos::Client do
                 if cerbos_version_at_least?("0.27.0")
                   [
                     Cerbos::Output::CheckResources::Result::Output.new(
+                      action: cerbos_version_at_least?("0.51.0") ? "delete" : "",
                       source: "resource.document.v1#delete",
                       value: "delete_allowed:me@example.com"
                     )
@@ -389,6 +392,7 @@ RSpec.describe Cerbos::Client do
                 if cerbos_version_at_least?("0.27.0")
                   [
                     Cerbos::Output::CheckResources::Result::Output.new(
+                      action: cerbos_version_at_least?("0.51.0") ? "delete" : "",
                       source: "resource.document.v1#delete",
                       value: "delete_allowed:me@example.com"
                     )

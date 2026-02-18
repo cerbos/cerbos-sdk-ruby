@@ -78,6 +78,7 @@ RSpec.describe Cerbos::Output::CheckResources::Result do
         metadata: nil,
         outputs: [
           Cerbos::Output::CheckResources::Result::Output.new(
+            action: "view",
             source: "resource.document.v1/scope#rule",
             value: 42
           )
