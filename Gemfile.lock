@@ -17,31 +17,31 @@ GEM
     concurrent-ruby (1.3.6)
     diff-lcs (1.6.2)
     dotenv (3.2.0)
-    google-protobuf (4.34.0.rc.2)
+    google-protobuf (4.34.0)
       bigdecimal
       rake (~> 13.3)
-    google-protobuf (4.34.0.rc.2-aarch64-linux-gnu)
+    google-protobuf (4.34.0-aarch64-linux-gnu)
       bigdecimal
       rake (~> 13.3)
-    google-protobuf (4.34.0.rc.2-aarch64-linux-musl)
+    google-protobuf (4.34.0-aarch64-linux-musl)
       bigdecimal
       rake (~> 13.3)
-    google-protobuf (4.34.0.rc.2-arm64-darwin)
+    google-protobuf (4.34.0-arm64-darwin)
       bigdecimal
       rake (~> 13.3)
-    google-protobuf (4.34.0.rc.2-x86-linux-gnu)
+    google-protobuf (4.34.0-x86-linux-gnu)
       bigdecimal
       rake (~> 13.3)
-    google-protobuf (4.34.0.rc.2-x86-linux-musl)
+    google-protobuf (4.34.0-x86-linux-musl)
       bigdecimal
       rake (~> 13.3)
-    google-protobuf (4.34.0.rc.2-x86_64-darwin)
+    google-protobuf (4.34.0-x86_64-darwin)
       bigdecimal
       rake (~> 13.3)
-    google-protobuf (4.34.0.rc.2-x86_64-linux-gnu)
+    google-protobuf (4.34.0-x86_64-linux-gnu)
       bigdecimal
       rake (~> 13.3)
-    google-protobuf (4.34.0.rc.2-x86_64-linux-musl)
+    google-protobuf (4.34.0-x86_64-linux-musl)
       bigdecimal
       rake (~> 13.3)
     googleapis-common-protos-types (1.22.0)
@@ -105,7 +105,7 @@ GEM
     rspec-expectations (3.13.5)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-mocks (3.13.7)
+    rspec-mocks (3.13.8)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-support (3.13.7)
@@ -192,15 +192,15 @@ CHECKSUMS
   concurrent-ruby (1.3.6) sha256=6b56837e1e7e5292f9864f34b69c5a2cbc75c0cf5338f1ce9903d10fa762d5ab
   diff-lcs (1.6.2) sha256=9ae0d2cba7d4df3075fe8cd8602a8604993efc0dfa934cff568969efb1909962
   dotenv (3.2.0) sha256=e375b83121ea7ca4ce20f214740076129ab8514cd81378161f11c03853fe619d
-  google-protobuf (4.34.0.rc.2) sha256=d5258ceb6db65d3a64d0d6ef6dd34ecdf74fe2f0819e776d3165bca04baf5639
-  google-protobuf (4.34.0.rc.2-aarch64-linux-gnu) sha256=ec897d4af48c4784b2c7934717aad3d6fa43bb8f8958b9dbef4d4e17bfff6c33
-  google-protobuf (4.34.0.rc.2-aarch64-linux-musl) sha256=849f781d4b512200d2ff7c7f74022741781d3fbe7dca388279530d47c9d752cb
-  google-protobuf (4.34.0.rc.2-arm64-darwin) sha256=9c83832435ca747f0ce4bb8f5d846b7d2ce16dc87b7cfef1dfd09c76aaf69f44
-  google-protobuf (4.34.0.rc.2-x86-linux-gnu) sha256=b010f3240bb8df7af1be684168674b0213ee22a769f1d7dc567428ad4e1fd13e
-  google-protobuf (4.34.0.rc.2-x86-linux-musl) sha256=fdc7d697f4864c887a76f69322684ae32e7ad05cb700bed9aa7a3b7432d13b65
-  google-protobuf (4.34.0.rc.2-x86_64-darwin) sha256=505e7c88d06939af6a7d71ba0e5f256657f4d57d6de7fa25c9cef2ecf6bd9537
-  google-protobuf (4.34.0.rc.2-x86_64-linux-gnu) sha256=60288e8aee08a2029ae5f79f949bd9f5fbcb0c8cc4387135bd9d58dcc017df6b
-  google-protobuf (4.34.0.rc.2-x86_64-linux-musl) sha256=80fd1166e2c0153ee3ad8f74c8897781828916cceb0785ae2883065bbceff27d
+  google-protobuf (4.34.0) sha256=bffaea30fbe2807c80667a78953b15645b3bef62b25c10ca187e4418119be531
+  google-protobuf (4.34.0-aarch64-linux-gnu) sha256=0ab8a8a97976a2265d647e69b3ff1980c89184abdaf06d36091856c5ab37cc55
+  google-protobuf (4.34.0-aarch64-linux-musl) sha256=0632a86df6d320eac3b335bd779499d43ad8ee6d1f8c8494b773ed5d3d5c6ab4
+  google-protobuf (4.34.0-arm64-darwin) sha256=f83967a8095a9da676b79ba372c58fef2ca3878428bd40febfce65b3752c90d1
+  google-protobuf (4.34.0-x86-linux-gnu) sha256=21108e5cee407cb46c38f96fa93ea1ea8e463a45c8031261df3f9131458db4e3
+  google-protobuf (4.34.0-x86-linux-musl) sha256=58cb40ce43e2dc559eef112ff8d522aad489ba90f693eb95fdd946eaa6cc81e9
+  google-protobuf (4.34.0-x86_64-darwin) sha256=4a5b67281993345adca54bb32947f25a289597eafaa240e5b714d0a740f99321
+  google-protobuf (4.34.0-x86_64-linux-gnu) sha256=bbb333fbe79c16f35a2e2154cf29f3ce26f60390dba286b339861206d5435ef9
+  google-protobuf (4.34.0-x86_64-linux-musl) sha256=0b75858a388b17e73aa4176df2e722762dbc92551b7075fdc562d33c1c6de0b0
   googleapis-common-protos-types (1.22.0) sha256=f97492b77bd6da0018c860d5004f512fe7cd165554d7019a8f4df6a56fbfc4c7
   grpc (1.78.1) sha256=c9e8a54cf901263c25c1e17af116f9145fbfdf4b69931234581b0be2059f6758
   grpc (1.78.1-aarch64-linux-gnu) sha256=11597d75fd0efc855a5d8898867d00179ad215ddca2ec53ddb4d1b3a9bf313a4
@@ -230,7 +230,7 @@ CHECKSUMS
   rspec (3.13.2) sha256=206284a08ad798e61f86d7ca3e376718d52c0bc944626b2349266f239f820587
   rspec-core (3.13.6) sha256=a8823c6411667b60a8bca135364351dda34cd55e44ff94c4be4633b37d828b2d
   rspec-expectations (3.13.5) sha256=33a4d3a1d95060aea4c94e9f237030a8f9eae5615e9bd85718fe3a09e4b58836
-  rspec-mocks (3.13.7) sha256=0979034e64b1d7a838aaaddf12bf065ea4dc40ef3d4c39f01f93ae2c66c62b1c
+  rspec-mocks (3.13.8) sha256=086ad3d3d17533f4237643de0b5c42f04b66348c28bf6b9c2d3f4a3b01af1d47
   rspec-support (3.13.7) sha256=0640e5570872aafefd79867901deeeeb40b0c9875a36b983d85f54fb7381c47c
   rubocop (1.84.2) sha256=5692cea54168f3dc8cb79a6fe95c5424b7ea893c707ad7a4307b0585e88dbf5f
   rubocop-ast (1.49.0) sha256=49c3676d3123a0923d333e20c6c2dbaaae2d2287b475273fddee0c61da9f71fd
