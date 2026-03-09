@@ -74,7 +74,7 @@ GEM
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
     io-console (0.8.2)
-    json (2.18.1)
+    json (2.19.1)
     jwt (3.1.2)
       base64
     language_server-protocol (3.17.0.5)
@@ -212,7 +212,7 @@ CHECKSUMS
   grpc (1.78.1-x86_64-linux-gnu) sha256=c0715fe9bc80cf21fbaca2713abf8db6f628f6f31ec1d8762b667151e6ab0c9f
   grpc (1.78.1-x86_64-linux-musl) sha256=4e90a3d0f2baa1cd70756ffe116bd81bb7b398ff774272828a23a89ac9a30b06
   io-console (0.8.2) sha256=d6e3ae7a7cc7574f4b8893b4fca2162e57a825b223a177b7afa236c5ef9814cc
-  json (2.18.1) sha256=fe112755501b8d0466b5ada6cf50c8c3f41e897fa128ac5d263ec09eedc9f986
+  json (2.19.1) sha256=dd94fdc59e48bff85913829a32350b3148156bc4fd2a95a2568a78b11344082d
   jwt (3.1.2) sha256=af6991f19a6bb4060d618d9add7a66f0eeb005ac0bc017cd01f63b42e122d535
   language_server-protocol (3.17.0.5) sha256=fd1e39a51a28bf3eec959379985a72e296e9f9acfce46f6a79d31ca8760803cc
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87
