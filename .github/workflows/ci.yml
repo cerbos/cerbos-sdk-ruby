@@ -17,12 +17,12 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Set up Buf
-        uses: bufbuild/buf-action@8f4a1456a0ab6a1eb80ba68e53832e6fcfacc16c # v1.3.0
+        uses: bufbuild/buf-action@fd21066df7214747548607aaa45548ba2b9bc1ff # v1.4.0
         with:
           setup_only: true
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd # v1.288.0
+        uses: ruby/setup-ruby@dffb23f65a78bba8db45d387d5ea1bbd6be3ef18 # v1.293.0
         with:
           bundler-cache: true
 
@@ -81,7 +81,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd # v1.288.0
+        uses: ruby/setup-ruby@dffb23f65a78bba8db45d387d5ea1bbd6be3ef18 # v1.293.0
         with:
           ruby-version: ${{ matrix.ruby }}
 
@@ -90,7 +90,7 @@ jobs:
         run: bin/bundle lock --update ${{ matrix.dependency_name }}
 
       - name: Install gems
-        uses: ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd # v1.288.0
+        uses: ruby/setup-ruby@dffb23f65a78bba8db45d387d5ea1bbd6be3ef18 # v1.293.0
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
@@ -128,7 +128,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd # v1.288.0
+        uses: ruby/setup-ruby@dffb23f65a78bba8db45d387d5ea1bbd6be3ef18 # v1.293.0
         with:
           ruby-version: ${{ matrix.ruby }}
 
@@ -137,7 +137,7 @@ jobs:
         run: bin/bundle lock --update ${{ matrix.dependency_name }}
 
       - name: Install gems
-        uses: ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd # v1.288.0
+        uses: ruby/setup-ruby@dffb23f65a78bba8db45d387d5ea1bbd6be3ef18 # v1.293.0
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
