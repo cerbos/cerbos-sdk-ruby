@@ -1,0 +1,126 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - v*
+
+defaults:
+  run:
+    shell: bash
+
+permissions: {}
+
+jobs:
+  generate-docs:
+    name: Generate docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Set up Ruby
+        uses: ./.github/actions/setup-ruby
+        with:
+          bundle-install: default docs
+
+      - name: Generate docs
+        run: bin/rake docs
+
+      - name: Bundle artifact
+        working-directory: doc
+        run: tar --create --file "${RUNNER_TEMP}/artifact.tar" --verbose .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: github-pages
+          path: ${{ runner.temp }}/artifact.tar
+          retention-days: 1
+          if-no-files-found: error
+
+  publish-gem:
+    name: Publish gem to RubyGems
+    needs:
+      - generate-docs
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Install Ruby
+        uses: ./.github/actions/setup-ruby
+        with:
+          bundle-install: default
+          bundler-cache: false
+
+      - name: Generate release notes
+        run: bin/rake release:notes
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@cad07c2e89fa2edd6e2d7bab4c1aa38e53f76003 # v4.1.1
+
+      - name: Configure RubyGems credentials
+        uses: rubygems/configure-rubygems-credentials@f623036f13ddde19c3dc555bdcc20059c18dc042 # main
+
+      - name: Publish gem to RubyGems
+        id: push
+        run: bin/rake release:push
+
+      - name: Upload release artifacts
+        if: always() && (steps.push.outcome == 'success' || steps.push.outcome == 'failure')
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: pkg
+          path: pkg/
+          retention-days: 1
+          if-no-files-found: error
+
+  publish-docs:
+    name: Publish docs to GitHub Pages
+    needs:
+      - generate-docs
+      - publish-gem
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      pages: write
+    environment:
+      name: github-pages
+      url: ${{ steps.publish.outputs.page_url }}
+    steps:
+      - name: Publish docs to GitHub Pages
+        id: publish
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
+
+  publish-release:
+    name: Publish release to GitHub
+    needs:
+      - publish-gem
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download release artifacts
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: pkg
+
+      - name: Publish release to GitHub
+        run: |-
+          version=$(< version.txt)
+          gh release create \
+            "v${version}" \
+            "cerbos-${version}.gem" \
+            "cerbos-${version}.gem.sigstore.json" \
+            --notes-file release.md \
+            --repo "${GITHUB_REPOSITORY}" \
+            --verify-tag
+        env:
+          GH_TOKEN: ${{ github.token }}
