@@ -16,7 +16,6 @@ inherit_gem:
 
 AllCops:
   Exclude:
-    - bin/bundle
     - bin/rake
     - bin/rspec
     - bin/rubocop

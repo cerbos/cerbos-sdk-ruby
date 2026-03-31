@@ -7,10 +7,10 @@ source "https://rubygems.org"
 gemspec
 
 gem "dotenv"
+gem "irb"
 gem "jwt"
 gem "openssl"
 gem "parallel"
-gem "pry"
 gem "rake"
 gem "reline"
 gem "rspec"

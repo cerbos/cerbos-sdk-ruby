@@ -99,7 +99,7 @@ jobs:
 
       - name: Update Gemfile.lock
         if: ${{ matrix.dependency_name }}
-        run: bin/bundle lock --update ${{ matrix.dependency_name }}
+        run: bundle lock --update ${{ matrix.dependency_name }}
 
       - name: Install gems
         uses: ./.github/actions/setup-ruby
@@ -108,7 +108,7 @@ jobs:
           bundler-cache: true
 
       - name: List installed gems
-        run: bin/bundle list
+        run: bundle list
 
       - name: Set up tests
         if: matrix.setup
@@ -148,7 +148,7 @@ jobs:
 
       - name: Update Gemfile.lock
         if: ${{ matrix.dependency_name }}
-        run: bin/bundle lock --update ${{ matrix.dependency_name }}
+        run: bundle lock --update ${{ matrix.dependency_name }}
 
       - name: Install gems
         uses: ./.github/actions/setup-ruby
@@ -157,7 +157,7 @@ jobs:
           bundler-cache: true
 
       - name: List installed gems
-        run: bin/bundle list
+        run: bundle list
 
       - name: Set up tests
         if: matrix.setup
