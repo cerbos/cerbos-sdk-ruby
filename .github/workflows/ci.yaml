@@ -8,6 +8,12 @@ on:
   schedule:
     - cron: 0 1 * * 1-5
 
+defaults:
+  run:
+    shell: bash
+
+permissions: {}
+
 jobs:
   lint:
     name: Lint
@@ -15,6 +21,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Set up Buf
         uses: bufbuild/buf-action@fd21066df7214747548607aaa45548ba2b9bc1ff # v1.4.0
@@ -54,6 +62,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - id: test-matrix
         name: Generate test matrix
@@ -79,6 +89,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Set up Ruby
         uses: ./.github/actions/setup-ruby
@@ -126,6 +138,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Set up Ruby
         uses: ./.github/actions/setup-ruby
