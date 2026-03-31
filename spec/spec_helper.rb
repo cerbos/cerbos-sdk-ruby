@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
-require "dotenv/load"
+begin
+  require "dotenv/load"
+rescue LoadError
+  # Bundle installed without development group
+end
 
 require "cerbos"
 require "concurrent/promises"

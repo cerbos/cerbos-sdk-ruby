@@ -28,7 +28,7 @@ jobs:
       - name: Set up Ruby
         uses: ./.github/actions/setup-ruby
         with:
-          bundler-cache: true
+          bundle-install: default docs
 
       - name: Generate docs
         run: bin/rake docs

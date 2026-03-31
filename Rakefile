@@ -1,59 +1,70 @@
 # frozen_string_literal: true
 
 require "bundler/gem_tasks"
-require "rspec/core/rake_task"
-require "rubocop/rake_task"
-
-require_relative "tasks/generate"
-require_relative "tasks/protos"
-require_relative "tasks/test/servers"
 
 ENV["CERBOS_VERSION"] ||= "0.16.0"
 ENV["CERBOS_IMAGE_TAG"] ||= ENV["CERBOS_VERSION"].end_with?("-prerelease") ? "dev" : ENV["CERBOS_VERSION"]
 
 desc "Update protos"
 task :protos do
+  require_relative "tasks/protos"
+
   Tasks::Protos.call
 end
 
 desc "Generate client code"
 task :generate do
+  require_relative "tasks/generate"
+
   Tasks::Generate.call
 end
 
-RuboCop::RakeTask.new :lint do |task|
-  task.formatters = ["clang", "github"] if ENV["CI"]
+begin
+  require "rubocop/rake_task"
+
+  RuboCop::RakeTask.new :lint do |task|
+    task.formatters = ["clang", "github"] if ENV["CI"]
+  end
+rescue LoadError
+  # Bundle installed without lint group
 end
 
-namespace :test do
-  namespace :servers do
-    desc "Start the test servers"
-    task start: [:export_policies_version] do
-      Tasks::Test::Servers.start
+begin
+  require "rspec/core/rake_task"
+  require_relative "tasks/test/servers"
+
+  namespace :test do
+    namespace :servers do
+      desc "Start the test servers"
+      task start: [:export_policies_version] do
+        Tasks::Test::Servers.start
+      end
+
+      desc "Set POLICIES_VERSION to the maximum supported with CERBOS_VERSION"
+      task :export_policies_version do
+        Tasks::Test::Servers.export_policies_version
+      end
+
+      desc "Set CERBOS_PORTS to the test server containers' published GRPC ports"
+      task :export_ports do
+        Tasks::Test::Servers.export_ports
+      end
+
+      desc "Stop the test servers"
+      task :stop do
+        Tasks::Test::Servers.stop
+      end
     end
 
-    desc "Set POLICIES_VERSION to the maximum supported with CERBOS_VERSION"
-    task :export_policies_version do
-      Tasks::Test::Servers.export_policies_version
-    end
-
-    desc "Set CERBOS_PORTS to the test server containers' published GRPC ports"
-    task :export_ports do
-      Tasks::Test::Servers.export_ports
-    end
-
-    desc "Stop the test servers"
-    task :stop do
-      Tasks::Test::Servers.stop
+    RSpec::Core::RakeTask.new :hub do |task|
+      task.rspec_opts = "--tag hub"
     end
   end
 
-  RSpec::Core::RakeTask.new :hub do |task|
-    task.rspec_opts = "--tag hub"
-  end
+  RSpec::Core::RakeTask.new test: ["test:servers:export_policies_version", "test:servers:export_ports"]
+rescue LoadError
+  # Bundle installed without test group
 end
-
-RSpec::Core::RakeTask.new test: ["test:servers:export_policies_version", "test:servers:export_ports"]
 
 begin
   require "yard"

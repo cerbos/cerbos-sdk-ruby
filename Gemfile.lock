@@ -186,7 +186,6 @@ DEPENDENCIES
   openssl
   parallel
   rake
-  reline
   rspec
   rubocop-rake
   rubocop-rspec
