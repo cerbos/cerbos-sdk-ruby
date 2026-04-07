@@ -47,12 +47,7 @@ jobs:
         run: bin/check-links
 
       - name: Check for uncommitted changes
-        run: |-
-          if [[ -n $(git status --porcelain) ]]; then
-            echo "::error::Uncommitted changes detected"
-            git -c color.ui=always status -vv
-            exit 1
-          fi
+        uses: cerbos/actions/check-repo-status@4085936e609a7e3342762acbca5154c9f2df5b31
 
   test-matrix:
     name: Generate test matrix
