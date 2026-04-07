@@ -25,9 +25,9 @@ jobs:
           persist-credentials: false
 
       - name: Set up Buf
-        uses: bufbuild/buf-action@fd21066df7214747548607aaa45548ba2b9bc1ff # v1.4.0
+        uses: cerbos/actions/install-tools@4085936e609a7e3342762acbca5154c9f2df5b31
         with:
-          setup_only: true
+          tools: buf
 
       - name: Set up Ruby
         uses: ./.github/actions/setup-ruby
