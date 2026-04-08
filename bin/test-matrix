@@ -24,7 +24,7 @@ def resolve_dependency_versions(dependency)
 end
 
 # We support non-end-of-life Ruby versions: https://www.ruby-lang.org/en/downloads/branches/
-ruby_versions = Versions.new(["3.2", "3.3", "3.4", "4.0"])
+ruby_versions = Versions.new(["3.3", "3.4", "4.0"])
 
 minimum_cerbos_version = Gem::Version.new("0.16.0")
 available_cerbos_versions = []
