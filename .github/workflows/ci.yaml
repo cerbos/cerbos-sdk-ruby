@@ -8,6 +8,12 @@ on:
   schedule:
     - cron: 0 1 * * 1-5
 
+defaults:
+  run:
+    shell: bash
+
+permissions: {}
+
 jobs:
   lint:
     name: Lint
@@ -15,16 +21,18 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Set up Buf
-        uses: bufbuild/buf-action@fd21066df7214747548607aaa45548ba2b9bc1ff # v1.4.0
+        uses: cerbos/actions/install-tools@4085936e609a7e3342762acbca5154c9f2df5b31
         with:
-          setup_only: true
+          tools: buf
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@3ff19f5e2baf30647122352b96108b1fbe250c64 # v1.299.0
+        uses: ./.github/actions/setup-ruby
         with:
-          bundler-cache: true
+          bundle-install: default docs lint
 
       - name: Generate code
         run: bin/rake generate
@@ -39,12 +47,7 @@ jobs:
         run: bin/check-links
 
       - name: Check for uncommitted changes
-        run: |-
-          if [[ -n $(git status --porcelain) ]]; then
-            echo "::error::Uncommitted changes detected"
-            git -c color.ui=always status -vv
-            exit 1
-          fi
+        uses: cerbos/actions/check-repo-status@4085936e609a7e3342762acbca5154c9f2df5b31
 
   test-matrix:
     name: Generate test matrix
@@ -54,6 +57,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - id: test-matrix
         name: Generate test matrix
@@ -67,7 +72,6 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: ${{ github.event_name != 'schedule' && endsWith(matrix.cerbos, '-prerelease') }}
     env:
-      BUNDLE_WITHOUT: docs
       CERBOS_VERSION: ${{ matrix.cerbos }}
       TEST_MATRIX_DEPENDENCY_NAME: ${{ matrix.dependency_name }}
       TEST_MATRIX_DEPENDENCY_VERSION: ${{ matrix.dependency_version }}
@@ -79,24 +83,26 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@3ff19f5e2baf30647122352b96108b1fbe250c64 # v1.299.0
+        uses: ./.github/actions/setup-ruby
         with:
           ruby-version: ${{ matrix.ruby }}
 
       - name: Update Gemfile.lock
         if: ${{ matrix.dependency_name }}
-        run: bin/bundle lock --update ${{ matrix.dependency_name }}
+        run: bundle lock --update ${{ matrix.dependency_name }}
 
       - name: Install gems
-        uses: ruby/setup-ruby@3ff19f5e2baf30647122352b96108b1fbe250c64 # v1.299.0
+        uses: ./.github/actions/setup-ruby
         with:
           ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
+          bundle-install: default test
 
       - name: List installed gems
-        run: bin/bundle list
+        run: bundle list
 
       - name: Set up tests
         if: matrix.setup
@@ -110,7 +116,6 @@ jobs:
     name: Test (${{ matrix.title }})
     runs-on: ubuntu-latest
     env:
-      BUNDLE_WITHOUT: docs
       CERBOS_HUB_API_ENDPOINT: ${{ secrets.CERBOS_HUB_API_ENDPOINT }}
       CERBOS_HUB_STORE_ID: ${{ secrets.CERBOS_HUB_STORE_ID }}
       CERBOS_HUB_STORES_CLIENT_ID: ${{ secrets.CERBOS_HUB_STORES_CLIENT_ID }}
@@ -126,24 +131,26 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@3ff19f5e2baf30647122352b96108b1fbe250c64 # v1.299.0
+        uses: ./.github/actions/setup-ruby
         with:
           ruby-version: ${{ matrix.ruby }}
 
       - name: Update Gemfile.lock
         if: ${{ matrix.dependency_name }}
-        run: bin/bundle lock --update ${{ matrix.dependency_name }}
+        run: bundle lock --update ${{ matrix.dependency_name }}
 
       - name: Install gems
-        uses: ruby/setup-ruby@3ff19f5e2baf30647122352b96108b1fbe250c64 # v1.299.0
+        uses: ./.github/actions/setup-ruby
         with:
           ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
+          bundle-install: default test
 
       - name: List installed gems
-        run: bin/bundle list
+        run: bundle list
 
       - name: Set up tests
         if: matrix.setup

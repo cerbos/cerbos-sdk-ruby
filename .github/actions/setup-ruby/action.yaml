@@ -1,0 +1,49 @@
+name: Set up Ruby
+
+description: Install Ruby and gems
+
+inputs:
+  bundle-install:
+    description: Gem groups to install
+    default: none
+
+  bundler-cache:
+    description: Cache gems?
+    default: "true"
+
+  ruby-version:
+    description: Version of Ruby to install
+    default: default
+
+runs:
+  using: composite
+
+  steps:
+    - name: Find RubyGems version
+      id: rubygems
+      run: ruby -r rubygems/bundler_version_finder -e 'puts "version=#{Gem::BundlerVersionFinder.bundler_version}"' >> "${GITHUB_OUTPUT}"
+      shell: bash
+
+    - name: Set environment variables
+      run: |-
+        cat <<EOF >> "${GITHUB_ENV}"
+        BUNDLE_DEPLOYMENT=true
+        BUNDLE_ONLY=${BUNDLE_ONLY}
+        BUNDLE_PATH=${BUNDLE_PATH}
+        EOF
+      shell: bash
+      env:
+        BUNDLE_ONLY: ${{ inputs.bundle-install }}
+        BUNDLE_PATH: ${{ github.workspace }}/vendor/bundle
+
+    - name: Install Ruby${{ inputs.bundle-install != 'none' && inputs.bundler-cache == 'true' && ' and gems' || '' }}
+      uses: ruby/setup-ruby@3ff19f5e2baf30647122352b96108b1fbe250c64 # v1.299.0
+      with:
+        bundler-cache: ${{ inputs.bundle-install != 'none' && inputs.bundler-cache == 'true' }}
+        ruby-version: ${{ inputs.ruby-version }}
+        rubygems: ${{ steps.rubygems.outputs.version }}
+
+    - name: Install gems
+      if: inputs.bundle-install != 'none' && inputs.bundler-cache != 'true'
+      run: bundle install
+      shell: bash

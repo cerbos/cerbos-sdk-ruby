@@ -3,6 +3,6 @@
 
 require "bundler/setup"
 require "cerbos"
-require "pry"
+require "irb"
 
-Pry.start
+IRB.start __FILE__

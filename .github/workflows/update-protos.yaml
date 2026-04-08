@@ -5,6 +5,12 @@ on:
   schedule:
     - cron: 0 8 * * 1
 
+defaults:
+  run:
+    shell: bash
+
+permissions: {}
+
 jobs:
   update-protos:
     name: Update protos
@@ -12,11 +18,18 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Set up Buf
+        uses: cerbos/actions/install-tools@4085936e609a7e3342762acbca5154c9f2df5b31
+        with:
+          tools: buf
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@3ff19f5e2baf30647122352b96108b1fbe250c64 # v1.299.0
+        uses: ./.github/actions/setup-ruby
         with:
-          bundler-cache: true
+          bundle-install: default protos
 
       - name: Update protos
         run: bin/rake protos

@@ -8,15 +8,14 @@ if [[ "${GITHUB_HEAD_REF:-}" = prepare-release-* ]]; then
   excludes+=(--exclude https://github.com/cerbos/cerbos-sdk-ruby/compare/)
 fi
 
-docker run \
+exec docker compose \
+  run \
   --interactive \
   --rm \
-  --env GITHUB_TOKEN \
-  --mount "type=bind,source=${PWD},target=/input" \
-  --workdir /input \
-  lycheeverse/lychee:0.22.0-alpine \
+  lychee \
   "${excludes[@]}" \
   --exclude-path vendor/bundle \
+  --format detailed \
   --include-fragments \
   --max-concurrency 8 \
   --no-ignore \
