@@ -33,6 +33,6 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = ">= 3.3"
   spec.add_dependency "concurrent-ruby", "~> 1.2"
-  spec.add_dependency "grpc", "~> 1.52"
-  spec.add_dependency "google-protobuf", ">= 3.21.12", "< 5.0"
+  spec.add_dependency "grpc", "~> 1.61"
+  spec.add_dependency "google-protobuf", ">= 3.25", "< 5.0"
 end
