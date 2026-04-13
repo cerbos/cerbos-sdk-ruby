@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+### Changed
+
+- Require [`google-protobuf`] 3.25+ ([#314](https://github.com/cerbos/cerbos-sdk-ruby/pull/314))
+- Require [`grpc`] 1.61+ ([#314](https://github.com/cerbos/cerbos-sdk-ruby/pull/314))
+
 ### Removed
 
 - Support for Ruby 3.2 ([#310](https://github.com/cerbos/cerbos-sdk-ruby/pull/310))
