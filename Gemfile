@@ -13,9 +13,9 @@ group :development do
 end
 
 group :docs do
-  gem "commonmarker", "< 1.0" # https://github.com/lsegal/yard/issues/1528
+  gem "commonmarker"
   gem "webrick"
-  gem "yard", "!= 0.9.38" # https://github.com/lsegal/yard/issues/1639
+  gem "yard"
 end
 
 group :lint do

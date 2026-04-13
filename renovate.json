@@ -6,12 +6,6 @@
     {
       "matchUpdateTypes": ["*"],
       "groupName": "dependencies"
-    },
-    {
-      "description": "https://github.com/lsegal/yard/issues/1528",
-      "matchPackageNames": ["commonmarker"],
-      "matchUpdateTypes": ["major"],
-      "enabled": false
     }
   ]
 }
