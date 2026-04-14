@@ -12,13 +12,14 @@ GEM
     ast (2.4.3)
     base64 (0.3.0)
     bigdecimal (4.1.1)
-    commonmarker (2.8.0)
+    commonmarker (2.8.1)
       rb_sys (~> 0.9)
-    commonmarker (2.8.0-aarch64-linux-musl)
-    commonmarker (2.8.0-arm64-darwin)
-    commonmarker (2.8.0-x86_64-darwin)
-    commonmarker (2.8.0-x86_64-linux)
-    commonmarker (2.8.0-x86_64-linux-musl)
+    commonmarker (2.8.1-aarch64-linux)
+    commonmarker (2.8.1-aarch64-linux-musl)
+    commonmarker (2.8.1-arm64-darwin)
+    commonmarker (2.8.1-x86_64-darwin)
+    commonmarker (2.8.1-x86_64-linux)
+    commonmarker (2.8.1-x86_64-linux-musl)
     concurrent-ruby (1.3.6)
     date (3.5.1)
     diff-lcs (1.6.2)
@@ -209,12 +210,13 @@ CHECKSUMS
   base64 (0.3.0) sha256=27337aeabad6ffae05c265c450490628ef3ebd4b67be58257393227588f5a97b
   bigdecimal (4.1.1) sha256=1c09efab961da45203c8316b0cdaec0ff391dfadb952dd459584b63ebf8054ca
   cerbos (0.13.0)
-  commonmarker (2.8.0) sha256=6f08d1758cfaf3e12e298253c657d999cd78a5359aeb90a28e2a92744920ddc4
-  commonmarker (2.8.0-aarch64-linux-musl) sha256=463430ab1f2ec905d5a1a05bf226150127e140a806bafe564b5a885f817d4094
-  commonmarker (2.8.0-arm64-darwin) sha256=81f35484d8ad933b9690ca0e0edea5afd073e4dddbb428b970a0180ac1fed010
-  commonmarker (2.8.0-x86_64-darwin) sha256=abee2c7d0e97633a0a392f00f32fa7c49d972b0493d88a3e8f303330bdb733c4
-  commonmarker (2.8.0-x86_64-linux) sha256=3b41abbd8155251e823b51f5d0ba8be789320f2e541b082173fb909526fa6840
-  commonmarker (2.8.0-x86_64-linux-musl) sha256=1841deb35c2b6c6d2efada179136a21d0400b59027279853cfe41a9039b70f15
+  commonmarker (2.8.1) sha256=f78caf3cfc671fc64e85c9f49eaab0fb4ed3a96e5489be6cc7f59065768cf63e
+  commonmarker (2.8.1-aarch64-linux) sha256=f855599cc6855f4137d72dcacae9571451075afe6e6c8522eba353df9b81d0bf
+  commonmarker (2.8.1-aarch64-linux-musl) sha256=bbc2b3d361403431a5aac737dc86997d3b2843276ef395e7499cf17ad48e1b2c
+  commonmarker (2.8.1-arm64-darwin) sha256=cf75760122d6e1c3f8626b5a6911636d2e0aaa26fa8dd377fea440a49c854b3e
+  commonmarker (2.8.1-x86_64-darwin) sha256=75afa559c1f1cc201afbb81291a2f2fc77b2941347deaa8d564d008ba04ecb18
+  commonmarker (2.8.1-x86_64-linux) sha256=c8f2e903c6ee4e2c7e280aa8b49ef37c53202d388e3a2ee06dfdccc8c6fb634f
+  commonmarker (2.8.1-x86_64-linux-musl) sha256=9b6305ce47e0d444b77dabf1762bf76085c2f7963b63c25c02ec36edcf06c785
   concurrent-ruby (1.3.6) sha256=6b56837e1e7e5292f9864f34b69c5a2cbc75c0cf5338f1ce9903d10fa762d5ab
   date (3.5.1) sha256=750d06384d7b9c15d562c76291407d89e368dda4d4fff957eb94962d325a0dc0
   diff-lcs (1.6.2) sha256=9ae0d2cba7d4df3075fe8cd8602a8604993efc0dfa934cff568969efb1909962
