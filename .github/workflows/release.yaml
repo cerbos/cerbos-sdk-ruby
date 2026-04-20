@@ -34,7 +34,7 @@ jobs:
         run: tar --create --file "${RUNNER_TEMP}/artifact.tar" --verbose .
 
       - name: Upload artifact
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: github-pages
           path: ${{ runner.temp }}/artifact.tar
@@ -67,7 +67,7 @@ jobs:
         uses: sigstore/cosign-installer@cad07c2e89fa2edd6e2d7bab4c1aa38e53f76003 # v4.1.1
 
       - name: Configure RubyGems credentials
-        uses: rubygems/configure-rubygems-credentials@3d549bd0e55c3910ffb5515bf38d6e7f3e5be570 # main
+        uses: rubygems/configure-rubygems-credentials@6f94374a7eb4cdf600b093bbcd94079187872fac # main
 
       - name: Publish gem to RubyGems
         id: push
@@ -75,7 +75,7 @@ jobs:
 
       - name: Upload release artifacts
         if: always() && (steps.push.outcome == 'success' || steps.push.outcome == 'failure')
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: pkg
           path: pkg/
