@@ -1,0 +1,22 @@
+format = "detailed"
+verbose = "debug"
+
+max_concurrency = 8
+
+include_fragments = true
+no_ignore = true
+
+exclude_path = [
+  "vendor/bundle",
+]
+
+remap = [
+  '^https://cerbos\.github\.io/cerbos-sdk-ruby$ file:///input/doc/index.html',
+  '^https://cerbos\.github\.io/cerbos-sdk-ruby/ file:///input/doc/',
+]
+
+root_dir = "/input"
+
+# Slack returns 403 to unsupported browsers
+[hosts."go.cerbos.io".headers]
+"User-Agent" = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
