@@ -25,7 +25,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up Buf
-        uses: cerbos/actions/install-tools@4085936e609a7e3342762acbca5154c9f2df5b31
+        uses: cerbos/actions/install-tools@e3157d5b6353a7a4e8b0bffe9bc0b57d49b0c1d1 # main
         with:
           tools: buf
 
@@ -47,7 +47,7 @@ jobs:
         run: bin/check-links
 
       - name: Check for uncommitted changes
-        uses: cerbos/actions/check-repo-status@4085936e609a7e3342762acbca5154c9f2df5b31
+        uses: cerbos/actions/check-repo-status@e3157d5b6353a7a4e8b0bffe9bc0b57d49b0c1d1 # main
 
   test-matrix:
     name: Generate test matrix
@@ -171,3 +171,9 @@ jobs:
         run: |-
           test "${{ needs.test-parallel.result }}" = "success"
           test "${{ needs.test-serial.result }}" = "success" || test "${{ needs.test-serial.result }}" = "skipped"
+
+      - name: Notify Slack on failure
+        if: failure() && github.event_name == 'schedule'
+        uses: cerbos/actions/notify-slack@e3157d5b6353a7a4e8b0bffe9bc0b57d49b0c1d1 # main
+        with:
+          webhook-url: ${{ secrets.SLACK_CI_NOTIFICATIONS_WEBHOOK_URL }}
