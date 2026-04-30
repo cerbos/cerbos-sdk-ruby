@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "stub_server"
-
 RSpec.describe Cerbos::Client do
   subject(:client) { described_class.new(target, grpc_metadata:, on_validation_error:, tls:) }
 

@@ -10,7 +10,7 @@ class StubServer
   end
 
   def start
-    @server = GRPC::RpcServer.new(pool_size: 1)
+    @server = GRPC::RpcServer.new
     @port = @server.add_http2_port("localhost:0", :this_port_is_insecure)
     @server.handle @cerbos_service
     @server.handle @api_key_service
