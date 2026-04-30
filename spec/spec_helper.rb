@@ -12,6 +12,8 @@ require "jwt"
 require "uri"
 require "zip"
 
+require_relative "cerbos/stub_server"
+
 RSpec.configure do |config|
   config.default_formatter = "doc" if config.files_to_run.one?
   config.disable_monkey_patching!
