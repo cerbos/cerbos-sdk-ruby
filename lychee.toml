@@ -3,7 +3,7 @@ verbose = "debug"
 
 max_concurrency = 8
 
-include_fragments = true
+include_fragments = "full"
 no_ignore = true
 
 exclude_path = [
