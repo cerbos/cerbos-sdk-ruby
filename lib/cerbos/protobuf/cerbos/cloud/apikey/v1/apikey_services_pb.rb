@@ -22,6 +22,8 @@ module Cerbos::Protobuf::Cerbos
             self.service_name = 'cerbos.cloud.apikey.v1.ApiKeyService'
 
             rpc :IssueAccessToken, ::Cerbos::Protobuf::Cerbos::Cloud::Apikey::V1::IssueAccessTokenRequest, ::Cerbos::Protobuf::Cerbos::Cloud::Apikey::V1::IssueAccessTokenResponse
+            rpc :RegisterDevice, ::Cerbos::Protobuf::Cerbos::Cloud::Apikey::V1::RegisterDeviceRequest, stream(::Cerbos::Protobuf::Cerbos::Cloud::Apikey::V1::RegisterDeviceResponse)
+            rpc :RefreshDeviceToken, ::Cerbos::Protobuf::Cerbos::Cloud::Apikey::V1::RefreshDeviceTokenRequest, ::Cerbos::Protobuf::Cerbos::Cloud::Apikey::V1::RefreshDeviceTokenResponse
           end
 
           Stub = Service.rpc_stub_class

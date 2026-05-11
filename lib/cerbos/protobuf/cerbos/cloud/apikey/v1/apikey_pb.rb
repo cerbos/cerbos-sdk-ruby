@@ -5,11 +5,12 @@
 require 'google/protobuf'
 
 require 'cerbos/protobuf/buf/validate/validate_pb'
+require 'cerbos/protobuf/cerbos/cloud/auth/v1/auth_pb'
 require 'cerbos/protobuf/google/api/visibility_pb'
 require 'google/protobuf/duration_pb'
 
 
-descriptor_data = "\n#cerbos/cloud/apikey/v1/apikey.proto\x12\x16\x63\x65rbos.cloud.apikey.v1\x1a\x1b\x62uf/validate/validate.proto\x1a\x1bgoogle/api/visibility.proto\x1a\x1egoogle/protobuf/duration.proto\"n\n\x17IssueAccessTokenRequest\x12%\n\tclient_id\x18\x01 \x01(\tB\x08\xbaH\x05r\x03\x98\x01\x0cR\x08\x63lientId\x12,\n\rclient_secret\x18\x02 \x01(\tB\x07\xbaH\x04r\x02\x10\x01R\x0c\x63lientSecret\"\x88\x01\n\x18IssueAccessTokenResponse\x12*\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\tB\x07\xbaH\x04r\x02\x10\x01R\x0b\x61\x63\x63\x65ssToken\x12@\n\nexpires_in\x18\x02 \x01(\x0b\x32\x19.google.protobuf.DurationB\x06\xbaH\x03\xc8\x01\x01R\texpiresIn2\x9c\x01\n\rApiKeyService\x12u\n\x10IssueAccessToken\x12/.cerbos.cloud.apikey.v1.IssueAccessTokenRequest\x1a\x30.cerbos.cloud.apikey.v1.IssueAccessTokenResponse\x1a\x14\xfa\xd2\xe4\x93\x02\x0e\x12\x0c\x45XPERIMENTALB\x80\x01\n\x1e\x64\x65v.cerbos.api.cloud.v1.apikeyZAgithub.com/cerbos/cloud-api/genpb/cerbos/cloud/apikey/v1;apikeyv1\xaa\x02\x1a\x43\x65rbos.Api.Cloud.V1.ApiKeyb\x06proto3"
+descriptor_data = "\n#cerbos/cloud/apikey/v1/apikey.proto\x12\x16\x63\x65rbos.cloud.apikey.v1\x1a\x1b\x62uf/validate/validate.proto\x1a\x1f\x63\x65rbos/cloud/auth/v1/auth.proto\x1a\x1bgoogle/api/visibility.proto\x1a\x1egoogle/protobuf/duration.proto\"n\n\x17IssueAccessTokenRequest\x12%\n\tclient_id\x18\x01 \x01(\tB\x08\xbaH\x05r\x03\x98\x01\x0cR\x08\x63lientId\x12,\n\rclient_secret\x18\x02 \x01(\tB\x07\xbaH\x04r\x02\x10\x01R\x0c\x63lientSecret\"\x88\x01\n\x18IssueAccessTokenResponse\x12*\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\tB\x07\xbaH\x04r\x02\x10\x01R\x0b\x61\x63\x63\x65ssToken\x12@\n\nexpires_in\x18\x02 \x01(\x0b\x32\x19.google.protobuf.DurationB\x06\xbaH\x03\xc8\x01\x01R\texpiresIn\"\x17\n\x15RegisterDeviceRequest\"\x9f\x01\n\x16RegisterDeviceResponse\x12+\n\x10verification_url\x18\x01 \x01(\tH\x00R\x0fverificationUrl\x12\x46\n\x0c\x64\x65vice_token\x18\x02 \x01(\x0b\x32!.cerbos.cloud.auth.v1.DeviceTokenH\x00R\x0b\x64\x65viceTokenB\x10\n\x07message\x12\x05\xbaH\x02\x08\x01\"i\n\x19RefreshDeviceTokenRequest\x12L\n\x0c\x64\x65vice_token\x18\x01 \x01(\x0b\x32!.cerbos.cloud.auth.v1.DeviceTokenB\x06\xbaH\x03\xc8\x01\x01R\x0b\x64\x65viceToken\"j\n\x1aRefreshDeviceTokenResponse\x12L\n\x0c\x64\x65vice_token\x18\x01 \x01(\x0b\x32!.cerbos.cloud.auth.v1.DeviceTokenB\x06\xbaH\x03\xc8\x01\x01R\x0b\x64\x65viceToken2\x8c\x03\n\rApiKeyService\x12u\n\x10IssueAccessToken\x12/.cerbos.cloud.apikey.v1.IssueAccessTokenRequest\x1a\x30.cerbos.cloud.apikey.v1.IssueAccessTokenResponse\x12q\n\x0eRegisterDevice\x12-.cerbos.cloud.apikey.v1.RegisterDeviceRequest\x1a..cerbos.cloud.apikey.v1.RegisterDeviceResponse0\x01\x12{\n\x12RefreshDeviceToken\x12\x31.cerbos.cloud.apikey.v1.RefreshDeviceTokenRequest\x1a\x32.cerbos.cloud.apikey.v1.RefreshDeviceTokenResponse\x1a\x14\xfa\xd2\xe4\x93\x02\x0e\x12\x0c\x45XPERIMENTALB\x80\x01\n\x1e\x64\x65v.cerbos.api.cloud.v1.apikeyZAgithub.com/cerbos/cloud-api/genpb/cerbos/cloud/apikey/v1;apikeyv1\xaa\x02\x1a\x43\x65rbos.Api.Cloud.V1.ApiKeyb\x06proto3"
 
 pool = ::Google::Protobuf::DescriptorPool.generated_pool
 pool.add_serialized_file(descriptor_data)
@@ -20,6 +21,10 @@ module Cerbos::Protobuf::Cerbos
       module V1
         IssueAccessTokenRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.cloud.apikey.v1.IssueAccessTokenRequest").msgclass
         IssueAccessTokenResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.cloud.apikey.v1.IssueAccessTokenResponse").msgclass
+        RegisterDeviceRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.cloud.apikey.v1.RegisterDeviceRequest").msgclass
+        RegisterDeviceResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.cloud.apikey.v1.RegisterDeviceResponse").msgclass
+        RefreshDeviceTokenRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.cloud.apikey.v1.RefreshDeviceTokenRequest").msgclass
+        RefreshDeviceTokenResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("cerbos.cloud.apikey.v1.RefreshDeviceTokenResponse").msgclass
       end
     end
   end
