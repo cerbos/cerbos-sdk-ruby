@@ -80,7 +80,8 @@ RSpec.describe Cerbos::Output::CheckResources::Result do
           Cerbos::Output::CheckResources::Result::Output.new(
             action: "view",
             source: "resource.document.v1/scope#rule",
-            value: 42
+            value: 42,
+            error: nil
           )
         ]
       )

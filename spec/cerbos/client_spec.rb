@@ -163,7 +163,8 @@ RSpec.describe Cerbos::Client do
                 Cerbos::Output::CheckResources::Result::Output.new(
                   action: cerbos_version_at_least?("0.51.0") ? "delete" : "",
                   source: "resource.document.v1#delete",
-                  value: "delete_allowed:me@example.com"
+                  value: "delete_allowed:me@example.com",
+                  error: nil
                 )
               ]
             else
@@ -289,7 +290,8 @@ RSpec.describe Cerbos::Client do
                     Cerbos::Output::CheckResources::Result::Output.new(
                       action: cerbos_version_at_least?("0.51.0") ? "delete" : "",
                       source: "resource.document.v1#delete",
-                      value: "delete_allowed:me@example.com"
+                      value: "delete_allowed:me@example.com",
+                      error: nil
                     )
                   ]
                 else
@@ -338,7 +340,8 @@ RSpec.describe Cerbos::Client do
                     Cerbos::Output::CheckResources::Result::Output.new(
                       action: cerbos_version_at_least?("0.51.0") ? "delete" : "",
                       source: "resource.document.v1#delete",
-                      value: "delete_allowed:me@example.com"
+                      value: "delete_allowed:me@example.com",
+                      error: nil
                     )
                   ]
                 else
@@ -392,7 +395,8 @@ RSpec.describe Cerbos::Client do
                     Cerbos::Output::CheckResources::Result::Output.new(
                       action: cerbos_version_at_least?("0.51.0") ? "delete" : "",
                       source: "resource.document.v1#delete",
-                      value: "delete_allowed:me@example.com"
+                      value: "delete_allowed:me@example.com",
+                      error: nil
                     )
                   ]
                 else
