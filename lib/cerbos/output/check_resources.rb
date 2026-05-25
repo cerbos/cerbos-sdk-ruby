@@ -233,7 +233,7 @@ module Cerbos
     end
 
     # User-defined output from a policy rule evaluation.
-    CheckResources::Result::Output = Output.new_class(:action, :source, :value) do
+    CheckResources::Result::Output = Output.new_class(:action, :source, :value, :error) do
       # @!attribute [r] action
       #   The action that was being evaluated when the output was produced.
       #
@@ -251,11 +251,17 @@ module Cerbos
       #
       #   @return [String, Numeric, Boolean, Array, Hash, nil]
 
+      # @!attribute [r] error
+      #   Error encountered when evaluating the output expression (if any).
+      #
+      #   @return [String, nil]
+
       def self.from_protobuf(output_entry)
         new(
           action: output_entry.action,
           source: output_entry.src,
-          value: output_entry.val&.to_ruby(true)
+          value: output_entry.val&.to_ruby(true),
+          error: output_entry.error.empty? ? nil : output_entry.error
         )
       end
     end
