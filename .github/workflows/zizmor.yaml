@@ -22,9 +22,9 @@ jobs:
       security-events: write
     steps:
       - name: Check out code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           persist-credentials: false
 
       - name: Run zizmor
-        uses: cerbos/actions/lint-actions@81c84b69ba3259e9642bc3ff9b24d4a723ecb62f # main
+        uses: cerbos/actions/lint-actions@f73c5fd3cd8b66cad9d757a8686cc30d0f209f84 # main
