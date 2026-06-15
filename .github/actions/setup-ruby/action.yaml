@@ -37,7 +37,7 @@ runs:
         BUNDLE_PATH: ${{ github.workspace }}/vendor/bundle
 
     - name: Install Ruby${{ inputs.bundle-install != 'none' && inputs.bundler-cache == 'true' && ' and gems' || '' }}
-      uses: ruby/setup-ruby@afeafc3d1ab54a631816aba4c914a0081c12ff2f # v1.310.0
+      uses: ruby/setup-ruby@12fd324f1d0b43274fdc8130f6980590a667c455 # v1.312.0
       with:
         bundler-cache: ${{ inputs.bundle-install != 'none' && inputs.bundler-cache == 'true' }}
         ruby-version: ${{ inputs.ruby-version }}
