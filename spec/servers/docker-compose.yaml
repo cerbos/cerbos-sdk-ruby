@@ -44,7 +44,7 @@ services:
         read_only: true
 
   mtls:
-    image: traefik:v3.7.6@sha256:21a3d83696379bac6434bb32e1dde0aff0e84ef2abd053ed3db87d3f45e749b2
+    image: traefik:v3.7.8@sha256:4299bbed850421258fc5448c2e0e6ad350981d4d335a68de11b92448aedbefe5
     command:
       - --entrypoints.grpc.address=:3593
       - --ping
