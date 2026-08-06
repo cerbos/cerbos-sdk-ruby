@@ -2,6 +2,10 @@
 
 ### Added
 
+- `Cerbos::Input::AuxData#jwts` attribute supporting multiple JWTs in auxiliary data ([#360](https://github.com/cerbos/cerbos-sdk-ruby/pull/360))
+
+  Requires a policy decision point server running Cerbos 0.55+.
+
 - `Cerbos::Output::CheckResources::Result::Output#error` attribute returning the error encountered when evaluating the output expression (if any) ([#331](https://github.com/cerbos/cerbos-sdk-ruby/pull/331))
 
   Requires a policy decision point server running Cerbos 0.54+.

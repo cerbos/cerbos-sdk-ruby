@@ -35,11 +35,7 @@ RSpec.describe Cerbos::Client do
             }
           },
           action: "edit",
-          aux_data: {
-            jwt: {
-              token: JWT.encode({delete: true}, nil, "none")
-            }
-          },
+          aux_data:,
           request_id: "42",
           request_context: cerbos_version_at_least?("0.51.0") ? {
             annotations: {
@@ -51,8 +47,26 @@ RSpec.describe Cerbos::Client do
         )
       end
 
-      it "checks if a principal is allowed to perform an action on a resource" do
-        expect(response).to be(true)
+      let(:token) { JWT.encode({delete: true}, nil, "none") }
+
+      context "with JWT" do
+        let(:aux_data) { {jwt: {token:}} }
+
+        it "checks if a principal is allowed to perform an action on a resource" do
+          expect(response).to be(true)
+        end
+      end
+
+      context "with JWTs" do
+        before do
+          skip "Not supported before Cerbos 0.55.0" unless cerbos_version_at_least?("0.55.0")
+        end
+
+        let(:aux_data) { {jwts: {app: {token:}}} }
+
+        it "checks if a principal is allowed to perform an action on a resource" do
+          expect(response).to be(true)
+        end
       end
     end
 
@@ -103,11 +117,7 @@ RSpec.describe Cerbos::Client do
             }
           },
           actions: ["view", "edit", "delete"],
-          aux_data: {
-            jwt: {
-              token: JWT.encode({delete: true}, nil, "none")
-            }
-          },
+          aux_data:,
           include_metadata: true,
           request_id: "42",
           request_context: cerbos_version_at_least?("0.51.0") ? {
@@ -120,8 +130,10 @@ RSpec.describe Cerbos::Client do
         )
       end
 
-      it "checks a principal's permissions on a resource" do
-        expect(response).to eq(Cerbos::Output::CheckResources::Result.new(
+      let(:token) { JWT.encode({delete: true}, nil, "none") }
+
+      let(:expected) do
+        Cerbos::Output::CheckResources::Result.new(
           resource: Cerbos::Output::CheckResources::Result::Resource.new(
             kind: "document",
             id: "mine",
@@ -170,7 +182,27 @@ RSpec.describe Cerbos::Client do
             else
               []
             end
-        ))
+        )
+      end
+
+      context "with JWT" do
+        let(:aux_data) { {jwt: {token:}} }
+
+        it "checks a principal's permissions on a resource" do
+          expect(response).to eq(expected)
+        end
+      end
+
+      context "with JWTs" do
+        before do
+          skip "Not supported before Cerbos 0.55.0" unless cerbos_version_at_least?("0.55.0")
+        end
+
+        let(:aux_data) { {jwts: {app: {token:}}} }
+
+        it "checks a principal's permissions on a resource" do
+          expect(response).to eq(expected)
+        end
       end
     end
 
@@ -227,11 +259,7 @@ RSpec.describe Cerbos::Client do
               actions: ["view", "edit", "delete"]
             }
           ],
-          aux_data: {
-            jwt: {
-              token: JWT.encode({delete: true}, nil, "none")
-            }
-          },
+          aux_data:,
           include_metadata: true,
           request_id: "42",
           request_context: cerbos_version_at_least?("0.51.0") ? {
@@ -244,8 +272,10 @@ RSpec.describe Cerbos::Client do
         )
       end
 
-      it "checks a principal's permissions on a set of resources" do
-        expect(response).to eq(Cerbos::Output::CheckResources.new(
+      let(:token) { JWT.encode({delete: true}, nil, "none") }
+
+      let(:expected) do
+        Cerbos::Output::CheckResources.new(
           request_id: "42",
           results: [
             Cerbos::Output::CheckResources::Result.new(
@@ -404,7 +434,27 @@ RSpec.describe Cerbos::Client do
                 end
             )
           ]
-        ))
+        )
+      end
+
+      context "with JWT" do
+        let(:aux_data) { {jwt: {token:}} }
+
+        it "checks a principal's permissions on a set of resources" do
+          expect(response).to eq(expected)
+        end
+      end
+
+      context "with JWTs" do
+        before do
+          skip "Not supported before Cerbos 0.55.0" unless cerbos_version_at_least?("0.55.0")
+        end
+
+        let(:aux_data) { {jwts: {app: {token:}}} }
+
+        it "checks a principal's permissions on a set of resources" do
+          expect(response).to eq(expected)
+        end
       end
     end
 
