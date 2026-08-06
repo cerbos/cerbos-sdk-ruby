@@ -25,6 +25,11 @@ module Cerbos
     def self.coerce_array(values, to_class)
       values.map { |value| coerce_required(value, to_class) }
     end
+
+    # @private
+    def self.coerce_map(hash, to_class)
+      hash.map { |key, value| [key.to_s, coerce_required(value, to_class)] }.to_h
+    end
   end
 end
 
