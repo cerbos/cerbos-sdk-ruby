@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+No notable changes.
+
+## [0.14.0] - 2026-08-13
+
 ### Added
 
 - `Cerbos::Input::AuxData#jwts` attribute supporting multiple JWTs in auxiliary data ([#360](https://github.com/cerbos/cerbos-sdk-ruby/pull/360))
@@ -150,7 +154,8 @@
 
 - Initial implementation of `Cerbos::Client` ([#2](https://github.com/cerbos/cerbos-sdk-ruby/pull/2))
 
-[Unreleased]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.13.0...HEAD
+[Unreleased]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.14.0...HEAD
+[0.14.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/cerbos/cerbos-sdk-ruby/compare/v0.10.0...v0.11.0
