@@ -30,7 +30,7 @@ jobs:
           tools: buf
 
       - name: Set up Ruby
-        uses: ./.github/actions/setup-ruby
+        uses: $/.github/actions/setup-ruby
         with:
           bundle-install: default docs lint
 
@@ -87,7 +87,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up Ruby
-        uses: ./.github/actions/setup-ruby
+        uses: $/.github/actions/setup-ruby
         with:
           ruby-version: ${{ matrix.ruby }}
 
@@ -96,7 +96,7 @@ jobs:
         run: bundle lock --update ${{ matrix.dependency_name }}
 
       - name: Install gems
-        uses: ./.github/actions/setup-ruby
+        uses: $/.github/actions/setup-ruby
         with:
           ruby-version: ${{ matrix.ruby }}
           bundle-install: default test
@@ -135,7 +135,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up Ruby
-        uses: ./.github/actions/setup-ruby
+        uses: $/.github/actions/setup-ruby
         with:
           ruby-version: ${{ matrix.ruby }}
 
@@ -144,7 +144,7 @@ jobs:
         run: bundle lock --update ${{ matrix.dependency_name }}
 
       - name: Install gems
-        uses: ./.github/actions/setup-ruby
+        uses: $/.github/actions/setup-ruby
         with:
           ruby-version: ${{ matrix.ruby }}
           bundle-install: default test

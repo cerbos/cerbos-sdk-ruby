@@ -27,7 +27,7 @@ jobs:
           tools: buf
 
       - name: Set up Ruby
-        uses: ./.github/actions/setup-ruby
+        uses: $/.github/actions/setup-ruby
         with:
           bundle-install: default protos
 
