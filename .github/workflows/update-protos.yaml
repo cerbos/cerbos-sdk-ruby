@@ -22,7 +22,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up Buf
-        uses: cerbos/actions/install-tools@e430738da1a60ed8a0522c94f6bd13b1e289ac65 # main
+        uses: cerbos/actions/install-tools@0d9b5e1ccb075eb3b6817a6f1718b9c189498c0a # main
         with:
           tools: buf
 
@@ -38,7 +38,7 @@ jobs:
         run: bin/rake generate
 
       - name: Create pull request
-        uses: cerbos/actions/create-pull-request@e430738da1a60ed8a0522c94f6bd13b1e289ac65 # main
+        uses: cerbos/actions/create-pull-request@0d9b5e1ccb075eb3b6817a6f1718b9c189498c0a # main
         with:
           client-id: ${{ secrets.CERBOS_BOT_CLIENT_ID }}
           private-key: ${{ secrets.CERBOS_BOT_PRIVATE_KEY }}
@@ -53,6 +53,6 @@ jobs:
 
       - name: Notify Slack on failure
         if: failure()
-        uses: cerbos/actions/notify-slack@e430738da1a60ed8a0522c94f6bd13b1e289ac65 # main
+        uses: cerbos/actions/notify-slack@0d9b5e1ccb075eb3b6817a6f1718b9c189498c0a # main
         with:
           webhook-url: ${{ secrets.SLACK_CI_NOTIFICATIONS_WEBHOOK_URL }}
