@@ -51,6 +51,14 @@ message IngestRequest {
   IngestBatch batch = 2 [(buf.validate.field).required = true];
 }
 
+// RawIngestRequest is wire-identical alias of IngestRequest for clients
+// that already hold the batch in serialized form.
+message RawIngestRequest {
+  cerbos.cloud.pdp.v1.Identifier pdp_id = 1 [(buf.validate.field).required = true];
+  // A serialized IngestBatch message.
+  bytes batch = 2 [(buf.validate.field).bytes.min_len = 1];
+}
+
 message IngestResponse {
   message Backoff {
     google.protobuf.Duration duration = 1;
