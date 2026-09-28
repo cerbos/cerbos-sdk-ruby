@@ -24,31 +24,31 @@ GEM
     diff-lcs (1.6.2)
     dotenv (3.2.0)
     erb (6.0.7)
-    google-protobuf (4.36.1)
+    google-protobuf (4.36.2)
       bigdecimal
       rake (~> 13.3)
-    google-protobuf (4.36.1-aarch64-linux-gnu)
+    google-protobuf (4.36.2-aarch64-linux-gnu)
       bigdecimal
       rake (~> 13.3)
-    google-protobuf (4.36.1-aarch64-linux-musl)
+    google-protobuf (4.36.2-aarch64-linux-musl)
       bigdecimal
       rake (~> 13.3)
-    google-protobuf (4.36.1-arm64-darwin)
+    google-protobuf (4.36.2-arm64-darwin)
       bigdecimal
       rake (~> 13.3)
-    google-protobuf (4.36.1-x86-linux-gnu)
+    google-protobuf (4.36.2-x86-linux-gnu)
       bigdecimal
       rake (~> 13.3)
-    google-protobuf (4.36.1-x86-linux-musl)
+    google-protobuf (4.36.2-x86-linux-musl)
       bigdecimal
       rake (~> 13.3)
-    google-protobuf (4.36.1-x86_64-darwin)
+    google-protobuf (4.36.2-x86_64-darwin)
       bigdecimal
       rake (~> 13.3)
-    google-protobuf (4.36.1-x86_64-linux-gnu)
+    google-protobuf (4.36.2-x86_64-linux-gnu)
       bigdecimal
       rake (~> 13.3)
-    google-protobuf (4.36.1-x86_64-linux-musl)
+    google-protobuf (4.36.2-x86_64-linux-musl)
       bigdecimal
       rake (~> 13.3)
     googleapis-common-protos-types (1.23.0)
@@ -80,7 +80,7 @@ GEM
     grpc (1.84.0-x86_64-linux-musl)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
-    io-console (0.9.3)
+    io-console (0.9.4)
     irb (1.18.0)
       pp (>= 0.6.0)
       prism (>= 1.3.0)
@@ -116,7 +116,7 @@ GEM
       prism (>= 1.6.0)
       rbs (>= 4.0.0)
       tsort
-    regexp_parser (2.12.0)
+    regexp_parser (2.13.0)
     reline (0.7.0)
       io-console (~> 0.5)
     rspec (3.13.2)
@@ -172,9 +172,9 @@ GEM
       lint_roller (~> 1.1)
       rubocop-performance (~> 1.26.0)
     tsort (0.2.0)
-    unicode-display_width (3.2.0)
-      unicode-emoji (~> 4.1)
-    unicode-emoji (4.2.0)
+    unicode-display_width (3.3.0)
+      unicode-emoji (~> 4.3)
+    unicode-emoji (4.3.0)
     webrick (1.9.2)
     yard (0.9.45)
 
@@ -223,15 +223,15 @@ CHECKSUMS
   diff-lcs (1.6.2) sha256=9ae0d2cba7d4df3075fe8cd8602a8604993efc0dfa934cff568969efb1909962
   dotenv (3.2.0) sha256=e375b83121ea7ca4ce20f214740076129ab8514cd81378161f11c03853fe619d
   erb (6.0.7) sha256=c5ca6dc25b0ef974a44dc8f59fe847577122483b1968a38dec305c60bf91ee92
-  google-protobuf (4.36.1) sha256=893ac9d66b36b6ea50da5418f856bc7c2d2072099a578aeefc2d7757dcab6a77
-  google-protobuf (4.36.1-aarch64-linux-gnu) sha256=3883fa1b0e99221f68f4a8511bc4fb1888897dcb6cc8bf2805c92c16fc99b499
-  google-protobuf (4.36.1-aarch64-linux-musl) sha256=6da393554ecc96168ae6ddf663392bf8ce4e4fce7c18fda348882ce2e97d6a87
-  google-protobuf (4.36.1-arm64-darwin) sha256=4d82184f4582dfa123f9793cd7a73beca9b0d3f0d3717948c4120b6cc0d50f2d
-  google-protobuf (4.36.1-x86-linux-gnu) sha256=4ea208a8d1a2369728da03e256fc7b454c6781bac486cbfa57d0ed7a0e6352f0
-  google-protobuf (4.36.1-x86-linux-musl) sha256=ec302210ea53f136027f556904b0d13eaf7b4d17fd88b15ddd64b2f321c85dfd
-  google-protobuf (4.36.1-x86_64-darwin) sha256=e92bf3c90c0a9c410cbe430cf366190b1b9b5b2b784f6195a43a178c2ef7e338
-  google-protobuf (4.36.1-x86_64-linux-gnu) sha256=e735a3f3d6596b1010013c2030778bc030770e659106fe7e4ae0f07631b551cb
-  google-protobuf (4.36.1-x86_64-linux-musl) sha256=ae2712b7960e8b1f96d52fef8c2c0dc1cd230f2be13e48492dad0aa2a6a7cf03
+  google-protobuf (4.36.2) sha256=2f8daff50ae14aad36ab0ccdcf284065fa71d726c444efe114e6db82ffe62494
+  google-protobuf (4.36.2-aarch64-linux-gnu) sha256=c3279ec6eaa59f6ed6276eda2a33cffb4306471183ab79a332e698b8564f5169
+  google-protobuf (4.36.2-aarch64-linux-musl) sha256=0772c9dde1e6dce9a6b44d1d35c28c29adee99d9bd6aff5e21840daeb22161ce
+  google-protobuf (4.36.2-arm64-darwin) sha256=f70d810e6bbab9d8ad9c1d5fd685a21de4c10ad3ad32efb9455e17e5b1286917
+  google-protobuf (4.36.2-x86-linux-gnu) sha256=ffcd06d49bffca24afff18c900dd61a51ea3028d43c47d0d9621d00bf38a5866
+  google-protobuf (4.36.2-x86-linux-musl) sha256=e1afec03babd73c9117cc09d5fc2a98dfef37a414bfd8a4d0ceaac7bd66fc028
+  google-protobuf (4.36.2-x86_64-darwin) sha256=8d1bd2a344f7f589703b202ad2ee4cca8ef731b4ced45782ef92d385967384ba
+  google-protobuf (4.36.2-x86_64-linux-gnu) sha256=d25a820873e423f1d209ae8c672a4a28b019e2429debd0901d26670a0b4e14db
+  google-protobuf (4.36.2-x86_64-linux-musl) sha256=0fa17686c896da96a60a705e56ddc7d4ff56413f52787c655bd4c9fb33ffe14f
   googleapis-common-protos-types (1.23.0) sha256=992e740a523794d9fc5f29a504465d8fc737aaa16c930fe7228e3346860faf0a
   grpc (1.84.0) sha256=df2dd2d379fe3419a58af64f2fab514202437e28b7df5b441a16da542486a98f
   grpc (1.84.0-aarch64-linux-gnu) sha256=38bcb6998cca338718e39e2b89785964850f71444279a033c296ceb40406cfad
@@ -242,7 +242,7 @@ CHECKSUMS
   grpc (1.84.0-x86_64-darwin) sha256=deb0ba1f82af9200afd0a71301e2039306cd1a3ca3010c814fb67f57eed38642
   grpc (1.84.0-x86_64-linux-gnu) sha256=3e9be3e4c4734a2a4977aa34446c604b1542a21fe67e4b7772be01602eac6bb3
   grpc (1.84.0-x86_64-linux-musl) sha256=1ded8b5df0fafb16b195bf559470bf38b9a22bf74a820b892ebb931ca9f2d8ee
-  io-console (0.9.3) sha256=f555049461b0afb78a5448b5be8e7c7b48371347cd48abfc22814764160000dd
+  io-console (0.9.4) sha256=a403304f32928ee85e56d457b4612ca43f2703b561a3258844992bd24085fbb1
   irb (1.18.0) sha256=de9454a0703a54704b9811a5ef31a60c86949fbf4013fcf244fabc7c775248e3
   json (2.21.2) sha256=1f1d3b7cf2b3ba1a69beca0bb6db13d5438b80bff3cd54cdaaa620b9b07c1c6a
   jwt (3.3.0) sha256=44cc34fbc341c148233cf66641522b4bce0dfb1ce55e8073f05c56f44f4ee546
@@ -262,7 +262,7 @@ CHECKSUMS
   rb_sys (0.9.130) sha256=7d486d99c1da02635515deaf9860fc5aea90bb4ab2589b2deec7fdc7d3548615
   rbs (4.2.0) sha256=51f7b886dcc05bc09e10b901daa6a81829f6adc03101d6ca9ea4aac6103e0674
   rdoc (8.0.0) sha256=03bf8c08a9639658855a0cfd77c0abca8325c227693f7f33f82957811348c469
-  regexp_parser (2.12.0) sha256=35a916a1d63190ab5c9009457136ae5f3c0c7512d60291d0d1378ba18ce08ebb
+  regexp_parser (2.13.0) sha256=d105d95d2138954e73914d2fbfb3d0a8f8605a49a3e89864c32e78b9107cb770
   reline (0.7.0) sha256=5b012d8e55dbf9d450f12bde2cf7d15ff546ae80b3f8f3b30e570d431815583d
   rspec (3.13.2) sha256=206284a08ad798e61f86d7ca3e376718d52c0bc944626b2349266f239f820587
   rspec-core (3.13.6) sha256=a8823c6411667b60a8bca135364351dda34cd55e44ff94c4be4633b37d828b2d
@@ -280,8 +280,8 @@ CHECKSUMS
   standard-custom (1.0.2) sha256=424adc84179a074f1a2a309bb9cf7cd6bfdb2b6541f20c6bf9436c0ba22a652b
   standard-performance (1.9.0) sha256=49483d31be448292951d80e5e67cdcb576c2502103c7b40aec6f1b6e9c88e3f2
   tsort (0.2.0) sha256=9650a793f6859a43b6641671278f79cfead60ac714148aabe4e3f0060480089f
-  unicode-display_width (3.2.0) sha256=0cdd96b5681a5949cdbc2c55e7b420facae74c4aaf9a9815eee1087cb1853c42
-  unicode-emoji (4.2.0) sha256=519e69150f75652e40bf736106cfbc8f0f73aa3fb6a65afe62fefa7f80b0f80f
+  unicode-display_width (3.3.0) sha256=4b7aa66a4b11db50f6f7e98411215cd0dd10eaecb665d36eec5bcacb3fa0b613
+  unicode-emoji (4.3.0) sha256=11c02fa73290378c066bb0562cd4c87d8e1b706fbbe0059ca12746a4244de8ce
   webrick (1.9.2) sha256=beb4a15fc474defed24a3bda4ffd88a490d517c9e4e6118c3edce59e45864131
   yard (0.9.45) sha256=52e211493f7cb8a3ebf7e104a25a1e73937a3103092545d34cb88fafebb3dc51
 
