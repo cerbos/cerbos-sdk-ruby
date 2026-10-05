@@ -44,15 +44,20 @@ message IngestBatch {
     min_items: 1
     max_items: 1024
   }];
+}
+
+message IngestTarget {
   oneof target {
-    string workspace_id = 3 [(buf.validate.field).string.len = 12];
-    string deployment_id = 4 [(buf.validate.field).string.len = 12];
+    option (buf.validate.oneof).required = true;
+    string workspace_id = 1 [(buf.validate.field).string.len = 12];
+    string deployment_id = 2 [(buf.validate.field).string.len = 12];
   }
 }
 
 message IngestRequest {
   cerbos.cloud.pdp.v1.Identifier pdp_id = 1 [(buf.validate.field).required = true];
   IngestBatch batch = 2 [(buf.validate.field).required = true];
+  IngestTarget target = 3;
 }
 
 // RawIngestRequest is wire-identical alias of IngestRequest for clients
@@ -61,6 +66,7 @@ message RawIngestRequest {
   cerbos.cloud.pdp.v1.Identifier pdp_id = 1 [(buf.validate.field).required = true];
   // A serialized IngestBatch message.
   bytes batch = 2 [(buf.validate.field).bytes.min_len = 1];
+  IngestTarget target = 3;
 }
 
 message IngestResponse {
