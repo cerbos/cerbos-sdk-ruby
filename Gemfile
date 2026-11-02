@@ -4,6 +4,7 @@ source "https://rubygems.org", cooldown: 5
 
 gemspec
 
+gem "bundler"
 gem "openssl"
 gem "rake"
 
