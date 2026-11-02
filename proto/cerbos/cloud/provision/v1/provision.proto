@@ -6,6 +6,7 @@ syntax = "proto3";
 package cerbos.cloud.provision.v1;
 
 import "buf/validate/validate.proto";
+import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Cerbos.Api.Cloud.V1.Provision";
@@ -86,6 +87,29 @@ message Deployment {
   bool frozen = 4;
   string active_bundle_id = 5;
   google.protobuf.Timestamp bundle_activated_at = 6;
+  repeated DeploymentReleaseCondition release_conditions = 7;
+}
+
+message DeploymentReleaseCondition {
+  enum Kind {
+    KIND_UNSPECIFIED = 0;
+    KIND_SIGNOFF = 1;
+  }
+
+  string id = 1 [(buf.validate.field).string.len = 12];
+  Kind kind = 2 [(buf.validate.field).enum = {
+    not_in: [0]
+  }];
+  string title = 3;
+  string description = 4;
+  google.protobuf.Any configuration = 5;
+}
+
+message DeploymentSignOffConfiguration {
+  uint32 num_required = 1 [(buf.validate.field).uint32 = {
+    gt: 0
+    lt: 5
+  }];
 }
 
 message ListOrganizationsRequest {}
@@ -238,6 +262,7 @@ message CreateDeploymentRequest {
     }
     unique: true
   }];
+  repeated DeploymentReleaseCondition release_conditions = 4;
 }
 
 message CreateDeploymentResponse {
@@ -258,6 +283,7 @@ message UpdateDeploymentRequest {
     min_len: 1
     max_len: 128
   }];
+  repeated DeploymentReleaseCondition release_conditions = 4;
 }
 
 message UpdateDeploymentResponse {
