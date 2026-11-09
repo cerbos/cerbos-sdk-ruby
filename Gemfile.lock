@@ -51,7 +51,7 @@ GEM
     google-protobuf (4.36.2-x86_64-linux-musl)
       bigdecimal
       rake (~> 13.3)
-    googleapis-common-protos-types (1.24.0)
+    googleapis-common-protos-types (1.25.0)
       google-protobuf (~> 4.26)
     grpc (1.85.0)
       google-protobuf (>= 3.25, < 5.0)
@@ -233,7 +233,7 @@ CHECKSUMS
   google-protobuf (4.36.2-x86_64-darwin) sha256=8d1bd2a344f7f589703b202ad2ee4cca8ef731b4ced45782ef92d385967384ba
   google-protobuf (4.36.2-x86_64-linux-gnu) sha256=d25a820873e423f1d209ae8c672a4a28b019e2429debd0901d26670a0b4e14db
   google-protobuf (4.36.2-x86_64-linux-musl) sha256=0fa17686c896da96a60a705e56ddc7d4ff56413f52787c655bd4c9fb33ffe14f
-  googleapis-common-protos-types (1.24.0) sha256=f76599ac6eeddf9ed1cc909c2ff6c9f028c50f69cb1696f43101df6a1fe9f106
+  googleapis-common-protos-types (1.25.0) sha256=3eac7998e9e52f506d5a68d944284b8d2f6d65d744ab92a0cdd269198a009d15
   grpc (1.85.0) sha256=790fb8073453a7a4e4ade9ab265b92d6e8129f60c8ddae06cc9e3cb18e3e2366
   grpc (1.85.0-aarch64-linux-gnu) sha256=d38ea50e5b45ce7ee8416b522e5926d271a94f8a3346d886625efe0043c6e2bd
   grpc (1.85.0-aarch64-linux-musl) sha256=a84380f5586ae7d6393f69543c07ff5c85758236f52ebdc02c675530d2154015
